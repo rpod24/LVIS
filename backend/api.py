@@ -10,16 +10,74 @@ from quart_cors import cors
 from quart import request
 from functools import wraps
 import jwt
+from bson.json_util import loads, dumps
 
 app = Quart(__name__)
 app = cors(app, allow_origin="*")
 
 mongo = pymongo.MongoClient("mongodb://localhost:27017/")
-db = mongo["DEV"]
-demo = db["MONGO_DEMO"]
-sensitivedb = mongo["sensitive_data"]
-users = sensitivedb["users"]
 
+db = mongo["DEV"]
+inventory = mongo["inventory"]
+sensitivedb = mongo["sensitive_data"]
+supportdb = mongo["support"]
+
+users = sensitivedb["users"]
+demo = db["MONGO_DEMO"]
+products = inventory["products"]
+productInventory = inventory["inventory"]
+tickets = supportdb["tickets"]
+
+
+@app.route("/products")
+# @authenticate(TokenManager.ValidationLevel.USER)
+async def get_products():
+    items = json.dumps({"error": "Unexpected Error Occured!"})
+    if request.args.__len__() != 0:  # if there are args do:
+        if request.args.get("p") is not None:  # todo serialize the arg to int
+            print(request.args.get("p"))
+            items = dumps(
+                products.find().skip(int(request.args.get("p")) * 50).limit(50)
+            )  # for selecting pages, use https://site/page?p=i where i is the page number
+            if request.args.get("search") is not None:  # todo serialize the arg to int
+                if request.args.get("search") == "":
+                    items = dumps(
+                        products.find().skip(int(request.args.get("p")) * 50).limit(50)
+                    )  # returns first 50 products in case ?p= is not in the argument
+                else:
+                    items = dumps(
+                        products.find(
+                             { '$text': { '$search': request.args.get("search") } } 
+                        )
+                        .skip(int(request.args.get("p")) * 50)
+                        .limit(50)
+                    )  # searches through the db and returns at most 50 for the current page
+        else:
+            print(request.args.get("p"))
+    else:
+        items = dumps(
+            products.find().limit(50)
+        )  # returns first 50 products in case ?p= is not in the argument
+        print(items)
+    return items
+
+
+# @app.route("/time") Code Demo
+# # @authenticate(TokenManager.ValidationLevel.USER)
+# def get_time():
+#     return {"time": time.time()}
+
+@app.route("/CreateTicket", methods=["GET", "POST"]) #TODO Finish
+async def createTicket():
+    cursor = tickets.find( {}, { 'ticketNumber': 1 } ).sort( { 'ticketNumber': -1 } ).limit(1)
+    number = cursor.next()['ticketNumber'] if cursor.next() is not None else 1
+    data = await request.get_data()
+    print(json.loads(data))
+    print(number)
+
+
+
+#Authentication and Logging in
 
 def authenticate(required_role: TokenManager.ValidationLevel):
     def decorator(func):
@@ -50,41 +108,6 @@ def authenticate(required_role: TokenManager.ValidationLevel):
 
     return decorator
 
-
-@app.route("/time")
-@authenticate(TokenManager.ValidationLevel.USER)
-def get_time():
-    return {"time": time.time()}
-
-
-@app.route("/mongo")
-async def get_mongo():
-    data = json_serializable(demo.find_one())
-    print(data)
-    if data is not None:
-        demo.delete_one(data)
-        return data
-    return {}
-
-
-@app.route("/mongocreate", methods=["POST"])
-async def mongocreate():
-    data = await request.get_data()
-    print(json.loads(data))
-    demo.insert_one(json.loads(data))
-    demo.insert_one(json.loads(data))
-    return "ok"
-
-
-# @app.route('/validate', methods=['POST'])
-# async def validate():
-#     data = await request.get_data()
-#     print(json.loads(data))
-#     data = request.headers.get('Token')
-#     print(data)
-#     return 'ok'
-
-
 @app.route("/login", methods=["POST"])
 async def login():
     data = json.loads(await request.get_data())
@@ -102,8 +125,9 @@ async def login():
         print("Invalid password!")
         return json.dumps({"error": "Invalid credentials!"}), 401
 
-    token = TokenManager.generate_token(user['username'])
+    token = TokenManager.generate_token(user["username"])
     return json.dumps({"token": token})
+
 
 @app.route("/register", methods=["POST"])
 async def register():
