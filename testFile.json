@@ -1,0 +1,101 @@
+{
+  "PartitionKey": "CAVN001",
+  "RowKey": "",
+  "FacilityID": "CAVN001",
+  "Name": "California Ventilator Hospital",
+  "ShortName": "Vent Hospital",
+  "Address1": "101 Highway Drive",
+  "Address2": "",
+  "City": "San Diego",
+  "State": "CA",
+  "Zip": "92078",
+  "TimeZone": "PST",
+  "Country": "USA",
+  "Coordinates": "{'lat': 12.34567890, 'lon': 12.34567890}",
+  "Phone": "000-000-0000",
+  "PrimaryContact": "1234567890",
+  "Product": "REA",
+  "CMSVersion": "",
+  "Status": "",
+  "ServiceStatus": "",
+  "ServiceDetail": "",
+  "ServiceHistory": "[[“group”, “id”, “2024-05-22T21:43:50.874Z”, “null”]]",
+  "LastRecordDT": "",
+  "UpdateFromDT": "",
+  "StartQueue": "",
+  "Dirty": false,
+  "Locked": false,
+  "Groups": [
+    {
+      "PartitionKey": "CAVN001",
+      "RowKey": "GR01",
+      "FacilityID": "CAVN001",
+      "GroupID": "GR01",
+      "Name": "Full Group Name",
+      "ShortName": "Group",
+      "ServiceHistory": "[[“group”, “id”, “2024-05-22T21:43:50.874Z”, “null”]]",
+      "Installation": "Installed",
+      "Spare": false,
+      "LastRecordDT": "",
+      "UpdateFromDT": "",
+      "CMS": [
+        {
+          "PartitionKey": "CAVN001",
+          "RowKey": "CAVN001_GR01_A",
+          "FacilityID": "CAVN001",
+          "GroupID": "GR01",
+          "CMS": "A",
+          "ConfigID": "All",
+          "HWVersion": "",
+          "OSVersion": "",
+          "SWVersion": "",
+          "PTVersion": "",
+          "RadioVersion": "",
+          "LastBootDT": "",
+          "LastSyncedDT": "",
+          "LastSignal": "",
+          "TimeOffset": "",
+          "Status": ""
+        }
+      ],
+      "Rooms": [
+        {
+          "PartitionKey": "CAVN001",
+          "RowKey": "CAVN001_001",
+          "FacilityID": "CAVN001",
+          "GroupID": "GR01",
+          "RoomID": "001",
+          "ServiceHistory": "[[“group”, “id”, “2024-05-22T21:43:50.874Z”, “null”]]",
+          "Spare": false,
+          "Locations": [
+            {
+              "PartitionKey": "CAVN001",
+              "RowKey": "",
+              "GroupID": "String",
+              "RoomID": "String",
+              "LocationID": "String",
+              "LocationSN": "String",
+              "ServiceHistory": "[[“group”, “id”, “2024-05-22T21:43:50.874Z”, “null”]]",
+              "Spare": "Boolean",
+              "Portable": "Boolean"
+            },
+            {
+              "PartitionKey": "String",
+              "RowKey": "String",
+              "GroupID": "String",
+              "RoomID": "String",
+              "LocationID": "String",
+              "LocationSN": "String",
+              "ServiceHistory": "[[“group”, “id”, “2024-05-22T21:43:50.874Z”, “null”]]",
+              "Spare": "Boolean",
+              "Portable": "Boolean"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Monitors": [
+    
+  ]
+}

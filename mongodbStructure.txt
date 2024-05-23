@@ -1,0 +1,187 @@
+Facility:
+{
+  "PartitionKey": "String",
+  "RowKey": "String",
+  "Timestamp": "Datetime",
+  "FacilityID": "String",
+  "Name": "String",
+  "ShortName": "String",
+  "Address1": "String",
+  "Address2": "String",
+  "City": "String",
+  "State": "String",
+  "Zip": "String",
+  "TimeZone": "String",
+  "Country": "String",
+  "Coordinates": "String",
+  "Phone": "String",
+  "PrimaryContact": "String",
+  "Product": "String",
+  "CMSVersion": "String",
+  "Status": "String",
+  "ServiceStatus": "String",
+  "ServiceDetail": "String",
+  "ServiceHistory": "String",
+  "LastRecordDT": "String",
+  "UpdateFromDT": "String",
+  "StartQueue": "String",
+  "Dirty": "Boolean",
+  "Locked": "Boolean",
+}
+
+
+Group
+{
+  "PartitionKey": "String",
+  "RowKey": "String",
+  "Timestamp": "Datetime",
+  "FacilityID": "String",
+  "GroupID": "String",
+  "Name": "String",
+  "ShortName": "String",
+  "ServiceHistory": "String",
+  "Installation": "String",
+  "Spare": "Boolean",
+  "LastRecordDT": "String",
+  "UpdateFromDT": "String",
+}
+
+Room:
+{
+  "PartitionKey": "String",
+  "RowKey": "String",
+  "Timestamp": "Datetime",
+  "FacilityID": "String",
+  "GroupID": "String",
+  "RoomID": "String",
+  "ServiceHistory": "String",
+  "Spare": "Boolean"
+}
+
+
+Location
+{
+  "PartitionKey": "String",
+  "RowKey": "String",
+  "Timestamp": "Datetime",
+  "GroupID": "String",
+  "RoomID": "String",
+  "LocationID": "String",
+  "LocationSN": "String",
+  "ServiceHistory": "String",
+  "Spare": "Boolean",
+  "Portable": "Boolean"
+}
+
+CMS
+{
+  "PartitionKey": "String",
+  "RowKey": "String",
+  "Timestamp": "Datetime",
+  "FacilityID": "String",
+  "GroupID": "String",
+  "CMS": "String",
+  "ConfigID": "String",
+  "HWVersion": "String",
+  "OSVersion": "String",
+  "SWVersion": "String",
+  "PTVersion": "String",
+  "RadioVersion": "String",
+  "LastBootDT": "String",
+  "LastSyncedDT": "String",
+  "LastSignal": "String",
+  "TimeOffset": "Double",
+  "Status": "String"
+}
+
+MED:
+{
+  "PartitionKey": "String",
+  "RowKey": "String",
+  "Timestamp": "Datetime",
+  "FacilityID": "String",
+  "MedID": "String",
+  "ConfigID": "String",
+  "HWType": "String",
+  "HWVersion": "String",
+  "OSVersion": "String",
+  "SWVersion": "String",
+  "LastBootDT": "String",
+  "Status": "String"
+}
+
+Monitor:
+{
+  "PartitionKey": "String",
+  "RowKey": "String",
+  "Timestamp": "Datetime",
+  "LastGroupID": "String",
+  "LastLocationID": "String",
+  "MonitorID": "String",
+  "MonitorSN": "String",
+  "ServiceHistory": "String",
+  "Model": "String",
+  "HWVersion": "String",
+  "SWVersion": "String",
+  "BatteryState": "String",
+  "LastBattery": "Double",
+  "LastTxID": "String",
+  "LastRecordDT": "String",
+  "LastSequence": "String",
+  "LastSequenceDT": "String",
+  "SignalCMS": "String",
+  "Status": "String",
+  "ServiceDetail": "String",
+  "UpdateFromDT": "String"
+}
+
+CMS Config:
+{
+  "PartitionKey": "String",
+  "RowKey": "String",
+  "Timestamp": "Datetime",
+  "FacilityID": "String",
+  "ShowGroupOnly": "Boolean",
+  "ShowLocationPane": "Boolean",
+  "ShowEmptyRooms": "Boolean",
+  "ShowAllStatus": "Boolean",
+  "ShowSpares": "Boolean",
+  "StatusDirection": "String",
+  "ColumnLeveling": "Boolean",
+  "DefaultVolume": "Int32",
+  "PlayConnectTones": "Boolean",
+  "PlayDCConnectTones": "Boolean",
+  "PlayLocConnectTones": "Boolean",
+  "UseMobileWarn": "Boolean",
+  "RecentAlertPeriod": "Int32",
+  "ShowResponse": "Boolean",
+  "ResponseTarget": "Int32",
+  "CustomPort": "String",
+  "DisableScreen": "Boolean",
+  "VendorMessage": "String",
+  "SyncTimeout": "Int32",
+  "SyncInterval": "Int32",
+  "SyncFailToOffline": "Int32",
+  "FullSyncInterval": "Int32",
+  "CheckInPeriod": "Int32"
+}
+
+MED Config:
+{
+  "PartitionKey": "String",
+  "RowKey": "String",
+  "Timestamp": "Datetime",
+  "FacilityID": "String",
+  "GroupIDs": "String",
+  "DisableSettings": "Boolean",
+  "Brightness": "Int32",
+  "MaxEscalation": "Boolean",
+  "Notification": "Int32",
+  "Vibration": "Boolean",
+  "Volume": "Int32",
+  "Ucode": "Int32",
+  "SUCode": "Int32",
+  "Acode": "Int32"
+}
+
+

@@ -82,7 +82,7 @@ function Inventory() {
               <th>Barcode</th>
               <th>Unit Cost ($)</th>
               <th>Unit Price ($)</th>
-              <th>Min Threshold</th>
+              {/* <th>Min Threshold</th> */}
               <th>Tags</th>
               <th>Spec Sheet</th>
               <th>Part Number</th>
@@ -93,24 +93,24 @@ function Inventory() {
           <tbody>
             {items.map(item => (
               <tr key={item._id.$oid} onClick={() => handleRowClick(item)} style={{ cursor: 'pointer' }}>
-                <td><img src={item.productImage} alt={item.itemName} width="50" /></td>
+                <td><img src={item.product_image} alt={item.item_name} width="50" /></td>
                 <td>{item.description}</td>
                 <td>{item.category}</td>
                 <td>{item.manufacturer}</td>
-                <td>{item.itemName}</td>
+                <td>{item.item_name}</td>
                 <td>{item.model}</td>
                 <td>{item.sku}</td>
                 <td>{`${item.dimensions.length} x ${item.dimensions.width} x ${item.dimensions.height}`}</td>
                 <td>{item.weight}</td>
-                <td>{item.barCode}</td>
-                <td>{item.unitCost}</td>
-                <td>{item.unitPrice}</td>
-                <td>{item.minimumItemThreshold}</td>
+                <td>{item.bar_code}</td>
+                <td>{item.unit_cost}</td>
+                <td>{item.unit_price}</td>
+                {/* <td>{item.minimum_item_threshold}</td> Does not need to be on this view*/}
                 <td>{item.tags.join(', ')}</td>
-                <td><a href={item.specSheet} target="_blank" rel="noopener noreferrer">View Spec Sheet</a></td>
-                <td>{item.partNumber}</td>
+                <td><a href={item.spec_sheet} target="_blank" rel="noopener noreferrer">View Spec Sheet</a></td>
+                <td>{item.part_number}</td>
                 <td>{item.notes}</td>
-                <td>{item.unitsOnHand}</td>
+                <td>{item.units_on_hand}</td>
               </tr>
             ))}
           </tbody>
@@ -119,8 +119,8 @@ function Inventory() {
         <div className="grid-view">
           {items.map((item, index) => (
             <div key={item._id.$oid} className="grid-item" onClick={() => handleRowClick(item)} style={{ cursor: 'pointer' }}>
-              <img src={item.productImage} alt={item.itemName} width="100" />
-              <p>{item.itemName}</p>
+              <img src={item.product_image} alt={item.itemName} width="100" />
+              <p>{item.item_name}</p>
             </div>
           ))}
         </div>

@@ -21,12 +21,23 @@ db = mongo["DEV"]
 inventory = mongo["inventory"]
 sensitivedb = mongo["sensitive_data"]
 supportdb = mongo["support"]
+configs = mongo["configs"]
 
 users = sensitivedb["users"]
 demo = db["MONGO_DEMO"]
 products = inventory["products"]
 productInventory = inventory["inventory"]
 tickets = supportdb["tickets"]
+
+facilities = configs["Facility"]
+Group = configs["Group"]
+Location = configs["Location"]
+MEDs = configs["MED"]
+Monitor = configs["Monitor"]
+Room = configs["Room"]
+ConfigAlert = configs["ConfigAlert"]
+ConfigCMS = configs["ConfigCMS"]
+ConfigMED = configs["ConfigMED"]
 
 
 @app.route("/products")
@@ -47,7 +58,7 @@ async def get_products():
                 else:
                     items = dumps(
                         products.find(
-                             { '$text': { '$search': request.args.get("search") } } 
+                            {"$text": {"$search": request.args.get("search")}}
                         )
                         .skip(int(request.args.get("p")) * 50)
                         .limit(50)
@@ -67,17 +78,97 @@ async def get_products():
 # def get_time():
 #     return {"time": time.time()}
 
-@app.route("/CreateTicket", methods=["GET", "POST"]) #TODO Finish
-async def createTicket():
-    cursor = tickets.find( {}, { 'ticketNumber': 1 } ).sort( { 'ticketNumber': -1 } ).limit(1)
-    number = cursor.next()['ticketNumber'] if cursor.next() is not None else 1
-    data = await request.get_data()
-    print(json.loads(data))
-    print(number)
+
+@app.route("/tickets", methods=["POST"])
+# @authenticate(TokenManager.ValidationLevel.USER)
+async def create_ticket():
+    try:
+        ticket_data = await request.get_json()
+        print(ticket_data)
+        if not ticket_data:
+            return json.dumps({"error": "No ticket data provided"}), 400
+        index = (int) (tickets.find().sort({"ticket":-1}).limit(1)[0]['ticket'])
+        # Insert the new ticket into the database
+        ticket_data['ticket'] = index+1
+        print(ticket_data)
+        result = tickets.insert_one(ticket_data)
+        print(result.inserted_id)
+        return dumps(tickets.find_one(result.inserted_id)), 201
+        # return ticket_data, 201
+
+    except Exception as e:
+        return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
 
 
+@app.route("/tickets")
+# @authenticate(TokenManager.ValidationLevel.USER)
+async def get_tickets():
+    items = json.dumps({"error": "Unexpected Error Occured! Request: " + request.url})
+    if request.args.__len__() != 0:  # if there are args do:
+        if request.args.get("ticket", type=int) is not None:
+            return dumps(tickets.find({"ticket": request.args.get("ticket", type=int)}).limit(1))
+        elif request.args.get("p") is not None:  # todo serialize the arg to int
+            print(request.args.get("p"))
+            items = dumps(
+                tickets.find().skip(int(request.args.get("p")) * 50).limit(50)
+            )  # for selecting pages, use https://site/page?p=i where i is the page number
+            if request.args.get("search") is not None:  # todo serialize the arg to int
+                if request.args.get("search") == "":
+                    items = dumps(
+                        tickets.find().skip(int(request.args.get("p")) * 50).limit(50)
+                    )  # returns first 50 tickets in case ?p= is not in the argument
+                else:
+                    items = dumps(
+                        tickets.find({"$text": {"$search": request.args.get("search")}})
+                        .skip(int(request.args.get("p")) * 50)
+                        .limit(50)
+                    )  # searches through the db and returns at most 50 for the current page
+        elif request.args.get("ticket") is not None:
+            items = json.dumps({"error": "Invalid Ticket Entered!"})
+        else:
+            print(request.args.get("p"))
+    else:
+        items = dumps(
+            tickets.find().limit(50)
+        )  # returns first 50 tickets in case ?p= is not in the argument
+        print(items)
+    return items
 
-#Authentication and Logging in
+@app.route("/tickets/<ticket_id>", methods=["DELETE"])
+# @authenticate(TokenManager.ValidationLevel.USER)
+async def delete_ticket(ticket_id):
+    try:
+        result = tickets.delete_one({"ticket": int(ticket_id)})
+        if result.deleted_count == 0:
+            return json.dumps({"error": "Ticket not found!"}), 404
+        return json.dumps({"message": "Ticket deleted successfully!"}), 200
+    except Exception as e:
+        return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
+    
+@app.route("/facilities")
+#Returns 50 facilities at a time based on the page number
+async def get_facilities():
+    items = json.dumps({"error": "Unexpected Error Occured!"})
+    if request.args.__len__() != 0:
+        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
+            items = dumps(facilities.find().skip(int(request.args.get("p")) * 50).limit(50))
+        else:
+            items = dumps(facilities.find().limit(50))
+    else:
+        items = dumps(facilities.find().limit(50))
+    return items
+
+
+# @app.route("/ticket")
+# # @authenticate(TokenManager.ValidationLevel.USER)
+# async def get_ticket():
+#     item = tickets.find({"ticket": request.args.get("ticket")}).limit(1)
+#     print(item)
+#     return item
+
+
+# Authentication and Logging in
+
 
 def authenticate(required_role: TokenManager.ValidationLevel):
     def decorator(func):
@@ -107,6 +198,7 @@ def authenticate(required_role: TokenManager.ValidationLevel):
         return wrapper
 
     return decorator
+
 
 @app.route("/login", methods=["POST"])
 async def login():

@@ -20,9 +20,10 @@ class TokenManager:
 
     class ValidationLevel(Enum):
         MINIMAL = 1  # User with out token
-        USER = 2  # User logged in with a base token
-        MOD = 3  # User with elevated permissions
-        ADMIN = 4  # User with all permissions
+        CUSTOMER = 2  # User logged in with a customer token
+        STAFF = 3  # User logged in with a staff token
+        MOD = 4  # User with elevated permissions
+        ADMIN = 5  # User with all permissions
 
     @staticmethod
     def generate_password(length: int = 16):

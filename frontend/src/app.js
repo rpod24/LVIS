@@ -8,11 +8,12 @@ import Former from './Pages/Customer/former';
 import Prospects from './Pages/Customer/prospects';
 import NewTicket from './Pages/Support/new_ticket';
 import ViewTickets from './Pages/Support/view_tickets';
+import Ticket from './Pages/Support/view_ticket';
 import Wiki from './Pages/wiki';
 import Inventory from "./Pages/Inventory/inventory";
 import Admin from "./Pages/admin";
 import Configuration from "./Pages/configuration";
-import Front from "./Pages";
+import Login from "./Pages";
 import Home from "./Pages/home";
 import './App.css';
 
@@ -24,12 +25,15 @@ const App = () => {
     <div className="App">
       {!isHomeRoute && <TopNav />}
       <Routes>
-        <Route path="/" element={<Front />} />
+        <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/Customer/Current" element={<Current />} />
         <Route path="/Customer/Prospects" element={<Prospects />} />
         <Route path="/Customer/Former" element={<Former />} />
         <Route path="/Support/CreateTicket" element={<NewTicket />} />
+        {/* <Route path="/view-ticket/:id" component={<ViewTicket />} /> */}
+        <Route path="/Support/Ticket/:id" element={<Ticket />} />
+        {/* <Route path="/view" component={<Ticket />} /> */}
         <Route path="/Support/Tickets" element={<ViewTickets />} />
         <Route path="/Configuration" element={<Configuration />} />
         <Route path="/Wiki" element={<Wiki />} />
