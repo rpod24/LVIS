@@ -24,7 +24,6 @@ supportdb = mongo["support"]
 configs = mongo["configs"]
 
 users = sensitivedb["users"]
-demo = db["MONGO_DEMO"]
 products = inventory["products"]
 productInventory = inventory["inventory"]
 tickets = supportdb["tickets"]
@@ -149,11 +148,19 @@ async def delete_ticket(ticket_id):
 #Returns 50 facilities at a time based on the page number
 async def get_facilities():
     items = json.dumps({"error": "Unexpected Error Occured!"})
+    search = None
     if request.args.__len__() != 0:
-        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
-            items = dumps(facilities.find().skip(int(request.args.get("p")) * 50).limit(50))
+        print(request.args)
+        if request.args.get("search") is not None and request.args.get("search") != "":
+            search = {"$text": {"$search": request.args.get("search")}}
+        if request.args.get("sort") is not None and request.args.get("sort") != "":
+            req = facilities.find(search).sort(request.args.get("sort"))
         else:
-            items = dumps(facilities.find().limit(50))
+            req = facilities.find(search)
+        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
+            items = dumps(req.skip(int(request.args.get("p")) * 50).limit(50))
+        else:
+            items = dumps(req.limit(50))
     else:
         items = dumps(facilities.find().limit(50))
     return items
@@ -227,7 +234,7 @@ async def register():
     username = data["username"]
     password = data["password"]
 
-    user = demo.find_one({"username": username})
+    user = users.find_one({"username": username})
 
     if user:
         return json.dumps({"error": "User already exists!"}), 401

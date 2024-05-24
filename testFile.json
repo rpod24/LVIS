@@ -14,6 +14,7 @@
   "Coordinates": "{'lat': 12.34567890, 'lon': 12.34567890}",
   "Phone": "000-000-0000",
   "PrimaryContact": "1234567890",
+  "LastVerified": "date",
   "Product": "REA",
   "CMSVersion": "",
   "Status": "",

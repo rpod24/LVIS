@@ -15,6 +15,7 @@ import Admin from "./Pages/admin";
 import Configuration from "./Pages/configuration";
 import Login from "./Pages";
 import Home from "./Pages/home";
+import ViewFacilities from "./Pages/Facility/facility_list";
 import './App.css';
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/Wiki" element={<Wiki />} />
         <Route path="/Inventory" element={<Inventory />} />
         <Route path="/Admin" element={<Admin />} />
+        <Route path="/Products" element={<ViewFacilities />} />
       </Routes>
     </div>
   );
