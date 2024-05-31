@@ -289,96 +289,96 @@ db.ConfigMED.insertOne({
     "Acode": "0003"
   });
 
-// use('inventory')
-// db.createCollection('products')
-// db.createCollection('inventory')
-// db.products.insertOne({
-//     "_id": {
-//         "$oid": "6647cadc9ad024116bc95845"
-//     },
-//     "productImage": "https://example.com/images/product123.jpg",
-//     "description": "High-quality wireless mouse with ergonomic design and long battery life.",
-//     "category": "Electronics",
-//     "manufacturer": "TechBrand",
-//     "itemName": "Wireless Ergonomic Mouse",
-//     "model": "TechMouseX100",
-//     "sku": "123456",
-//     "dimensions": {
-//         "length": 12,
-//         "width": 7.5,
-//         "height": 4
-//     },
-//     "weight": 150,
-//     "barCode": "123456789012",
-//     "unitCost": 20,
-//     "unitPrice": 35.99,
-//     "minimumItemThreshold": 10,
-//     "tags": [
-//         "wireless",
-//         "ergonomic",
-//         "mouse",
-//         "electronics",
-//         "TechBrand"
-//     ],
-//     "specSheet": "https://example.com/specs/techmousex100.pdf",
-//     "partNumber": "TMX100-PN",
-//     "notes": "Compatible with both Windows and Mac OS.",
-//     "unitsOnHand": 50
-// })
+use('inventory')
+db.createCollection('products')
+db.createCollection('inventory')
+db.products.insertOne({
+    "_id": {
+        "$oid": "6647cadc9ad024116bc95845"
+    },
+    "productImage": "https://example.com/images/product123.jpg",
+    "description": "High-quality wireless mouse with ergonomic design and long battery life.",
+    "category": "Electronics",
+    "manufacturer": "TechBrand",
+    "itemName": "Wireless Ergonomic Mouse",
+    "model": "TechMouseX100",
+    "sku": "123456",
+    "dimensions": {
+        "length": 12,
+        "width": 7.5,
+        "height": 4
+    },
+    "weight": 150,
+    "barCode": "123456789012",
+    "unitCost": 20,
+    "unitPrice": 35.99,
+    "minimumItemThreshold": 10,
+    "tags": [
+        "wireless",
+        "ergonomic",
+        "mouse",
+        "electronics",
+        "TechBrand"
+    ],
+    "specSheet": "https://example.com/specs/techmousex100.pdf",
+    "partNumber": "TMX100-PN",
+    "notes": "Compatible with both Windows and Mac OS.",
+    "unitsOnHand": 50
+})
 
-// db.inventory.insertOne({
-//     "_id": {
-//         "$oid": "6647ca2642a8577015c15688"
-//     },
-//     "product_sku": "123456",
-//     "date": {
-//         "$date": "2024-05-17T21:20:38.748Z"
-//     },
-//     "lot_number": "123456",
-//     "tracking_number": "789012",
-//     "tracking_vendor": "vendor",
-//     "destination": "destination",
-//     "invoice": "invoice",
-//     "units_in": 10,
-//     "units_out": 5
-// }
-// );
+db.inventory.insertOne({
+    "_id": {
+        "$oid": "6647ca2642a8577015c15688"
+    },
+    "product_sku": "123456",
+    "date": {
+        "$date": "2024-05-17T21:20:38.748Z"
+    },
+    "lot_number": "123456",
+    "tracking_number": "789012",
+    "tracking_vendor": "vendor",
+    "destination": "destination",
+    "invoice": "invoice",
+    "units_in": 10,
+    "units_out": 5
+}
+);
 
 
-// use('support')
-// db.createCollection('tickets')
-// db.tickets.insertOne({
-//     "_id": {
-//         "$oid": "6647eb309ed642684cd47878"
-//     },
-//     "status": "open",
-//     "date": "2024-05-17T12:34:56Z",
-//     "modifiedBy": "John Doe",
-//     "facilityName": "Main Facility",
-//     "facilityType": "Warehouse",
-//     "supportTicketNumber": 0,
-//     "problem": "Network outage",
-//     "contactMethod": "email",
-//     "email": "contact@example.com",
-//     "phoneNumber": "123-456-7890",
-//     "voicemail": "Customer left a voicemail regarding the network issue.",
-//     "needToFollowUp": true,
-//     "timeOfVoicemail": "2024-05-17T08:00:00Z",
-//     "nameOfCaller": "Jane Smith",
-//     "problemSubCategory": "Internet",
-//     "notes": [
-//         {
-//             "note": "Initial report of the issue.",
-//             "date": "2024-05-17T09:00:00Z",
-//             "person": "John Doe"
-//         },
-//         {
-//             "note": "Checked the network settings, everything seems fine.",
-//             "date": "2024-05-17T10:00:00Z",
-//             "person": "Jane Smith"
-//         }
-//     ]
-// })
+use('support')
+db.createCollection('tickets')
+db.tickets.insertOne({
+    "_id": {
+        "$oid": "6647eb309ed642684cd47878"
+    },
+    "status": "open",
+    "date": "2024-05-17T12:34:56Z",
+    "modifiedBy": "John Doe",
+    "facilityName": "Main Facility",
+    "facilityType": "Warehouse",
+    "supportTicketNumber": 0,
+    "problem": "Network outage",
+    "contactMethod": "email",
+    "email": "contact@example.com",
+    "phoneNumber": "123-456-7890",
+    "voicemail": "Customer left a voicemail regarding the network issue.",
+    "needToFollowUp": true,
+    "timeOfVoicemail": "2024-05-17T08:00:00Z",
+    "nameOfCaller": "Jane Smith",
+    "problemSubCategory": "Internet",
+    "notes": [
+        {
+            "note": "Initial report of the issue.",
+            "date": "2024-05-17T09:00:00Z",
+            "person": "John Doe"
+        },
+        {
+            "note": "Checked the network settings, everything seems fine.",
+            "date": "2024-05-17T10:00:00Z",
+            "person": "Jane Smith"
+        }
+    ]
+})
 
-// use('sensitive_data')
-// db.createCollection('users')
+use('sensitive_data')
+db.createCollection('users')

@@ -31,6 +31,7 @@ function Ticket() {
     const fetchTicket = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:5000/tickets?ticket=${id}`);
+        console.log(response.data[0]);
         setTicket(response.data[0]);
         setProblem(response.data[0].problem);
         setNotes(response.data[0].notes);
@@ -69,21 +70,23 @@ function Ticket() {
   };
 
   const handleSaveChanges = async () => {
-    const updatedFormData = new FormData();
+    console.log('Saving changes...');
+    console.log(ticket);
     for (const key in formData) {
-      updatedFormData.append(key, formData[key]);
+      if (formData[key] !== ticket[key]) {
+        ticket[key] = formData[key];
+      }
     }
-
     try {
-      await axios.put(`http://127.0.0.1:5000/tickets?ticket=${id}`, updatedFormData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      alert('Ticket updated successfully');
+      await axios.put(`http://127.0.0.1:5000/tickets?ticket=${id}`, ticket);
+      // alert('Ticket updated successfully');
       setIsEditing(false);
       setTicket({ ...ticket, ...formData });
     } catch (error) {
+      // console.log()
+      if(error.response.status==405){
+        alert('You did not edit the ticket');
+      }
       console.error('There was an error updating the ticket!', error);
     }
   };
@@ -95,8 +98,9 @@ function Ticket() {
   const handleAddNote = async () => {
     if (!newNote.trim()) return;
     const updatedNotes = [...notes, { note: newNote, date: new Date().toISOString(), person: 'Current User' }];
+    ticket.notes = updatedNotes;
     try {
-      await axios.put(`http://127.0.0.1:5000/tickets?ticket=${id}`, { notes: updatedNotes });
+      await axios.put(`http://127.0.0.1:5000/tickets?ticket=${id}`, ticket);
       setNotes(updatedNotes);
       setNewNote('');
     } catch (error) {

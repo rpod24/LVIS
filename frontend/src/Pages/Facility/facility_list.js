@@ -8,7 +8,7 @@ function ViewFacilities() {
     const [page, setPage] = useState(0);
     const [hasNextPage, setHasNextPage] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortConfig, setSortConfig] = useState({ key: '', direction: 1 });
+    const [sortConfig, setSortConfig] = useState({ key: 'null', direction: -1 });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,14 +17,16 @@ function ViewFacilities() {
 
     const fetchFacilities = async (page, searchTerm, sort, sortDir) => {
         try {
+            console.log(sort);
             var url = `http://127.0.0.1:5000/facilities?p=${page}`
             var urlNext = `http://127.0.0.1:5000/facilities?p=${page + 1}`
             if (searchTerm !== 'null') {
                 url+= `&search=${searchTerm}`
             }
             if (sort !== 'null') {
-                url+= `&sort={'${sort}': ${sortDir}}`
+                url+= `&sort={"${sort}": ${sortDir}}`
             }
+            console.log(url)
             const currentPageResponse = await axios.get(url);
             const nextPageResponse = await axios.get(urlNext);
 
@@ -40,8 +42,8 @@ function ViewFacilities() {
         }
     };
 
-    const handleRowClick = (ticket) => {
-        navigate('/Support/Ticket/' + ticket);
+    const handleRowClick = (facility) => {
+        navigate('/Facility/' + facility);
     };
 
     const handleNextPage = () => {
@@ -62,11 +64,35 @@ function ViewFacilities() {
     };
 
     const handleSort = (key) => {
+        console.log(key);
+        var sort;
+        switch (key) {
+            case 'Name':
+                sort = 'Name';
+                break;
+            case 'Location':
+                sort = 'City';
+                break;
+            case 'Facility ID':
+                sort = 'FacilityID';
+                break;
+            case 'Phone':
+                sort = 'Phone';
+                break;
+            case 'Primary Contact':
+                sort = 'PrimaryContact';
+                break;
+            default:
+                sort = 'FacilityID';
+        }
+        console.log(sortConfig.direction);
         if(sortConfig.direction > 0) {
-            setSortConfig({ key, direction: -1 });
+            setSortConfig({ key:sort, direction: -1 });
+            fetchFacilities(page, searchTerm, sort, -1);
         }
         else {
-            setSortConfig({ key, direction: 1 });
+            setSortConfig({ key:sort, direction: 1 });
+            fetchFacilities(page, searchTerm, sort, 1);
         }
     };
 

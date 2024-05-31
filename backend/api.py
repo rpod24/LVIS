@@ -28,6 +28,7 @@ products = inventory["products"]
 productInventory = inventory["inventory"]
 tickets = supportdb["tickets"]
 
+CMSs = configs["CMS"]
 facilities = configs["Facility"]
 Group = configs["Group"]
 Location = configs["Location"]
@@ -78,6 +79,28 @@ async def get_products():
 #     return {"time": time.time()}
 
 
+@app.route("/tickets", methods=["PUT"])
+# @authenticate(TokenManager.ValidationLevel.USER)
+async def replace_ticket():
+    try:
+        print("replacing ticket")
+        ticket_data = await request.get_json()
+        print("")
+        print(ticket_data)
+        print("")
+        if not ticket_data:
+            return json.dumps({"error": "No ticket data provided"}), 400
+        current_ticket = tickets.find_one({"ticket": ticket_data["ticket"]})
+        ticket_data["_id"] = current_ticket["_id"]
+        result = tickets.replace_one(
+            {"ticket": ticket_data["ticket"]}, ticket_data
+        )
+        if result.modified_count == 0:
+            return json.dumps({"error": "Ticket not updates!"}), 405
+        return json.dumps({"message": "Ticket replaced successfully!"}), 200
+    except Exception as e:
+        return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
+
 @app.route("/tickets", methods=["POST"])
 # @authenticate(TokenManager.ValidationLevel.USER)
 async def create_ticket():
@@ -86,8 +109,10 @@ async def create_ticket():
         print(ticket_data)
         if not ticket_data:
             return json.dumps({"error": "No ticket data provided"}), 400
+        print(dumps(tickets.find().sort({"ticket":-1}).limit(1)[0]))
         index = (int) (tickets.find().sort({"ticket":-1}).limit(1)[0]['ticket'])
         # Insert the new ticket into the database
+        print(ticket_data)
         ticket_data['ticket'] = index+1
         print(ticket_data)
         result = tickets.insert_one(ticket_data)
@@ -96,6 +121,7 @@ async def create_ticket():
         # return ticket_data, 201
 
     except Exception as e:
+        print(e)
         return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
 
 
@@ -148,13 +174,13 @@ async def delete_ticket(ticket_id):
 #Returns 50 facilities at a time based on the page number
 async def get_facilities():
     items = json.dumps({"error": "Unexpected Error Occured!"})
-    search = None
+    search = ""
     if request.args.__len__() != 0:
         print(request.args)
         if request.args.get("search") is not None and request.args.get("search") != "":
             search = {"$text": {"$search": request.args.get("search")}}
         if request.args.get("sort") is not None and request.args.get("sort") != "":
-            req = facilities.find(search).sort(request.args.get("sort"))
+            req = facilities.find(search).sort(json.loads(request.args.get("sort")))
         else:
             req = facilities.find(search)
         if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
@@ -164,6 +190,34 @@ async def get_facilities():
     else:
         items = dumps(facilities.find().limit(50))
     return items
+
+@app.route("/facility/<facility_id>")
+#Returns the facility with the given id
+async def get_facility(facility_id):
+    print(facility_id)
+    facility = (facilities.find({"PartitionKey": facility_id}).limit(1))
+    groups = (Group.find({"PartitionKey": facility_id}))
+    locations = (Location.find({"PartitionKey": facility_id}))
+    meds = (MEDs.find({"PartitionKey": facility_id}))
+    monitors = (Monitor.find({"PartitionKey": facility_id}))
+    rooms = (Room.find({"PartitionKey": facility_id}))
+    config_alerts = (ConfigAlert.find({"PartitionKey": facility_id}))
+    config_cms = (ConfigCMS.find({"PartitionKey": facility_id}))
+    config_med = (ConfigMED.find({"PartitionKey": facility_id}))
+    cms = (CMSs.find({"PartitionKey": facility_id}))
+    return dumps({
+        "facility": facility,
+        "groups": groups,
+        "locations": locations,
+        "meds": meds,
+        "monitors": monitors,
+        "rooms": rooms,
+        "config_alerts": config_alerts,
+        "config_cms": config_cms,
+        "config_med": config_med,
+        "cms": cms
+    })
+
 
 
 # @app.route("/ticket")

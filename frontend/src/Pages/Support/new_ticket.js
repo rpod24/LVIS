@@ -9,7 +9,7 @@ function NewTicket() {
   const [formData, setFormData] = useState({
     status: 'open',
     created_at: new Date().toISOString(),
-    modified_by: '',
+    modified_by: 'Username',
     facility_name: '',
     facility_type: '',
     ticket: 0,
@@ -23,6 +23,7 @@ function NewTicket() {
     caller: '',
     problem_sub_category: '',
     notes: [],
+    rawNote: '',
   });
 
   const handleChange = (e) => {
@@ -36,7 +37,31 @@ function NewTicket() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:5000/tickets', formData);
+      var finalDataNoRawData = {
+        status: formData.status,
+        created_at: formData.created_at,
+        modified_by: formData.modified_by,
+        facility_name: formData.facility_name,
+        facility_type: formData.facility_type,
+        ticket: formData.ticket,
+        problem: formData.problem,
+        contact_method: formData.contact_method,
+        email: formData.email,
+        phone_number: formData.phone_number,
+        voicemail: formData.voicemail,
+        follow_up: formData.follow_up,
+        voicemail_time: formData.voicemail_time,
+        caller: formData.caller,
+        problem_sub_category: formData.problem_sub_category,
+        notes: [
+          {
+            "note": formData.rawNote,
+            "date": new Date().toISOString(),
+            "person": "Current User"
+          },
+        ]
+      }
+      const response = await axios.post('http://127.0.0.1:5000/tickets', finalDataNoRawData);
       // Reset form after successful submission
       console.log(response);
       console.log(response.data);
@@ -44,7 +69,7 @@ function NewTicket() {
       setFormData({
         status: 'open',
         created_at: new Date().toISOString(),
-        modified_by: '',
+        modified_by: 'Username',
         facility_name: '',
         facility_type: '',
         ticket: 0,
@@ -58,6 +83,7 @@ function NewTicket() {
         caller: '',
         problem_sub_category: '',
         notes: [],
+        rawNote: '',
       });
       navigate('/Support/Ticket/'+response.data.ticket)
     } catch (error) {
@@ -157,7 +183,7 @@ function NewTicket() {
               name="modified_by"
               value={formData.modified_by}
               onChange={handleChange}
-              required
+              disabled
             />
           </label>
           <label>
@@ -220,7 +246,18 @@ function NewTicket() {
             />
           </label>
         </div>
-
+        <div className="form-section">
+          <label>
+            Notes:
+            <textarea
+            className='note'
+              type="text"
+              name="rawNote"
+              value={formData.rawNote}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
         <button type="submit">Open Ticket</button>
       </form>
     </div>
