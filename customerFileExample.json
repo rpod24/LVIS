@@ -1,0 +1,185 @@
+{
+    "facilityName": "Current Facility",
+    "state": "CA",
+    "city": "San Diego",
+    "zip": "92078",
+    "address": "1234 Example St.",
+    "phone": "000-000-0000",
+    "facilityID": "CAVN001",
+    "product": "REA",
+    "productVersion": 1.5,
+    "installationDate": "2024-05-22T21:43:50.874Z",
+    "stagingDeadline": "2024-05-22T21:43:50.874Z",
+    "assemblyDeadline": "2024-05-22T21:43:50.874Z",
+    "assemblyDate": "2024-05-22T21:43:50.874Z",
+    "QADate": "2024-05-22T21:43:50.874Z",
+    "shippingDate": "2024-05-22T21:43:50.874Z",
+    "transmitters": 5,
+    "sparesTransmitters": 1,
+    "CMSs": 1,
+    "headlessCMSs": 0,
+    "MEDs": 1,
+    "displays": {
+        "27": 2,
+        "29": 1,
+        "31": 0
+    },
+    "contacts": [
+        {
+            "name": "Jane Doe",
+            "role": "",
+            "phone": "123-456-7890",
+            "email": "",
+            "sendReports": false
+        }
+    ],
+    "notes": [
+        "This is a note for the current facility."
+    ],
+    "website": "https://example.com",
+    "wifi": [
+        {
+            "ssid": "TechBrand",
+            "password": "password"
+        }
+    ],
+    "facilityMapURL": [
+        "https://example.com/facility-map"
+    ],
+    "mapHasCMS": true,
+    "mapLayoutPhoto": [],
+    "powerCables": [
+        {
+            "length": 6,
+            "quantity": 5
+        }
+    ],
+    "roomList": [
+        "114 - A",
+        "114 - B"
+    ],
+    "transmitterSketch": "https://example.com/transmitter-sketch",
+    "CMSDisplaySoftwareFile": "https://example.com/cms-display-software-file",
+    "radioSoftwareFile": "https://example.com/radio-software-file",
+    "radioType": "Single",
+    "MEDModel": "TechMED",
+    "MEDSoftwareVersion": 1.0,
+    "normallyOpen": false,
+    "CMSAssembly": [
+        {
+            "CMSID": "",
+            "assembled": false,
+            "configured": false,
+            "wifiMacAddress": "",
+            "ethernetMacAddress": "",
+            "assetID": "",
+            "frequency": "",
+            "qualityAssured": false,
+            "QA": [
+                {
+                    "QA": "QA1",
+                    "date": "",
+                    "verified": false
+                }
+            ]
+        }
+    ],
+    "MEDAsssembly": [
+        {
+            "MEDID": "",
+            "configured": false,
+            "assetID": "",
+            "completionDue": "",
+            "qualityAssured": false,
+            "QA": [
+                {
+                    "QA": "QA1",
+                    "date": "",
+                    "verified": false
+                }
+            ]
+        }
+    ],
+    "transmitterAssembly": [
+        {
+            "serialNumber": "",
+            "room": "",
+            "assetTag": "",
+            "bracket": "",
+            "configured": false,
+            "labeled": false,
+            "tested": false,
+            "qualityAssured": false,
+            "QA": [
+                {
+                    "QA": "QA1",
+                    "date": "",
+                    "verified": false
+                }
+            ]
+        }
+    ],
+    "shippingMethod": "",
+    "shippingChecklistItems": {
+        "quantityOfTransmitters": 0,
+        "quantityOfiQMounts": 0,
+        "quantityOfCMSs": 0,
+        "quantityOfHeadlessCMSs": 0,
+        "quantityOfMEDs": 0,
+        "numberOfChargers": 0,
+        "quantityOfDisplays": {},
+        "mountTypesIncluded": {
+            "wall": 0,
+            "articulating": 0,
+            "floor": 0
+        },
+        "cordsIncluded": {},
+        "hardwareIncluded": false,
+        "batteriesIncluded": false,
+        "securityScrewIncluded": false,
+        "documentationIncluded": false,
+        "installGuideIncluded": false
+    },
+    "trackingNumbers": [],
+    "shipDate": "",
+    "shipQA": [
+        {
+            "step": "QA1",
+            "status": false,
+            "date": ""
+        }
+    ],
+    "qualityAssurance": {
+        "preshipping": [
+            {
+                "qa": "QA1",
+                "status": false,
+                "date": ""
+            }
+        ],
+        "followUp": [
+            {
+                "qa": "QA1",
+                "status": false,
+                "date": ""
+            }
+        ]
+    },
+    "qualityAssuranceDate": "",
+    "qaApprovedStaffMember": "",
+    "contractInfo": {
+        "vent": "",
+        "rent": false,
+        "installationDates": {
+            "start": "",
+            "end": ""
+        },
+        "warrentyEnd": "",
+        "rentalEnd": "",
+        "endOfFirmco": "",
+        "endOfServiceContract": "",
+        "owner": "",
+        "contractWith": "",
+        "contractSigned": false
+    }
+}

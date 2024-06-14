@@ -384,11 +384,120 @@
 // db.createCollection('users')
 
 use('Customers')
-db.createCollection('current')
-db.current.insertOne({
-    "facilityName": "Current Facility",
+db.createCollection('customers')
+db.customers.insertOne({
+    "facilityName": "Required",
+    "state": "Required",
+    "city": "",
+    "zip": "",
+    "phone": "",
+    "facilityID": "",
+    "product": "Required",
+    "productVersion": 0,
+    "installationDate": "",
+    "stagingDeadline": "",
+    "assemblyDeadline": "",
+    "assemblyDate": "",
+    "QADate": "",
+    "shippingDate": "",
+    "transmitters": 0,
+    "sparesTransmitters": 0,
+    "CMSs": 0,
+    "headlessCMSs": 0,
+    "MEDs": 0,
+    "displays": {
+    },
+    "contacts": [
+    ],
+    "notes": [
+    ],
+    "website": "",
+    "wifi": [
+    ],
+    "facilityMapURL": [
+    ],
+    "mapHasCMS": false,
+    "mapLayoutPhoto": [],
+    "powerCables": [
+    ],
+    "roomList": [
+    ],
+    "transmitterSketch": "",
+    "CMSDisplaySoftwareFile": "",
+    "radioSoftwareFile": "",
+    "radioType": "",
+    "MEDModel": "",
+    "MEDSoftwareVersion": -1,
+    "normallyOpen": false,
+    "nextStep": "",
+    "CMSAssembly": [
+    ],
+    "MEDAsssembly": [
+    ],
+    "transmitterAssembly": [
+    ],
+    "qualityAssurance": {
+        "preshipping": [
+            {
+                "qa": "QA1",
+                "status": false,
+                "date": ""
+            }
+        ],
+        "followUp": [
+            {
+                "qa": "QA1",
+                "status": false,
+                "date": ""
+            }
+        ]
+    },
+    "qualityAssuranceDate": "",
+    "qaApprovedStaffMember": "",
+    "shippingMethod": "",
+    "shippingChecklistItems": {
+        "quantityOfTransmitters": 0,
+        "quantityOfiQMounts": 0,
+        "quantityOfCMSs": 0,
+        "quantityOfHeadlessCMSs": 0,
+        "quantityOfMEDs": 0,
+        "numberOfChargers": 0,
+        "quantityOfDisplays": {},
+        "mountTypesIncluded": {
+            "wall": 0,
+            "articulating": 0,
+            "floor": 0
+        },
+        "cordsIncluded": {},
+        "hardwareIncluded": false,
+        "batteriesIncluded": false,
+        "securityScrewIncluded": false,
+        "documentationIncluded": false,
+        "installGuideIncluded": false
+    },
+    "trackingNumbers": [],
+    "shipDate": "",
+    "contractInfo": {
+        "vent": "",
+        "rent": false,
+        "installationDates": {
+            "start": "",
+            "end": ""
+        },
+        "warrentyEnd": "",
+        "rentalEnd": "",
+        "endOfFirmco": "",
+        "endOfServiceContract": "",
+        "owner": "",
+        "contractWith": "",
+        "contractSigned": false
+    },
+    "status": "Pending"
+})
+db.customers.insertOne({
+    "facilityName": "Full Facility",
     "state": "CA",
-    "city": "San Diego",
+    "city": "San Marcos",
     "zip": "92078",
     "phone": "000-000-0000",
     "facilityID": "CAVN001",
@@ -400,173 +509,186 @@ db.current.insertOne({
     "assemblyDate": "2024-05-22T21:43:50.874Z",
     "QADate": "2024-05-22T21:43:50.874Z",
     "shippingDate": "2024-05-22T21:43:50.874Z",
-    "transmitters": 5,
-    "sparesTransmitters": 1,
+    "transmitters": 2,
+    "sparesTransmitters": 0,
     "CMSs": 1,
     "headlessCMSs": 0,
     "MEDs": 1,
     "displays": {
-        "27": 2,
-        "29": 1,
-        "31": 0
+        "31": 1
     },
-    "addionalContacts": [
+    "contacts": [
         {
-            "name": "Jane Doe",
+            "name": "John Doe",
             "phone": "123-456-7890",
-            "email": ""
+            "email": "email@example.com",
+            "iqReport": true
         }
     ],
-    "notes": ["This is a note for the current facility."],
+    "notes": [
+    ],
     "website": "https://example.com",
-    "buildingFloorWing": "Building 1, Floor 2, W",
-    "contractWith": "TechBrand",
-    "contractSigned": null,
-    "wifi": [{
-        "ssid": "TechBrand",
-        "password": "password"
-    }],
-    "facilityMapURL": ["https://example.com/facility-map"],
+    "wifi": [
+        {
+            "ssid": "SSID",
+            "password": "password"
+        }
+    ],
+    "facilityMapURL": [
+        "https://example.com/facility-map"
+    ],
     "mapHasCMS": true,
-    "mapLayoutPhoto":[],
+    "mapLayoutPhoto": [
+        "https://example.com/map-layout-photo"
+    ],
     "powerCables": [
         {
             "length": 6,
-            "quantity": 5
+            "quantity": 3
         }
     ],
     "roomList": [
-        "114 - A",
-        "114 - B"
+        "101 - A",
+        "101 - B"
     ],
     "transmitterSketch": "https://example.com/transmitter-sketch",
-    "CMSDisplaySoftwareFile" : "https://example.com/cms-display-software-file",
+    "CMSDisplaySoftwareFile": "https://example.com/cms-display-software-file",
     "radioSoftwareFile": "https://example.com/radio-software-file",
     "radioType": "Single",
     "MEDModel": "TechMED",
     "MEDSoftwareVersion": 1.0,
+    "normallyOpen": false,
+    "nextStep": "N/A",
     "CMSAssembly": [
         {
             "CMSID": "A",
             "assembled": true,
             "configured": true,
-            "qualityAssured": true,
             "wifiMacAddress": "00:00:00:00:00:00",
             "ethernetMacAddress": "00:00:00:00:00:00",
             "assetID": "00000001",
-            "ventHoleDrilled": true,
-            "CMSTurnedOn": true,
-            "caseClosed": true,
-            "hasCPUHeatSink": true,
-            "launcherInstalled": true,
-            "frequencySet": true,
             "frequency": "123.456",
-            "otherQA":[{
-                "QA": "QA1",
-                "date": "2024-05-22T21:43:50.874Z",
-                "verified": true
-            }],
-            "monitor": true,
-            "alarm": true,
-            "clears": true,
-            "disconnects": true,
-            "shippingMethod": "mail",
-            "shippingChecklistItems": {
-                "quantityOfTransmitters": 6,
-                "quantityOfiQMounts": 1,
-                "quantityOfCMSs": 1,
-                "quantityOfHeadlessCMSs": 0,
-                "quantityOfMEDs": 1,
-                "numberOfChargers": 1,
-                "quantityOfDisplays": {
-                    "27": 2,
-                    "29": 1,
-                    "31": 0
-                },
-                "mountTypesIncluded": {
-                    "wall": 1,
-                    "articulating": 0,
-                    "floor": 0
-                },
-                "cordsIncluded": {
-                    "6": 5,
-                    "12": 0
-                },
-                "hardwareIncluded": true,
-                "batteriesIncluded": true,
-                "securityScrewIncluded": true,
-                "documentationIncluded": true,
-                "installGuideIncluded": true
-            },
-            "trackingNumbers": ["123456"],
-            "shipDate": "2024-05-22T21:43:50.874Z",
-            "clientNotifiedOfShipment": true,
-            "clientRecievedPackages": true,
-            "shippingContentOk": true,
-            "shippinhRecievedDate": "2024-05-22T21:43:50.874Z",
-            "remotedInstallSteps": {
-                "photosEmailed": true,
-                "configFilesInProduction": true,
-                "correctRadioSignal": true,
-                "verifyEthernetWifi": true,
-                "noErrorsInTerminal": true,
-                "correctLogVersion": true,
-                "oldLogsDeleted": true,
-                "logsSuccessfullyWritten": true,
-                "sparesRemoved": true,
-                "maintenanceDateSet": true,
-                "signalStrengthAcceptable": true,
-                "MEDsConnectedProperly": true,
-                "WeavedInstalledProperly": true,
-                "hostnameIsCorrect": true,
-                "NTPActive": true,
-                "allOtherIssuesClear": true
-            },
-            "followUp": {
-                "adminEmailCorrect": true,
-                "inBillingSystem": true,
-                "adminFileEmailed": true,
-                "quickRefEmailed": true,
-                "auditChecklistEmailed": true,
-                "trainningScheduled": true,
-                "LVISUpdated": true,
-                "clientBinderUpdated": true,
-                "fileManifestInFillingCabinet": true,
-                "activatedReports": true,
-                "oneMonthCheckup": true,
-                "oneMonthCheckupNotes": "None",
-                "oneWeekCheckup": true,
-                "oneWeekCheckupNotes": "None"
-            }
+            "qualityAssured": true,
+            "QA": [
+                {
+                    "QA": "Quality Assurance 1",
+                    "date": "2024-05-22T21:43:50.874Z",
+                    "verified": true
+                }
+            ]
         }
     ],
     "MEDAsssembly": [
         {
             "MEDID": "AA",
-            "configured": false,
-            "assetID": "00000001",
+            "configured": true,
+            "assetID": "00001",
             "completionDue": "2024-05-22T21:43:50.874Z",
-            "qualityAssured": true
+            "qualityAssured": true,
+            "QA": [
+                {
+                    "QA": "Quality Assurance 1",
+                    "date": "2024-05-22T21:43:50.874Z",
+                    "verified": true
+                }
+            ]
         }
     ],
     "transmitterAssembly": [
         {
             "serialNumber": "14010000001",
-            "room": "101 - a",
+            "room": "101 - A",
             "assetTag": "00000001",
             "bracket": "140100000001",
             "configured": true,
             "labeled": true,
             "tested": true,
             "qualityAssured": true,
-            "hasBattery": true,
-            "programmed": true,
-            "remoteSoftwareActive": true
+            "QA": [
+                {
+                    "QA": "QA1",
+                    "date": "2024-05-22T21:43:50.874Z",
+                    "verified": true
+                }
+            ]
+        },
+        {
+            "serialNumber": "14010000002",
+            "room": "101 - B",
+            "assetTag": "00000002",
+            "bracket": "140100000002",
+            "configured": true,
+            "labeled": true,
+            "tested": true,
+            "qualityAssured": true,
+            "QA": [
+                {
+                    "QA": "QA1",
+                    "date": "2024-05-22T21:43:50.874Z",
+                    "verified": true
+                }
+            ]
         }
     ],
-    "qualityAssuranceDate": "2024-05-22T21:43:50.874Z"
+    "qualityAssurance": {
+        "preshipping": [
+            {
+                "qa": "QA1",
+                "status": true,
+                "date": "2024-05-22T21:43:50.874Z"
+            }
+        ],
+        "followUp": [
+            {
+                "qa": "QA1",
+                "status": true,
+                "date": "2024-05-22T21:43:50.874Z"
+            }
+        ]
+    },
+    "qualityAssuranceDate": "2024-05-22T21:43:50.874Z",
+    "qaApprovedStaffMember": "John Doe",
+    "shippingMethod": "mail",
+    "shippingChecklistItems": {
+        "quantityOfTransmitters": 2,
+        "quantityOfiQMounts": 2,
+        "quantityOfCMSs": 1,
+        "quantityOfHeadlessCMSs": 0,
+        "quantityOfMEDs": 0,
+        "numberOfChargers": 0,
+        "quantityOfDisplays": {
+            "31": 1
+        },
+        "mountTypesIncluded": {
+            "wall": 0,
+            "articulating": 1,
+            "floor": 0
+        },
+        "cordsIncluded": {
+            "6": 3
+        },
+        "hardwareIncluded": true,
+        "batteriesIncluded": true,
+        "securityScrewIncluded": true,
+        "documentationIncluded": true,
+        "installGuideIncluded": true
+    },
+    "trackingNumbers": ["123456"],
+    "shipDate": "2024-05-22T21:43:50.874Z",
+    "contractInfo": {
+        "vent": "Ventalator Brand",
+        "rent": false,
+        "installationDates": {
+            "start": "2024-05-22T21:43:50.874Z",
+            "end": ""
+        },
+        "warrentyEnd": "2025-05-22T21:43:50.874Z",
+        "rentalEnd": "",
+        "endOfFirmco": "",
+        "endOfServiceContract": "",
+        "owner": "Owner Name",
+        "contractWith": "TechBrand",
+        "contractSigned": false
+    },
+    "status": "Pending"
 })
-// db.createCollection('former')
-// db.createCollection('prospects')
-// db.prospects.insertOne({
-// })

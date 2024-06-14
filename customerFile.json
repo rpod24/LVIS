@@ -1,0 +1,110 @@
+{
+    "facilityName": "Required",
+    "state": "Required",
+    "city": "",
+    "zip": "",
+    "address": "",
+    "phone": "",
+    "facilityID": "",
+    "product": "Required",
+    "productVersion": 0,
+    "installationDate": "",
+    "stagingDeadline": "",
+    "assemblyDeadline": "",
+    "assemblyDate": "",
+    "QADate": "",
+    "shippingDate": "",
+    "transmitters": 0,
+    "sparesTransmitters": 0,
+    "CMSs": 0,
+    "headlessCMSs": 0,
+    "MEDs": 0,
+    "displays": {
+    },
+    "contacts": [
+    ],
+    "notes": [
+    ],
+    "website": "",
+    "wifi": [
+    ],
+    "facilityMapURL": [
+    ],
+    "mapHasCMS": false,
+    "mapLayoutPhoto": [],
+    "powerCables": [
+    ],
+    "roomList": [
+    ],
+    "transmitterSketch": "",
+    "CMSDisplaySoftwareFile": "",
+    "radioSoftwareFile": "",
+    "radioType": "",
+    "MEDModel": "",
+    "MEDSoftwareVersion": -1,
+    "normallyOpen": false,
+    "nextStep": "",
+    "CMSAssembly": [
+    ],
+    "MEDAsssembly": [
+    ],
+    "transmitterAssembly": [
+    ],
+    "qualityAssurance": {
+        "preshipping": [
+            {
+                "qa": "QA1",
+                "status": false,
+                "date": ""
+            }
+        ],
+        "followUp": [
+            {
+                "qa": "QA1",
+                "status": false,
+                "date": ""
+            }
+        ]
+    },
+    "qualityAssuranceDate": "",
+    "qaApprovedStaffMember": "",
+    "shippingMethod": "",
+    "shippingChecklistItems": {
+        "quantityOfTransmitters": 0,
+        "quantityOfiQMounts": 0,
+        "quantityOfCMSs": 0,
+        "quantityOfHeadlessCMSs": 0,
+        "quantityOfMEDs": 0,
+        "numberOfChargers": 0,
+        "quantityOfDisplays": {},
+        "mountTypesIncluded": {
+            "wall": 0,
+            "articulating": 0,
+            "floor": 0
+        },
+        "cordsIncluded": {},
+        "hardwareIncluded": false,
+        "batteriesIncluded": false,
+        "securityScrewIncluded": false,
+        "documentationIncluded": false,
+        "installGuideIncluded": false
+    },
+    "trackingNumbers": [],
+    "shipDate": "",
+    "contractInfo": {
+        "vent": "",
+        "rent": false,
+        "installationDates": {
+            "start": "",
+            "end": ""
+        },
+        "warrentyEnd": "",
+        "rentalEnd": "",
+        "endOfFirmco": "",
+        "endOfServiceContract": "",
+        "owner": "",
+        "contractWith": "",
+        "contractSigned": false
+    },
+    "status": "Pending"
+}

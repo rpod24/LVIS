@@ -1,5 +1,6 @@
 import datetime
 import inspect
+from bson import ObjectId
 from quart import Quart
 import json
 import pymongo
@@ -22,10 +23,13 @@ inventory = mongo["inventory"]
 sensitivedb = mongo["sensitive_data"]
 supportdb = mongo["support"]
 configs = mongo["configs"]
+customersDB = mongo["Customers"]
 
 users = sensitivedb["users"]
+
 products = inventory["products"]
 productInventory = inventory["inventory"]
+
 tickets = supportdb["tickets"]
 
 CMSs = configs["CMS"]
@@ -39,6 +43,12 @@ ConfigAlert = configs["ConfigAlert"]
 ConfigCMS = configs["ConfigCMS"]
 ConfigMED = configs["ConfigMED"]
 
+prospects = customersDB["prospects"]
+customers = customersDB["customers"]
+
+CUSTOMER_LIMIT = 25
+USER_LIMIT = 50
+PRODUCT_LIMIT = 50
 
 @app.route("/products")
 # @authenticate(TokenManager.ValidationLevel.USER)
@@ -48,26 +58,26 @@ async def get_products():
         if request.args.get("p") is not None:  # todo serialize the arg to int
             print(request.args.get("p"))
             items = dumps(
-                products.find().skip(int(request.args.get("p")) * 50).limit(50)
+                products.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
             )  # for selecting pages, use https://site/page?p=i where i is the page number
             if request.args.get("search") is not None:  # todo serialize the arg to int
                 if request.args.get("search") == "":
                     items = dumps(
-                        products.find().skip(int(request.args.get("p")) * 50).limit(50)
+                        products.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
                     )  # returns first 50 products in case ?p= is not in the argument
                 else:
                     items = dumps(
                         products.find(
                             {"$text": {"$search": request.args.get("search")}}
                         )
-                        .skip(int(request.args.get("p")) * 50)
-                        .limit(50)
+                        .skip(int(request.args.get("p")) * PRODUCT_LIMIT)
+                        .limit(PRODUCT_LIMIT)
                     )  # searches through the db and returns at most 50 for the current page
         else:
             print(request.args.get("p"))
     else:
         items = dumps(
-            products.find().limit(50)
+            products.find().limit(PRODUCT_LIMIT)
         )  # returns first 50 products in case ?p= is not in the argument
         print(items)
     return items
@@ -135,18 +145,18 @@ async def get_tickets():
         elif request.args.get("p") is not None:  # todo serialize the arg to int
             print(request.args.get("p"))
             items = dumps(
-                tickets.find().skip(int(request.args.get("p")) * 50).limit(50)
+                tickets.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
             )  # for selecting pages, use https://site/page?p=i where i is the page number
             if request.args.get("search") is not None:  # todo serialize the arg to int
                 if request.args.get("search") == "":
                     items = dumps(
-                        tickets.find().skip(int(request.args.get("p")) * 50).limit(50)
+                        tickets.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
                     )  # returns first 50 tickets in case ?p= is not in the argument
                 else:
                     items = dumps(
                         tickets.find({"$text": {"$search": request.args.get("search")}})
-                        .skip(int(request.args.get("p")) * 50)
-                        .limit(50)
+                        .skip(int(request.args.get("p")) * PRODUCT_LIMIT)
+                        .limit(PRODUCT_LIMIT)
                     )  # searches through the db and returns at most 50 for the current page
         elif request.args.get("ticket") is not None:
             items = json.dumps({"error": "Invalid Ticket Entered!"})
@@ -154,7 +164,7 @@ async def get_tickets():
             print(request.args.get("p"))
     else:
         items = dumps(
-            tickets.find().limit(50)
+            tickets.find().limit(PRODUCT_LIMIT)
         )  # returns first 50 tickets in case ?p= is not in the argument
         print(items)
     return items
@@ -219,6 +229,93 @@ async def get_facility(facility_id):
     })
 
 
+
+@app.route("/prospects")
+#Returns 50 customers at a time based on the page number
+async def get_prospects():
+    items = json.dumps({"error": "Unexpected Error Occured!"})
+    if request.args.__len__() != 0:
+        print(request.args)
+        if request.args.get("search") is not None and request.args.get("search") != "":
+            search = {"$text": {"$search": request.args.get("search")}, "status": "Pending"}
+        else:
+            search = {"status": "Pending"}
+        if request.args.get("sort") is not None and request.args.get("sort") != "":
+            req = prospects.find(search).sort(json.loads(request.args.get("sort")))
+        else:
+            req = prospects.find(search)
+        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
+            items = dumps(req.skip(int(request.args.get("p")) * CUSTOMER_LIMIT).limit(CUSTOMER_LIMIT))
+        else:
+            items = dumps(req.limit(CUSTOMER_LIMIT))
+    else:
+        items = dumps(prospects.find().limit(CUSTOMER_LIMIT))
+    return items
+
+@app.route("/customers")
+#Returns 50 customers at a time based on the page number
+async def get_customers():
+    items = json.dumps({"error": "Unexpected Error Occured!"})
+    search = ""
+    if request.args.__len__() != 0:
+        print(request.args)
+        if request.args.get("search") is not None and request.args.get("search") != "":
+            search = {"$text": {"$search": request.args.get("search")}}
+        if request.args.get("sort") is not None and request.args.get("sort") != "":
+            req = customers.find(search).sort(json.loads(request.args.get("sort")))
+        else:
+            req = customers.find(search)
+        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
+            items = dumps(req.skip(int(request.args.get("p")) * CUSTOMER_LIMIT).limit(CUSTOMER_LIMIT))
+        else:
+            items = dumps(req.limit(CUSTOMER_LIMIT))
+    else:
+        items = dumps(customers.find().limit(CUSTOMER_LIMIT))
+    return items
+
+@app.route("/customers/<customer_id>")
+#Returns the customer with the given id
+async def get_customer(customer_id):
+    id = ObjectId(customer_id)
+    print(customer_id)
+    customer = (customers.find({"_id":id}).limit(1)[0])
+    return dumps(customer)
+
+@app.route("/customers", methods=["POST"])
+# @authenticate(TokenManager.ValidationLevel.USER)
+async def create_customer():
+    try:
+        customer_data = await request.get_json()
+        print(customer_data)
+        if not customer_data:
+            return json.dumps({"error": "No customer data provided"}), 400
+        result = customers.insert_one(customer_data)
+        return dumps(customers.find_one(result.inserted_id)), 201
+    except Exception as e:
+        return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
+    
+@app.route("/customers/<customer_id>", methods=["POST"])
+# @authenticate(TokenManager.ValidationLevel.USER)
+async def update_customer(customer_id):
+    try:
+        customer_data = await request.get_json()
+        print(customer_data)
+        if not customer_data:
+            return json.dumps({"error": "No customer data provided"}), 419
+        current_customer = customers.find_one({"_id": ObjectId(customer_id)})
+        if(str(current_customer["_id"]) != str(customer_data["_id"]["$oid"])):
+            return json.dumps({"error": "Customer ID does not match!" + str(customer_data["_id"]["$oid"]) + "!=" + str(current_customer["_id"])}), 420
+        customer_data["_id"] = current_customer["_id"]
+        print("-----------------")
+        print( customers.find_one_and_replace(
+            {"_id": ObjectId(customer_id)}, customer_data
+        ))
+        # if result.modified_count == 0:
+        #     return json.dumps({"error": "Customer not updates!"}), 405
+        return json.dumps({"message": "Customer replaced successfully!"}), 200
+    except Exception as e:
+        print(e)
+        return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
 
 # @app.route("/ticket")
 # # @authenticate(TokenManager.ValidationLevel.USER)

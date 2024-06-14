@@ -17,6 +17,7 @@ import Login from "./Pages";
 import Home from "./Pages/home";
 import ViewFacilities from "./Pages/Facility/facility_list";
 import Facility from "./Pages/Facility/facility";
+import Prospect from "./Pages/Customer/prospect";
 import './App.css';
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/Customer/Current" element={<Current />} />
         <Route path="/Customer/Prospects" element={<Prospects />} />
+        <Route path="/Customer/:id" element={<Prospect />} />
         <Route path="/Customer/Former" element={<Former />} />
         <Route path="/Support/CreateTicket" element={<NewTicket />} />
         {/* <Route path="/view-ticket/:id" component={<ViewTicket />} /> */}
