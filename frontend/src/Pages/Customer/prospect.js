@@ -224,7 +224,19 @@ function Prospect() {
                                     <option value="WI">Wisconsin</option>
                                     <option value="WY">Wyoming</option>
                                 </select>
-                                {/* save change button */}
+                                <label>City: </label>
+                                <input
+                                    name="city" onChange={handleChange} className='inputText' type="text" defaultValue={customerData.city}></input>
+                                <label>Zip: </label>
+                                <input
+                                    name="zip" onChange={handleChange} className='inputText' type="number" defaultValue={customerData.zip}></input>
+                                <label>Address: </label>
+                                <input
+                                    name="address" onChange={handleChange} className='inputText' type="text" defaultValue={customerData.address}></input>
+                                <label>Phone: </label>
+                                <input
+                                    name="phone" onChange={handleChange} className='inputText' type="tel" defaultValue={customerData.phone}
+                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" maxLength={12}></input>
                                 <button>Save Changes</button>
                             </form>
                         </div>
