@@ -19,6 +19,7 @@
     "CMSs": 1,
     "headlessCMSs": 0,
     "MEDs": 1,
+    "mounts": 0,
     "displays": {
         "27": 2,
         "29": 1,

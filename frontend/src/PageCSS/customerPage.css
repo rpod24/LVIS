@@ -79,3 +79,24 @@ label{
     line-height: 1.5;
     padding-right: 5px;
 }
+
+.short{
+    width: 75px;
+}
+.shortFit {
+    min-width: 75px;
+    width: inherit;
+}
+
+.normal{
+    /* width: 125px; */
+    width: max-content;
+}
+
+.long{
+    width: 200px;
+}
+
+.inline{
+    display: inline-block;
+}

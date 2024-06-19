@@ -69,8 +69,8 @@ function TopNav() {
               <NavDropdown.Item as={Link} to="/Support/CreateTicket">Open a Ticket</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/Support/Tickets">View Tickets</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="/Configuration">Configuration</Nav.Link>
-            <Nav.Link href="/Facilities">Facilities</Nav.Link>
+            {/* <Nav.Link href="/Configuration">Configuration</Nav.Link> */}
+            <Nav.Link href="/Facilities">Configuration</Nav.Link>
             <Nav.Link href="/Wiki">Product Wiki</Nav.Link>
             <Nav.Link href="/Inventory">Inventory</Nav.Link>
           </Nav>
