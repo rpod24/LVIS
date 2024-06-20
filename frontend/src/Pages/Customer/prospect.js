@@ -112,10 +112,8 @@ function Prospect() {
     const fetchFacility = async () => {
       try {
         const url = `http://127.0.0.1:5000/customers/${param.id}`;
-        console.log(url);
         const response = await axios.get(url);
         setCustomerData(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error(
           "There was an error fetching the facilities data!",
@@ -133,59 +131,69 @@ function Prospect() {
         `http://127.0.0.1:5000/customers/${param.id}`,
         customerData
       );
-      console.log(response);
-      console.log(response.data);
     } catch (error) {
       console.error("There was an error creating the ticket!", error);
     }
   };
 
+  const allFieldsEmpty = (arr) => {
+    var s = true;
+    Object.keys(arr).forEach((element) => {
+      if (arr[element] !== "") {
+        s = false;
+        return;
+      }
+    });
+    return s;
+  };
+
+  const generateEmptyJSON = (arr) => {
+    let temp = {};
+    Object.keys(arr).forEach((element) => {
+      temp[element] = "";
+    });
+    return temp;
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    console.log(name, value, type, checked);
-    console.log(e.target);
     setCustomerData({
       ...customerData,
       [name]: type === "checkbox" ? checked : value,
     });
-    console.log(customerData);
   };
 
-  const handleContactChange = (e) => {
+  const handleIncreasableArrayChange = (e) => {
     const { name, value, type, checked, id } = e.target;
-    console.log(name, value, type, checked);
-    console.log(e.target.id);
-    //set the contact data in row id to the value
-    let tempContacts = customerData.contacts;
-    tempContacts[id][name] = value;
+    const arrid = e.target.parentElement.id;
+    let tempArr = [...customerData[id]];
+    tempArr[arrid][name] = value;
     if (
-      id == tempContacts.length - 1 &&
-      (tempContacts[id].name !== "" ||
-        tempContacts[id].email !== "" ||
-        tempContacts[id].phone !== "")
+      Number(arrid) === Number(tempArr.length - 1) &&
+      !allFieldsEmpty(tempArr[arrid])
     ) {
-      tempContacts.push({
-        name: "",
-        email: "",
-        phone: "",
-      });
-    }
-    //else if the bottom two rows are empty remove the bottom row
-    else if (
-      tempContacts[id].name === "" &&
-      tempContacts[id].email === "" &&
-      tempContacts[id].phone === "" &&
-      tempContacts[id + 1].name === "" &&
-      tempContacts[id + 1].email === "" &&
-      tempContacts[id + 1].phone === ""
+      tempArr.push(generateEmptyJSON(tempArr[arrid]));
+    } else if (
+      allFieldsEmpty(tempArr[arrid]) &&
+      Number(arrid) !== Number(tempArr.length - 1)
     ) {
-      tempContacts.pop();
+      tempArr.splice(arrid, 1);
     }
     setCustomerData({
       ...customerData,
-      contacts: tempContacts,
+      [id]: tempArr,
     });
-    console.log(customerData);
+  };
+
+  const handleArrayChange = (e) => {
+    const { name, value, type, checked, id } = e.target;
+    const arrid = e.target.parentElement.id;
+    let tempArr = customerData[id];
+    tempArr[arrid][name] = value;
+    setCustomerData({
+      ...customerData,
+      [id]: tempArr,
+    });
   };
 
   const handleClick = (pageNumber) => {
@@ -318,7 +326,6 @@ function Prospect() {
                   <option value="REA">REA</option>
                   <option value="ScrubTrax">ScrubTrax</option>
                 </select>
-                {/* if product is rea show the product version option */}
                 {customerData.product === "REA" ? (
                   <div>
                     <label>Product Version: </label>
@@ -365,6 +372,7 @@ function Prospect() {
                   onChange={handleChange}
                   className="inputText"
                   type="datetime-local"
+                  step="60"
                   defaultValue={customerData.installationDate}
                 ></input>
                 <label>Staging Deadline: </label>
@@ -373,6 +381,7 @@ function Prospect() {
                   onChange={handleChange}
                   className="inputText"
                   type="datetime-local"
+                  step="60"
                   defaultValue={customerData.stagingDeadline}
                 ></input>
                 <br />
@@ -382,6 +391,7 @@ function Prospect() {
                   onChange={handleChange}
                   className="inputText"
                   type="datetime-local"
+                  step="60"
                   defaultValue={customerData.assemblyDeadline}
                 ></input>
                 <label>Assembly Date: </label>
@@ -390,6 +400,7 @@ function Prospect() {
                   onChange={handleChange}
                   className="inputText"
                   type="datetime-local"
+                  step="60"
                   defaultValue={customerData.assemblyDate}
                 ></input>
                 <br />
@@ -399,7 +410,7 @@ function Prospect() {
                   onChange={handleChange}
                   className="inputText"
                   type="datetime-local"
-                  // step="1"
+                  step="60"
                   defaultValue={customerData.QADate}
                 ></input>
                 <label>Shipping Date: </label>
@@ -408,7 +419,7 @@ function Prospect() {
                   onChange={handleChange}
                   className="inputText"
                   type="datetime-local"
-                  // step="0.1"
+                  step="60"
                   defaultValue={customerData.shippingDate}
                 ></input>
                 <br />
@@ -475,15 +486,57 @@ function Prospect() {
                 </div>
                 <br />
                 <label>Contacts: </label>
+                {customerData.contacts.map((contact, index) => (
+                  <div
+                    key={`${index}-${contact.name}`}
+                    id={index}
+                    onChange={handleIncreasableArrayChange}
+                  >
+                    <label>Name: </label>
+                    <input
+                      name="name"
+                      id="contacts"
+                      className="inputText"
+                      type="text"
+                      value={contact.name}
+                    />
+                    <label>Email: </label>
+                    <input
+                      name="email"
+                      id="contacts"
+                      className="inputText"
+                      type="email"
+                      value={contact.email}
+                    />
+                    <label>Phone: </label>
+                    <input
+                      name="phone"
+                      id="contacts"
+                      className="inputText"
+                      type="tel"
+                      value={contact.phone}
+                      pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                      maxLength={12}
+                    />
+                  </div>
+                ))}
+                <button>Save Changes</button>
+              </form>
+            </div>
+          );
+        case 1:
+          return (
+            <div>
+              {/* <form onSubmit={handleSubmit}>
+                <label>Contacts: </label>
                 {
-                  /* create a field that takes a name and email and phone number, everytime a value is entered in a field a new row is added */
                   customerData.contacts.map((contact, index) => {
                     return (
                       <div key={index} onChange={handleContactChange}>
                         <label>Name: </label>
                         <input
                           name="name"
-                          id={index}
+                          id="contacts"
                           className="inputText"
                           type="text"
                           defaultValue={contact.name}
@@ -491,7 +544,7 @@ function Prospect() {
                         <label>Email: </label>
                         <input
                           name="email"
-                          id={index}
+                          id="contacts"
                           className="inputText"
                           type="email"
                           defaultValue={contact.email}
@@ -499,7 +552,7 @@ function Prospect() {
                         <label>Phone: </label>
                         <input
                           name="phone"
-                          id={index}
+                          id="contacts"
                           className="inputText"
                           type="tel"
                           defaultValue={contact.phone}
@@ -512,11 +565,9 @@ function Prospect() {
                 }
 
                 <button>Save Changes</button>
-              </form>
+              </form> */}
             </div>
           );
-        case 1:
-          return <div></div>;
         case 2:
           return <div></div>;
         case 3:
