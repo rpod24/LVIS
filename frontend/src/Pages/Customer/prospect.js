@@ -3,6 +3,7 @@ import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../../PageCSS/customerPage.css";
+import { TRANSMITTER, CMS, MED } from "../../defaults";
 
 function Prospect() {
   const param = useParams();
@@ -106,7 +107,9 @@ function Prospect() {
     },
     status: "",
   });
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(
+    Number(window.localStorage.getItem("page")) || 0
+  );
 
   useEffect(() => {
     const fetchFacility = async () => {
@@ -161,13 +164,116 @@ function Prospect() {
       ...customerData,
       [name]: type === "checkbox" ? checked : value,
     });
+    console.log(customerData);
+  };
+
+  const handleSpecialChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setCustomerData({
+      ...customerData,
+      [name]: type === "checkbox" ? checked : Number(value),
+    });
+    console.log(value);
+    console.log(customerData);
+    var newEl = null;
+    var arr = null;
+    var val = null;
+    switch (name) {
+      default:
+        return;
+      case "transmitters":
+        newEl = TRANSMITTER;
+        arr = customerData.transmitterAssembly;
+        val = Number(value)+Number(customerData.sparesTransmitters);
+        break;
+      case "sparesTransmitters":
+        newEl = TRANSMITTER;
+        arr = customerData.transmitterAssembly;
+        val = Number(value)+Number(customerData.transmitters);
+        break;
+      case "CMSs":
+        newEl = CMS;
+        arr = customerData.CMSAssembly;
+        val = Number(value)+Number(customerData.headlessCMSs);
+        break;
+      case "headlessCMSs":
+        newEl = CMS;
+        arr = customerData.CMSAssembly;
+        val = Number(value)+Number(customerData.CMSs);
+        break;
+      case "MEDs":
+        newEl = MED;
+        arr = customerData.MEDAsssembly;
+        val = Number(value);
+        break;
+    }
+    console.log(arr);
+    console.log(val);
+    console.log(arr.length);
+    console.log(newEl);
+    console.log(value);
+    if (val > arr.length) {
+      for (
+        var i = arr.length;
+        i <= val;
+        i++
+      ) {
+        arr.push(newEl);
+      }
+    }
+    else if (val < arr.length) {
+      for (
+        var i = arr.length;
+        i > val;
+        i--
+      ) {
+        arr.pop();
+      }
+    }
+  };
+
+  const handleIncreasableUpdatableArrayChange = (e) => {
+    const { name, value, type, checked, id } = e.target;
+    var { defaultValue } = e.target;
+    const arrid = e.target.parentElement.id;
+    let tempArr = [...customerData[id]];
+    defaultValue = value;
+    e.target.defaultValue = value;
+    const preEdit = tempArr[arrid][name];
+    tempArr[arrid][name] = type === "checkbox" ? checked : value;
+    if (
+      Number(arrid) === Number(tempArr.length - 1) &&
+      !allFieldsEmpty(tempArr[arrid])
+    ) {
+      tempArr.push(generateEmptyJSON(tempArr[arrid]));
+    } else if (
+      allFieldsEmpty(tempArr[arrid]) &&
+      Number(arrid) !== Number(tempArr.length - 1)
+    ) {
+      tempArr.splice(arrid, 1);
+    }
+    if (id == "roomList") {
+      for (var i = 0; i < customerData.transmitterAssembly.length; i++) {
+        if (customerData.transmitterAssembly[i].room == preEdit) {
+          customerData.transmitterAssembly[i].room = tempArr[arrid].room;
+        }
+      }
+    }
+    setCustomerData({
+      ...customerData,
+      [id]: tempArr,
+    });
+    console.log(customerData);
   };
 
   const handleIncreasableArrayChange = (e) => {
     const { name, value, type, checked, id } = e.target;
+    var { defaultValue } = e.target;
     const arrid = e.target.parentElement.id;
     let tempArr = [...customerData[id]];
-    tempArr[arrid][name] = value;
+    defaultValue = value;
+    e.target.defaultValue = value;
+    tempArr[arrid][name] = type === "checkbox" ? checked : value;
     if (
       Number(arrid) === Number(tempArr.length - 1) &&
       !allFieldsEmpty(tempArr[arrid])
@@ -183,21 +289,25 @@ function Prospect() {
       ...customerData,
       [id]: tempArr,
     });
+    console.log(customerData);
   };
 
   const handleArrayChange = (e) => {
     const { name, value, type, checked, id } = e.target;
     const arrid = e.target.parentElement.id;
     let tempArr = customerData[id];
-    tempArr[arrid][name] = value;
+    tempArr[arrid][name] = type === "checkbox" ? checked : value;
     setCustomerData({
       ...customerData,
       [id]: tempArr,
     });
+    console.log(customerData);
   };
 
   const handleClick = (pageNumber) => {
     setPage(pageNumber);
+    window.localStorage.setItem("page", pageNumber);
+    console.log(customerData);
   };
 
   const pageGen = () => {
@@ -207,6 +317,8 @@ function Prospect() {
     if (customerData.status === "Pending") {
       switch (page) {
         case 0:
+          return <div>Loading...</div>;
+        case 1:
           return (
             <div>
               <form onSubmit={handleSubmit}>
@@ -429,7 +541,7 @@ function Prospect() {
                     <label className="inline normal">Transmitters: </label>
                     <input
                       name="transmitters"
-                      onChange={handleChange}
+                      onChange={handleSpecialChange}
                       className="inputText short"
                       type="number"
                       defaultValue={customerData.transmitters}
@@ -438,7 +550,7 @@ function Prospect() {
                   <label>Spares Transmitters: </label>
                   <input
                     name="sparesTransmitters"
-                    onChange={handleChange}
+                    onChange={handleSpecialChange}
                     className="inputText"
                     type="number"
                     defaultValue={customerData.sparesTransmitters}
@@ -449,7 +561,7 @@ function Prospect() {
                     <label className="inline normal">CMSs: </label>
                     <input
                       name="CMSs"
-                      onChange={handleChange}
+                      onChange={handleSpecialChange}
                       className="inputText short"
                       type="number"
                       defaultValue={customerData.CMSs}
@@ -458,7 +570,7 @@ function Prospect() {
                   <label>Headless CMSs: </label>
                   <input
                     name="headlessCMSs"
-                    onChange={handleChange}
+                    onChange={handleSpecialChange}
                     className="inputText"
                     type="number"
                     defaultValue={customerData.headlessCMSs}
@@ -469,7 +581,7 @@ function Prospect() {
                     <label className="inline normal">MEDs: </label>
                     <input
                       name="MEDs"
-                      onChange={handleChange}
+                      onChange={handleSpecialChange}
                       className="inputText short"
                       type="number"
                       defaultValue={customerData.MEDs}
@@ -487,11 +599,7 @@ function Prospect() {
                 <br />
                 <label>Contacts: </label>
                 {customerData.contacts.map((contact, index) => (
-                  <div
-                    key={`${index}-${contact.name}`}
-                    id={index}
-                    onChange={handleIncreasableArrayChange}
-                  >
+                  <div key={`${index}-${contact.name}`} id={index}>
                     <label>Name: </label>
                     <input
                       name="name"
@@ -499,6 +607,7 @@ function Prospect() {
                       className="inputText"
                       type="text"
                       value={contact.name}
+                      onChange={handleIncreasableArrayChange}
                     />
                     <label>Email: </label>
                     <input
@@ -507,6 +616,7 @@ function Prospect() {
                       className="inputText"
                       type="email"
                       value={contact.email}
+                      onChange={handleIncreasableArrayChange}
                     />
                     <label>Phone: </label>
                     <input
@@ -517,6 +627,7 @@ function Prospect() {
                       value={contact.phone}
                       pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                       maxLength={12}
+                      onChange={handleIncreasableArrayChange}
                     />
                   </div>
                 ))}
@@ -524,60 +635,295 @@ function Prospect() {
               </form>
             </div>
           );
-        case 1:
+        case 2:
           return (
             <div>
-              {/* <form onSubmit={handleSubmit}>
-                <label>Contacts: </label>
-                {
-                  customerData.contacts.map((contact, index) => {
-                    return (
-                      <div key={index} onChange={handleContactChange}>
-                        <label>Name: </label>
-                        <input
-                          name="name"
-                          id="contacts"
-                          className="inputText"
-                          type="text"
-                          defaultValue={contact.name}
-                        ></input>
-                        <label>Email: </label>
-                        <input
-                          name="email"
-                          id="contacts"
-                          className="inputText"
-                          type="email"
-                          defaultValue={contact.email}
-                        ></input>
-                        <label>Phone: </label>
-                        <input
-                          name="phone"
-                          id="contacts"
-                          className="inputText"
-                          type="tel"
-                          defaultValue={contact.phone}
-                          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                          maxLength={12}
-                        ></input>
-                      </div>
-                    );
-                  })
-                }
-
+              <h1>Rooms</h1>
+              <form onSubmit={handleSubmit}>
+                <label>Room List: </label>
+                {customerData.roomList.map((room, index2) => (
+                  <div
+                    key={`${index2}-roomList`}
+                    name={`${index2}-roomList`}
+                    id={index2}
+                  >
+                    <input
+                      name="room"
+                      id="roomList"
+                      className="inputText"
+                      type="text"
+                      value={room.room}
+                      onChange={handleIncreasableUpdatableArrayChange}
+                    />
+                  </div>
+                ))}
                 <button>Save Changes</button>
-              </form> */}
+              </form>
             </div>
           );
-        case 2:
-          return <div></div>;
         case 3:
-          return <div></div>;
-        case 4:
-          return <div></div>;
-        default:
           return (
             <div>
-              <h1>Facility Info</h1>
+              <h1>Equipment</h1>
+              <form onSubmit={handleSubmit}>
+                <label>CMS: </label>
+                {customerData.CMSAssembly.map((CMS, index) => (
+                  <div
+                    key={`${index}-CMSAssembly`}
+                    name={`${index}-CMSAssembly`}
+                    id={index}
+                  >
+                    <input
+                      name="CMSID"
+                      id="CMSAssembly"
+                      className="inputText"
+                      key={`${index}-CMSID`}
+                      type="text"
+                      value={CMS.CMSID}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="assembled"
+                      id="CMSAssembly"
+                      className="inputText"
+                      key={`${index}-assembled`}
+                      type="checkbox"
+                      checked={CMS.assembled}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="configured"
+                      id="CMSAssembly"
+                      className="inputText"
+                      key={`${index}-configured`}
+                      type="checkbox"
+                      checked={CMS.configured}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="wifiMacAddress"
+                      id="CMSAssembly"
+                      className="inputText"
+                      key={`${index}-wifiMacAddress`}
+                      type="text"
+                      value={CMS.wifiMacAddress}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="ethernetMacAddress"
+                      id="CMSAssembly"
+                      className="inputText"
+                      key={`${index}-ethernetMacAddress`}
+                      type="text"
+                      value={CMS.ethernetMacAddress}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="assetID"
+                      id="CMSAssembly"
+                      className="inputText"
+                      key={`${index}-assetID`}
+                      type="text"
+                      value={CMS.assetID}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="frequency"
+                      id="CMSAssembly"
+                      className="inputText"
+                      key={`${index}-frequency`}
+                      type="text"
+                      value={CMS.frequency}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="qualityAssured"
+                      id="CMSAssembly"
+                      className="inputText"
+                      key={`${index}-qualityAssured`}
+                      type="checkbox"
+                      checked={CMS.qualityAssured}
+                      onChange={handleArrayChange}
+                    />
+                  </div>
+                ))}
+                <br />
+                <label>Transmitters: </label>
+                {customerData.transmitterAssembly.map((transmitter, index) => (
+                  <div
+                    key={`${index}-transmitterAssembly`}
+                    name={`${index}-transmitterAssembly`}
+                    id={index}
+                  >
+                    <input
+                      name="serialNumber"
+                      id="transmitterAssembly"
+                      className="inputText"
+                      key={`${index}-serialNumber`}
+                      type="text"
+                      value={transmitter.serialNumber}
+                      onChange={handleArrayChange}
+                    />
+                    {/* <input
+                      name="room"
+                      id="transmitterAssembly"
+                      className="inputText"
+                      key={`${index}-room`}
+                      type="text"
+                      value={transmitter.room}
+                      onChange={handleArrayChange}
+                    /> */}
+                    {/* dropdown below */}
+                    <label>Room: </label>
+                    <select
+                      name="room"
+                      onChange={handleArrayChange}
+                      className="inputText"
+                      type="text"
+                      value={transmitter.room}
+                      key={`${index}-room`}
+                      id="transmitterAssembly"
+                    >
+                      {/* <option value="Select Room">Select Room</option> */}
+                      {customerData.roomList.map((room, index1) => (
+                        <option
+                          name="room"
+                          id="transmitterAssembly"
+                          key={`${index}-room-${index1}-${room.room}`}
+                          className="inputText"
+                          type="text"
+                          value={room.room}
+                        >
+                          {room.room}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      name="assetTag"
+                      id="transmitterAssembly"
+                      className="inputText"
+                      key={`${index}-assetTag`}
+                      type="text"
+                      value={transmitter.assetTag}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="bracket"
+                      id="transmitterAssembly"
+                      className="inputText"
+                      key={`${index}-bracket`}
+                      type="text"
+                      value={transmitter.bracket}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="configured"
+                      id="transmitterAssembly"
+                      className="inputText"
+                      key={`${index}-configured`}
+                      type="checkbox"
+                      checked={transmitter.configured}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="labeled"
+                      id="transmitterAssembly"
+                      className="inputText"
+                      key={`${index}-labeled`}
+                      type="checkbox"
+                      checked={transmitter.labeled}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="tested"
+                      id="transmitterAssembly"
+                      className="inputText"
+                      key={`${index}-tested`}
+                      type="checkbox"
+                      checked={transmitter.tested}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="qualityAssured"
+                      id="transmitterAssembly"
+                      className="inputText"
+                      key={`${index}-qualityAssured`}
+                      type="checkbox"
+                      checked={transmitter.qualityAssured}
+                      onChange={handleArrayChange}
+                    />
+                  </div>
+                ))}
+                <br />
+                <label>MEDs: </label>
+                {customerData.MEDAsssembly.map((MED, index) => (
+                  <div
+                    key={`${index}-MEDAssembly`}
+                    name={`${index}-MEDAssembly`}
+                    id={index}
+                  >
+                    <input
+                      name="MEDID"
+                      id="MEDAssembly"
+                      className="inputText"
+                      key={`${index}-MEDID`}
+                      type="text"
+                      value={MED.MEDID}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="configured"
+                      id="MEDAssembly"
+                      className="inputText"
+                      key={`${index}-configured`}
+                      type="checkbox"
+                      checked={MED.configured}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="assetID"
+                      id="MEDAssembly"
+                      className="inputText"
+                      key={`${index}-assetID`}
+                      type="text"
+                      value={MED.assetID}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="completionDue"
+                      id="MEDAssembly"
+                      className="inputText"
+                      key={`${index}-completionDue`}
+                      type="datetime-local"
+                      value={MED.completionDue}
+                      onChange={handleArrayChange}
+                    />
+                    <input
+                      name="qualityAssured"
+                      id="MEDAssembly"
+                      className="inputText"
+                      key={`${index}-qualityAssured`}
+                      type="checkbox"
+                      checked={MED.qualityAssured}
+                      onChange={handleArrayChange}
+                    />
+                  </div>
+                ))}
+                <button>Save Changes</button>
+              </form>
+            </div>
+          );
+        case 4:
+          return <div></div>;
+        case 5:
+          return <div></div>;
+        case 6:
+          return <div></div>;
+        default:
+          console.log(page);
+          return (
+            <div>
+              <h1>Facility Info...</h1>
             </div>
           );
       }
@@ -589,14 +935,15 @@ function Prospect() {
       <div className="sidebar">
         <Sidebar>
           <Menu>
-            <MenuItem onClick={() => handleClick(0)}> Facility Info </MenuItem>
-            <MenuItem onClick={() => handleClick(1)}> Equipment </MenuItem>
-            <MenuItem onClick={() => handleClick(2)}>
+            <MenuItem onClick={() => handleClick(1)}> Facility Info </MenuItem>
+            <MenuItem onClick={() => handleClick(2)}> Rooms </MenuItem>
+            <MenuItem onClick={() => handleClick(3)}> Equipment </MenuItem>
+            <MenuItem onClick={() => handleClick(4)}>
               {" "}
               Quality Assurance{" "}
             </MenuItem>
-            <MenuItem onClick={() => handleClick(3)}> Shipping </MenuItem>
-            <MenuItem onClick={() => handleClick(4)}> Installation </MenuItem>
+            <MenuItem onClick={() => handleClick(5)}> Shipping </MenuItem>
+            <MenuItem onClick={() => handleClick(6)}> Installation </MenuItem>
           </Menu>
         </Sidebar>
       </div>
