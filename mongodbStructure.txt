@@ -68,6 +68,8 @@ Location
   "RoomID": "String",
   "LocationID": "String",
   "LocationSN": "String",
+  "HasExtDC": false, Location has an external DC power source
+  "HasNC": false, Location has a Nurse Call adapter
   "ServiceHistory": "String",
   "Spare": "Boolean",
   "Portable": "Boolean"

@@ -23,6 +23,7 @@ function Login() {
       const response = await axios.post('http://127.0.0.1:5000/login', { username, password });
       const { token } = response.data;
       localStorage.setItem('token', token);
+      localStorage.setItem('user', username);
       navigator('/home');
     } catch (error) {
       setError('Invalid email or password');
@@ -36,7 +37,7 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username:</label>
-          {/* TODO: Switch to required fields and validation, and implement on server side too */}
+          {/* TODO: Switch to required fields and validation*/}
           {/* <input type="string" value={username} onChange={handleUsernameChange} required /> */}
           <input type="string" value={username} onChange={handleUsernameChange} />
         </div>

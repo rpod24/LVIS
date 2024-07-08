@@ -138,35 +138,53 @@ async def create_ticket():
 @app.route("/tickets")
 # @authenticate(TokenManager.ValidationLevel.USER)
 async def get_tickets():
-    items = json.dumps({"error": "Unexpected Error Occured! Request: " + request.url})
-    if request.args.__len__() != 0:  # if there are args do:
-        if request.args.get("ticket", type=int) is not None:
-            return dumps(tickets.find({"ticket": request.args.get("ticket", type=int)}).limit(1))
-        elif request.args.get("p") is not None:  # todo serialize the arg to int
-            print(request.args.get("p"))
-            items = dumps(
-                tickets.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
-            )  # for selecting pages, use https://site/page?p=i where i is the page number
-            if request.args.get("search") is not None:  # todo serialize the arg to int
-                if request.args.get("search") == "":
-                    items = dumps(
-                        tickets.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
-                    )  # returns first 50 tickets in case ?p= is not in the argument
-                else:
-                    items = dumps(
-                        tickets.find({"$text": {"$search": request.args.get("search")}})
-                        .skip(int(request.args.get("p")) * PRODUCT_LIMIT)
-                        .limit(PRODUCT_LIMIT)
-                    )  # searches through the db and returns at most 50 for the current page
-        elif request.args.get("ticket") is not None:
-            items = json.dumps({"error": "Invalid Ticket Entered!"})
+    # items = json.dumps({"error": "Unexpected Error Occured! Request: " + request.url})
+    # if request.args.__len__() != 0:  # if there are args do:
+    #     if request.args.get("ticket", type=int) is not None:
+    #         return dumps(tickets.find({"ticket": request.args.get("ticket", type=int)}).limit(1))
+    #     elif request.args.get("p") is not None:  # todo serialize the arg to int
+    #         print(request.args.get("p"))
+    #         items = dumps(
+    #             tickets.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
+    #         )  # for selecting pages, use https://site/page?p=i where i is the page number
+    #         if request.args.get("search") is not None:  # todo serialize the arg to int
+    #             if request.args.get("search") == "":
+    #                 items = dumps(
+    #                     tickets.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
+    #                 )  # returns first 50 tickets in case ?p= is not in the argument
+    #             else:
+    #                 items = dumps(
+    #                     tickets.find({"$text": {"$search": request.args.get("search")}})
+    #                     .skip(int(request.args.get("p")) * PRODUCT_LIMIT)
+    #                     .limit(PRODUCT_LIMIT)
+    #                 )  # searches through the db and returns at most 50 for the current page
+    #     elif request.args.get("ticket") is not None:
+    #         items = json.dumps({"error": "Invalid Ticket Entered!"})
+    #     else:
+    #         print(request.args.get("p"))
+    # else:
+    #     items = dumps(
+    #         tickets.find().limit(PRODUCT_LIMIT)
+    #     )  # returns first 50 tickets in case ?p= is not in the argument
+    #     print(items)
+    # return items
+    items = json.dumps({"error": "Unexpected Error Occured!"})
+    search = ""
+    if request.args.__len__() != 0:
+        print(request.args)
+        if request.args.get("search") is not None and request.args.get("search") != "":
+            search = {"Name":  {"$regex": request.args.get("search"), "$options": "i"}}
+        if request.args.get("sort") is not None and request.args.get("sort") != "":
+            req = tickets.find(search).sort(json.loads(request.args.get("sort")))
         else:
-            print(request.args.get("p"))
+            req = tickets.find(search)
+        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
+            # items = dumps(req.skip(int(request.args.get("p")) * 50).limit(50))
+            items = dumps(req.limit(50))
+        else:
+            items = dumps(req.limit(50))
     else:
-        items = dumps(
-            tickets.find().limit(PRODUCT_LIMIT)
-        )  # returns first 50 tickets in case ?p= is not in the argument
-        print(items)
+        items = dumps(tickets.find())
     return items
 
 @app.route("/tickets/<ticket_id>", methods=["DELETE"])
@@ -188,17 +206,18 @@ async def get_facilities():
     if request.args.__len__() != 0:
         print(request.args)
         if request.args.get("search") is not None and request.args.get("search") != "":
-            search = {"$text": {"$search": request.args.get("search")}}
+            search = {"Name":  {"$regex": request.args.get("search"), "$options": "i"}}
         if request.args.get("sort") is not None and request.args.get("sort") != "":
             req = facilities.find(search).sort(json.loads(request.args.get("sort")))
         else:
             req = facilities.find(search)
         if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
-            items = dumps(req.skip(int(request.args.get("p")) * 50).limit(50))
+            # items = dumps(req.skip(int(request.args.get("p")) * 50).limit(50))
+            items = dumps(req.limit(50))
         else:
             items = dumps(req.limit(50))
     else:
-        items = dumps(facilities.find().limit(50))
+        items = dumps(facilities.find())
     return items
 
 @app.route("/facility/<facility_id>")

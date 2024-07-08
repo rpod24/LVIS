@@ -77,6 +77,11 @@ function Ticket() {
         ticket[key] = formData[key];
       }
     }
+    if(!ticket.modified_by.includes(localStorage.getItem('user'))){
+      var editTicket = ticket;
+      editTicket.modified_by += `, ${localStorage.getItem('user')}`;
+      setTicket(editTicket);
+    }
     try {
       await axios.put(`http://127.0.0.1:5000/tickets?ticket=${id}`, ticket);
       // alert('Ticket updated successfully');

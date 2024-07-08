@@ -1,0 +1,131 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
+use('Customers');
+
+// Create a new document in the collection.
+db.getCollection('customers').insertOne({
+    "facilityName": "Current Filled Facility",
+    "state": "",
+    "city": "",
+    "zip": "",
+    "address": "",
+    "phone": "",
+    "facilityID": "",
+    "product": "REA",
+    "productVersion": 1.5,
+    "installationDate": "",
+    "stagingDeadline": "",
+    "assemblyDeadline": "",
+    "assemblyDate": "",
+    "QADate": "",
+    "shippingDate": "",
+    "transmitters": 0,
+    "sparesTransmitters": 0,
+    "CMSs": 0,
+    "headlessCMSs": 0,
+    "MEDs": 0,
+    "mounts": 0,
+    "displays": [
+      {
+        "display": "TechDisplay",
+        "quantity": 0,
+        "size": 27
+      },
+      {
+        "display": "TechDisplay",
+        "quantity": 0,
+        "size": 29
+      },
+      {
+        "display": "TechDisplay",
+        "quantity": 0,
+        "size": 31
+      }
+    ],
+    "contacts": [
+      {
+        "name": "",
+        "email": "",
+        "phone": ""
+      }
+    ],
+    "notes": [],
+    "website": "",
+    "wifi": [
+      {
+        "ssid": "",
+        "password": ""
+      }
+    ],
+    "facilityMapURL": [
+      ""
+    ],
+    "mapHasCMS": true,
+    "mapLayoutPhoto": [
+      ""
+    ],
+    "powerCables": [],
+    "roomList": [
+      {
+        "room": ""
+      }
+    ],
+    "transmitterSketch": "",
+    "CMSDisplaySoftwareFile": "",
+    "radioSoftwareFile": "",
+    "radioType": "",
+    "MEDModel": "",
+    "MEDSoftwareVersion": 0,
+    "normallyOpen": false,
+    "nextStep": "None",
+    "CMSAssembly": [],
+    "MEDAsssembly": [],
+    "transmitterAssembly": [],
+    "qualityAssurance": {
+      "preshipping": [],
+      "followUp": []
+    },
+    "qualityAssuranceDate": "",
+    "qaApprovedStaffMember": "",
+    "shippingMethod": "",
+    "shippingChecklistItems": {
+      "quantityOfTransmitters": 0,
+      "quantityOfiQMounts": 0,
+      "quantityOfCMSs": 0,
+      "quantityOfHeadlessCMSs": 0,
+      "quantityOfMEDs": 0,
+      "numberOfChargers": 0,
+      "quantityOfDisplays": {},
+      "mountTypesIncluded": {
+        "wall": 0,
+        "articulating": 0,
+        "floor": 0
+      },
+      "cordsIncluded": {},
+      "hardwareIncluded": false,
+      "batteriesIncluded": false,
+      "securityScrewIncluded": false,
+      "documentationIncluded": false,
+      "installGuideIncluded": false
+    },
+    "trackingNumbers": [],
+    "shipDate": "",
+    "contractInfo": {
+      "vent": "",
+      "rent": false,
+      "installationDates": {
+        "start": "",
+        "end": ""
+      },
+      "warrentyEnd": "",
+      "rentalEnd": "",
+      "endOfFirmco": "",
+      "endOfServiceContract": "",
+      "owner": "",
+      "contractWith": "",
+      "contractSigned": false
+    },
+    "status": "Pending"
+  });

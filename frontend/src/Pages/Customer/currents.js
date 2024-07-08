@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import "../../PageCSS/ViewTickets.css";
-import { useNavigate } from "react-router-dom";
-function Prospects() {
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import '../../PageCSS/ViewTickets.css'
+import { useNavigate } from 'react-router-dom';
+function Currents() {
   const [facilities, setFacilitys] = useState([]);
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,44 +15,34 @@ function Prospects() {
 
   const fetchFacilitys = async (page, searchTerm) => {
     try {
-      const currentPageResponse = await axios.get(
-        `http://127.0.0.1:5000/customers?p=${page}&search=${searchTerm}`
-      );
-      const nextPageResponse = await axios.get(
-        `http://127.0.0.1:5000/customers?p=${page + 1}&search=${searchTerm}`
-      );
+      const currentPageResponse = await axios.get(`http://127.0.0.1:5000/customers?p=${page}&search=${searchTerm}`);
+      const nextPageResponse = await axios.get(`http://127.0.0.1:5000/customers?p=${page + 1}&search=${searchTerm}`);
 
-      if (
-        Array.isArray(currentPageResponse.data) &&
-        currentPageResponse.data.length > 0
-      ) {
+      if (Array.isArray(currentPageResponse.data) && currentPageResponse.data.length > 0) {
         setFacilitys(currentPageResponse.data);
-        setHasNextPage(
-          Array.isArray(nextPageResponse.data) &&
-            nextPageResponse.data.length > 0
-        );
+        setHasNextPage(Array.isArray(nextPageResponse.data) && nextPageResponse.data.length > 0);
       } else {
         setFacilitys([]);
         setHasNextPage(false);
       }
     } catch (error) {
-      console.error("There was an error fetching the Facility data!", error);
+      console.error('There was an error fetching the Facility data!', error);
     }
   };
 
   const handleRowClick = (facility) => {
-    navigate("/Customer/" + facility);
+    navigate('/Customer/'+facility);
   };
 
   const handleNextPage = () => {
     if (hasNextPage) {
-      setPage((prevPage) => prevPage + 1);
+      setPage(prevPage => prevPage + 1);
     }
   };
 
   const handlePreviousPage = () => {
     if (page > 0) {
-      setPage((prevPage) => prevPage - 1);
+      setPage(prevPage => prevPage - 1);
     }
   };
 
@@ -65,13 +55,6 @@ function Prospects() {
     <div className="ViewTickets">
       <header className="ViewTickets-header">
         <h1>View Facilities</h1>
-        <button
-          onClick={() => {
-            navigate("/Customer/New");
-          }}
-        >
-          New Prospect
-        </button>
         <input
           type="text"
           placeholder="Search..."
@@ -87,6 +70,7 @@ function Prospects() {
             <th>Product</th>
             <th>Version</th>
             <th>Install Date</th>
+            <th>Ship Date</th>
             <th>Has Room Numbers</th>
             <th>Has Wifi</th>
             <th>Next Step</th>
@@ -96,7 +80,7 @@ function Prospects() {
           {facilities
             .filter((facility) => {
               console.log(facility);
-              return facility.status == "Pending" ? facility : null;
+              return facility.status == "Active"? facility : null;
             })
             .map((facility) => (
               <tr
@@ -128,4 +112,4 @@ function Prospects() {
   );
 }
 
-export default Prospects;
+export default Currents;

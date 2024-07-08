@@ -97,7 +97,7 @@
             ]
         }
     ],
-    "MEDAsssembly": [
+    "MEDAssembly": [
         {
             "MEDID": "",
             "configured": false,
@@ -140,7 +140,7 @@
         "quantityOfHeadlessCMSs": 0,
         "quantityOfMEDs": 0,
         "numberOfChargers": 0,
-        "quantityOfDisplays": {},
+        "quantityOfDisplays": 0,
         "mountTypesIncluded": {
             "wall": 0,
             "articulating": 0,

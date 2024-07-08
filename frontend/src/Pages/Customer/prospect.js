@@ -47,7 +47,7 @@ function Prospect() {
     normallyOpen: false,
     nextStep: "",
     CMSAssembly: [],
-    MEDAsssembly: [],
+    MEDAssembly: [],
     transmitterAssembly: [],
     qualityAssurance: {
       preshipping: [
@@ -68,27 +68,25 @@ function Prospect() {
     qualityAssuranceDate: "",
     qaApprovedStaffMember: "",
     shippingMethod: "",
-    shippingChecklistItems: {
-      quantityOfTransmitters: 0,
-      quantityOfiQMounts: 0,
-      quantityOfCMSs: 0,
-      quantityOfHeadlessCMSs: 0,
-      quantityOfMEDs: 0,
-      numberOfChargers: 0,
-      quantityOfDisplays: {},
-      mountTypesIncluded: {
-        wall: 0,
-        articulating: 0,
-        floor: 0,
-      },
-      cordsIncluded: {},
-      hardwareIncluded: false,
-      batteriesIncluded: false,
-      securityScrewIncluded: false,
-      documentationIncluded: false,
-      installGuideIncluded: false,
+    quantityOfTransmitters: 0,
+    quantityOfiQMounts: 0,
+    quantityOfCMSs: 0,
+    quantityOfHeadlessCMSs: 0,
+    quantityOfMEDs: 0,
+    numberOfChargers: 0,
+    quantityOfDisplays: 0,
+    mountTypesIncluded: {
+      wall: 0,
+      articulating: 0,
+      floor: 0,
     },
-    trackingNumbers: [],
+    cordsIncluded: {},
+    hardwareIncluded: false,
+    batteriesIncluded: false,
+    securityScrewIncluded: false,
+    documentationIncluded: false,
+    installGuideIncluded: false,
+    trackingNumbers: [{ number: "123456" }],
     shipDate: "",
     contractInfo: {
       vent: "",
@@ -179,54 +177,48 @@ function Prospect() {
     var arr = null;
     var val = null;
     switch (name) {
-      default:
-        return;
       case "transmitters":
         newEl = TRANSMITTER;
         arr = customerData.transmitterAssembly;
-        val = Number(value)+Number(customerData.sparesTransmitters);
+        val = Number(value) + Number(customerData.sparesTransmitters);
         break;
       case "sparesTransmitters":
         newEl = TRANSMITTER;
         arr = customerData.transmitterAssembly;
-        val = Number(value)+Number(customerData.transmitters);
+        val = Number(value) + Number(customerData.transmitters);
         break;
       case "CMSs":
         newEl = CMS;
         arr = customerData.CMSAssembly;
-        val = Number(value)+Number(customerData.headlessCMSs);
+        val = Number(value) + Number(customerData.headlessCMSs);
         break;
       case "headlessCMSs":
         newEl = CMS;
         arr = customerData.CMSAssembly;
-        val = Number(value)+Number(customerData.CMSs);
+        val = Number(value) + Number(customerData.CMSs);
         break;
       case "MEDs":
         newEl = MED;
-        arr = customerData.MEDAsssembly;
+        arr = customerData.MEDAssembly;
         val = Number(value);
         break;
+        default:
+          return;
     }
+    console.log(customerData);
+    console.log(customerData.MEDAssembly);
+    console.log(name);
     console.log(arr);
     console.log(val);
     console.log(arr.length);
     console.log(newEl);
     console.log(value);
     if (val > arr.length) {
-      for (
-        var i = arr.length;
-        i <= val;
-        i++
-      ) {
+      for (var i = arr.length; i <= val; i++) {
         arr.push(newEl);
       }
-    }
-    else if (val < arr.length) {
-      for (
-        var i = arr.length;
-        i > val;
-        i--
-      ) {
+    } else if (val < arr.length) {
+      for (var i = arr.length; i > val; i--) {
         arr.pop();
       }
     }
@@ -311,10 +303,11 @@ function Prospect() {
   };
 
   const pageGen = () => {
+    console.log();
     if (customerData === null) {
       return <div>Loading...</div>;
     }
-    if (customerData.status === "Pending") {
+    if (customerData.status === "Pending" || customerData.status === "Active") {
       switch (page) {
         case 0:
           return <div>Loading...</div>;
@@ -339,6 +332,7 @@ function Prospect() {
                   type="text"
                   defaultValue={customerData.state}
                 >
+                  <option value="AL">Select One</option>
                   <option value="AL">Alabama</option>
                   <option value="AK">Alaska</option>
                   <option value="AZ">Arizona</option>
@@ -427,6 +421,15 @@ function Prospect() {
                   maxLength={12}
                 ></input>
                 <br />
+                <label>Website: </label>
+                <input
+                  name="website"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="url"
+                  defaultValue={customerData.website}
+                ></input>
+                <br />
                 <label>Product: </label>
                 <select
                   name="product"
@@ -477,6 +480,7 @@ function Prospect() {
                   type="text"
                   defaultValue={customerData.facilityID}
                 ></input>
+                <br />
                 <br />
                 <label>Installation Date: </label>
                 <input
@@ -599,7 +603,7 @@ function Prospect() {
                 <br />
                 <label>Contacts: </label>
                 {customerData.contacts.map((contact, index) => (
-                  <div key={`${index}-${contact.name}`} id={index}>
+                  <div key={`${index}-contact.name`} id={index}>
                     <label>Name: </label>
                     <input
                       name="name"
@@ -631,281 +635,669 @@ function Prospect() {
                     />
                   </div>
                 ))}
+                <br />
+                <label>Next Step: </label>
+                <input
+                  name="nextStep"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="text"
+                  defaultValue={customerData.nextStep}
+                ></input>
+                <br />
+                <br />
                 <button>Save Changes</button>
               </form>
             </div>
           );
+
         case 2:
           return (
             <div>
               <h1>Rooms</h1>
               <form onSubmit={handleSubmit}>
-                <label>Room List: </label>
-                {customerData.roomList.map((room, index2) => (
-                  <div
-                    key={`${index2}-roomList`}
-                    name={`${index2}-roomList`}
-                    id={index2}
-                  >
-                    <input
-                      name="room"
-                      id="roomList"
-                      className="inputText"
-                      type="text"
-                      value={room.room}
-                      onChange={handleIncreasableUpdatableArrayChange}
-                    />
-                  </div>
-                ))}
+                <table>
+                  <thead>
+                    <th>Room List</th>
+                    <th>Room Number</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Room List: </label>
+                      </td>
+                      <td>
+                        {customerData.roomList.map((room, index2) => (
+                          <div
+                            key={`${index2}-roomList`}
+                            name={`${index2}-roomList`}
+                            id={index2}
+                          >
+                            <input
+                              name="room"
+                              id="roomList"
+                              className="inputText"
+                              type="text"
+                              value={room.room}
+                              onChange={handleIncreasableUpdatableArrayChange}
+                            />
+                          </div>
+                        ))}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
                 <button>Save Changes</button>
               </form>
             </div>
           );
+
         case 3:
           return (
             <div>
               <h1>Equipment</h1>
               <form onSubmit={handleSubmit}>
-                <label>CMS: </label>
-                {customerData.CMSAssembly.map((CMS, index) => (
-                  <div
-                    key={`${index}-CMSAssembly`}
-                    name={`${index}-CMSAssembly`}
-                    id={index}
-                  >
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Equipment</th>
+                      <th>Assembled</th>
+                      <th>Configured</th>
+                      <th>Wifi MAC Address</th>
+                      <th>Ethernet MAC Address</th>
+                      <th>Asset ID</th>
+                      <th>Frequency</th>
+                      <th>Quality Assured</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {customerData.CMSAssembly.map((CMS, index) => (
+                      <tr
+                        key={`${index}-CMSAssembly`}
+                        name={`${index}-CMSAssembly`}
+                        id={index}
+                      >
+                        <td>
+                          <label>CMS: </label>
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="assembled"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="checkbox"
+                            checked={CMS.assembled}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="configured"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="checkbox"
+                            checked={CMS.configured}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="wifiMacAddress"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.wifiMacAddress}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="ethernetMacAddress"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.ethernetMacAddress}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="assetID"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.assetID}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="frequency"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.frequency}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="qualityAssured"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="checkbox"
+                            checked={CMS.qualityAssured}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Transmitters</th>
+                      <th>Serial Number</th>
+                      <th>Room</th>
+                      <th>Asset Tag</th>
+                      <th>Bracket</th>
+                      <th>Configured</th>
+                      <th>Labeled</th>
+                      <th>Tested</th>
+                      <th>Quality Assured</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {customerData.transmitterAssembly.map(
+                      (transmitter, index) => (
+                        <tr
+                          key={`${index}-transmitterAssembly`}
+                          name={`${index}-transmitterAssembly`}
+                          id={index}
+                        >
+                          <td>
+                            <label>Transmitters: </label>
+                          </td>
+                          <td id={index}>
+                            <input
+                              name="serialNumber"
+                              id="transmitterAssembly"
+                              className="inputText"
+                              type="text"
+                              value={transmitter.serialNumber}
+                              onChange={handleArrayChange}
+                            />
+                          </td>
+                          <td id={index}>
+                            <label>Room: </label>
+                            <select
+                              name="room"
+                              onChange={handleArrayChange}
+                              className="inputText"
+                              value={transmitter.room}
+                              id="transmitterAssembly"
+                            >
+                              {customerData.roomList.map((room, index1) => (
+                                <option
+                                  key={`${index}-room-${index1}-${room.room}`}
+                                  className="inputText"
+                                  value={room.room}
+                                >
+                                  {room.room}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td id={index}>
+                            <input
+                              name="assetTag"
+                              id="transmitterAssembly"
+                              className="inputText"
+                              type="text"
+                              value={transmitter.assetTag}
+                              onChange={handleArrayChange}
+                            />
+                          </td>
+                          <td id={index}>
+                            <input
+                              name="bracket"
+                              id="transmitterAssembly"
+                              className="inputText"
+                              type="text"
+                              value={transmitter.bracket}
+                              onChange={handleArrayChange}
+                            />
+                          </td>
+                          <td id={index}>
+                            <input
+                              name="configured"
+                              id="transmitterAssembly"
+                              className="inputText"
+                              type="checkbox"
+                              checked={transmitter.configured}
+                              onChange={handleArrayChange}
+                            />
+                          </td>
+                          <td id={index}>
+                            <input
+                              name="labeled"
+                              id="transmitterAssembly"
+                              className="inputText"
+                              type="checkbox"
+                              checked={transmitter.labeled}
+                              onChange={handleArrayChange}
+                            />
+                          </td>
+                          <td id={index}>
+                            <input
+                              name="tested"
+                              id="transmitterAssembly"
+                              className="inputText"
+                              type="checkbox"
+                              checked={transmitter.tested}
+                              onChange={handleArrayChange}
+                            />
+                          </td>
+                          <td id={index}>
+                            <input
+                              name="qualityAssured"
+                              id="transmitterAssembly"
+                              className="inputText"
+                              type="checkbox"
+                              checked={transmitter.qualityAssured}
+                              onChange={handleArrayChange}
+                            />
+                          </td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+
+                <table>
+                  <thead>
+                    <tr>
+                      <th>MEDs</th>
+                      <th>MED ID</th>
+                      <th>Configured</th>
+                      <th>Asset ID</th>
+                      <th>Completion Due</th>
+                      <th>Quality Assured</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {customerData.MEDAssembly.map((MED, index) => (
+                      <tr
+                        key={`${index}-MEDAssembly`}
+                        name={`${index}-MEDAssembly`}
+                        id={index}
+                      >
+                        <td id={index}>
+                          <label>MEDs: </label>
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="MEDID"
+                            id="MEDAssembly"
+                            className="inputText"
+                            type="text"
+                            value={MED.MEDID}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="configured"
+                            id="MEDAssembly"
+                            className="inputText"
+                            type="checkbox"
+                            key={index}
+                            checked={MED.configured}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="assetID"
+                            id="MEDAssembly"
+                            className="inputText"
+                            type="text"
+                            key={index}
+                            value={MED.assetID}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="completionDue"
+                            id="MEDAssembly"
+                            className="inputText"
+                            type="datetime-local"
+                            key={index}
+                            value={MED.completionDue}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="qualityAssured"
+                            id="MEDAssembly"
+                            className="inputText"
+                            type="checkbox"
+                            key={index}
+                            checked={MED.qualityAssured}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <label>Wifi: </label>
+                {customerData.wifi.map((wifi, index) => (
+                  <div key={`${index}-wifi`} id={index}>
+                    <label>SSID: </label>
                     <input
-                      name="CMSID"
-                      id="CMSAssembly"
+                      name="ssid"
+                      id="wifi"
                       className="inputText"
-                      key={`${index}-CMSID`}
                       type="text"
-                      value={CMS.CMSID}
-                      onChange={handleArrayChange}
+                      value={wifi.ssid}
+                      onChange={handleIncreasableArrayChange}
                     />
+                    <label>Password: </label>
                     <input
-                      name="assembled"
-                      id="CMSAssembly"
+                      name="password"
+                      id="wifi"
                       className="inputText"
-                      key={`${index}-assembled`}
-                      type="checkbox"
-                      checked={CMS.assembled}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="configured"
-                      id="CMSAssembly"
-                      className="inputText"
-                      key={`${index}-configured`}
-                      type="checkbox"
-                      checked={CMS.configured}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="wifiMacAddress"
-                      id="CMSAssembly"
-                      className="inputText"
-                      key={`${index}-wifiMacAddress`}
                       type="text"
-                      value={CMS.wifiMacAddress}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="ethernetMacAddress"
-                      id="CMSAssembly"
-                      className="inputText"
-                      key={`${index}-ethernetMacAddress`}
-                      type="text"
-                      value={CMS.ethernetMacAddress}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="assetID"
-                      id="CMSAssembly"
-                      className="inputText"
-                      key={`${index}-assetID`}
-                      type="text"
-                      value={CMS.assetID}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="frequency"
-                      id="CMSAssembly"
-                      className="inputText"
-                      key={`${index}-frequency`}
-                      type="text"
-                      value={CMS.frequency}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="qualityAssured"
-                      id="CMSAssembly"
-                      className="inputText"
-                      key={`${index}-qualityAssured`}
-                      type="checkbox"
-                      checked={CMS.qualityAssured}
-                      onChange={handleArrayChange}
+                      value={wifi.password}
+                      onChange={handleIncreasableArrayChange}
                     />
                   </div>
                 ))}
-                <br />
-                <label>Transmitters: </label>
-                {customerData.transmitterAssembly.map((transmitter, index) => (
-                  <div
-                    key={`${index}-transmitterAssembly`}
-                    name={`${index}-transmitterAssembly`}
-                    id={index}
-                  >
-                    <input
-                      name="serialNumber"
-                      id="transmitterAssembly"
-                      className="inputText"
-                      key={`${index}-serialNumber`}
-                      type="text"
-                      value={transmitter.serialNumber}
-                      onChange={handleArrayChange}
-                    />
-                    {/* <input
-                      name="room"
-                      id="transmitterAssembly"
-                      className="inputText"
-                      key={`${index}-room`}
-                      type="text"
-                      value={transmitter.room}
-                      onChange={handleArrayChange}
-                    /> */}
-                    {/* dropdown below */}
-                    <label>Room: </label>
-                    <select
-                      name="room"
-                      onChange={handleArrayChange}
-                      className="inputText"
-                      type="text"
-                      value={transmitter.room}
-                      key={`${index}-room`}
-                      id="transmitterAssembly"
-                    >
-                      {/* <option value="Select Room">Select Room</option> */}
-                      {customerData.roomList.map((room, index1) => (
-                        <option
-                          name="room"
-                          id="transmitterAssembly"
-                          key={`${index}-room-${index1}-${room.room}`}
+                <label>Transmitter Sketch: </label>
+                <input
+                  name="transmitterSketch"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="text"
+                  defaultValue={customerData.transmitterSketch}
+                ></input>
+                <label>CMS Display Software File: </label>
+                <input
+                  name="CMSDisplaySoftwareFile"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="text"
+                  defaultValue={customerData.CMSDisplaySoftwareFile}
+                ></input>
+                <label>Radio Software File: </label>
+                <input
+                  name="radioSoftwareFile"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="text"
+                  defaultValue={customerData.radioSoftwareFile}
+                ></input>
+                <label>Radio Type: </label>
+                <input
+                  name="radioType"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="text"
+                  defaultValue={customerData.radioType}
+                ></input>
+                <label>MED Model: </label>
+                <input
+                  name="MEDModel"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="text"
+                  defaultValue={customerData.MEDModel}
+                ></input>
+                <label>MED Software Version: </label>
+                <input
+                  name="MEDSoftwareVersion"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.MEDSoftwareVersion}
+                ></input>
+                <label>Normally Open: </label>
+                <input
+                  name="normallyOpen"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="checkbox"
+                  checked={customerData.normallyOpen}
+                ></input>
+                <br></br>
+                <button>Save Changes</button>
+              </form>
+            </div>
+          );
+
+        case 4:
+          return <div>4</div>;
+
+        case 5:
+          return (
+            <div>
+              <form onSubmit={handleSubmit}>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Shipping Method: </label>
+                      </td>
+                      <td>
+                        <input
+                          name="shippingMethod"
+                          onChange={handleChange}
                           className="inputText"
                           type="text"
-                          value={room.room}
-                        >
-                          {room.room}
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      name="assetTag"
-                      id="transmitterAssembly"
-                      className="inputText"
-                      key={`${index}-assetTag`}
-                      type="text"
-                      value={transmitter.assetTag}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="bracket"
-                      id="transmitterAssembly"
-                      className="inputText"
-                      key={`${index}-bracket`}
-                      type="text"
-                      value={transmitter.bracket}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="configured"
-                      id="transmitterAssembly"
-                      className="inputText"
-                      key={`${index}-configured`}
-                      type="checkbox"
-                      checked={transmitter.configured}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="labeled"
-                      id="transmitterAssembly"
-                      className="inputText"
-                      key={`${index}-labeled`}
-                      type="checkbox"
-                      checked={transmitter.labeled}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="tested"
-                      id="transmitterAssembly"
-                      className="inputText"
-                      key={`${index}-tested`}
-                      type="checkbox"
-                      checked={transmitter.tested}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="qualityAssured"
-                      id="transmitterAssembly"
-                      className="inputText"
-                      key={`${index}-qualityAssured`}
-                      type="checkbox"
-                      checked={transmitter.qualityAssured}
-                      onChange={handleArrayChange}
-                    />
-                  </div>
-                ))}
+                          defaultValue={customerData.shippingMethod}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Shipping Date: </label>
+                      </td>
+                      <td>
+                        <input
+                          name="shipDate"
+                          onChange={handleChange}
+                          className="inputText"
+                          type="datetime-local"
+                          step="60"
+                          defaultValue={customerData.shipDate}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Tracking Numbers: </label>
+                      </td>
+                      <td>
+                        {customerData.trackingNumbers.map((number, index) => (
+                          <div key={`${index}-trackingNumbers`} id={index}>
+                            <input
+                              name={index}
+                              id="trackingNumbers"
+                              className="inputText"
+                              type="text"
+                              value={number}
+                              onChange={handleIncreasableArrayChange}
+                            />
+                          </div>
+                        ))}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                {/* add shipping check list below: */}
+                <label>Shipping Checklist: </label>
+                <label>Quantity of Transmitters: </label>
+                <input
+                  name="quantityOfTransmitters"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.quantityOfTransmitters}
+                ></input>
+                <label>Quantity of iQ Mounts: </label>
+                <input
+                  name="quantityOfiQMounts"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.quantityOfiQMounts}
+                ></input>
+                <label>Quantity of CMSs: </label>
+                <input
+                  name="quantityOfCMSs"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.quantityOfCMSs}
+                ></input>
+                <label>Quantity of Headless CMSs: </label>
+                <input
+                  name="quantityOfHeadlessCMSs"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.quantityOfHeadlessCMSs}
+                ></input>
+                <label>Quantity of MEDs: </label>
+                <input
+                  name="quantityOfMEDs"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.quantityOfMEDs}
+                ></input>
+                <label>Number of Chargers: </label>
+                <input
+                  name="numberOfChargers"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.numberOfChargers}
+                ></input>
+                <label>Quantity of Displays: </label>
+                <input
+                  name="quantityOfDisplays"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.quantityOfDisplays}
+                ></input>
+                <label>Quantity of Articulating Mounts</label>
+                <input
+                  name="articulating"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.articulating}
+                ></input>
+                <label>Quantity of Wall Mounts</label>
+                <input
+                  name="wall"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.wall}
+                ></input>
+                <label>Quantity of Floor Mounts</label>
+                <input
+                  name="floor"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="number"
+                  defaultValue={customerData.floor}
+                ></input>
+                <label>Hardware Included</label>
+                <input
+                  name="hardwareIncluded"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="checkbox"
+                  checked={customerData.hardwareIncluded}
+                ></input>
+                <label>Batteries Included</label>
+                <input
+                  name="batteriesIncluded"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="checkbox"
+                  checked={customerData.batteriesIncluded}
+                ></input>
+                <label>Security Screw Included</label>
+                <input
+                  name="securityScrewIncluded"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="checkbox"
+                  checked={customerData.securityScrewIncluded}
+                ></input>
+                <label>Instructions Included</label>
+                <input
+                  name="documentationIncluded"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="checkbox"
+                  checked={customerData.documentationIncluded}
+                ></input>
+                <label>Installation Guide Included</label>
+                <input
+                  name="installGuideIncluded"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="checkbox"
+                  checked={customerData.installGuideIncluded}
+                ></input>
                 <br />
-                <label>MEDs: </label>
-                {customerData.MEDAsssembly.map((MED, index) => (
-                  <div
-                    key={`${index}-MEDAssembly`}
-                    name={`${index}-MEDAssembly`}
-                    id={index}
-                  >
+                <button>Save Changes</button>
+              </form>
+            </div>
+          );
+        case 5:
+          return (
+            <div>
+              <form onSubmit={handleSubmit}>
+                <label>Shipping Method: </label>
+                <input
+                  name="shippingMethod"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="text"
+                  defaultValue={customerData.shippingMethod}
+                ></input>
+                <br />
+                <label>Shipping Date: </label>
+                <input
+                  name="shipDate"
+                  onChange={handleChange}
+                  className="inputText"
+                  type="datetime-local"
+                  step="60"
+                  defaultValue={customerData.shipDate}
+                ></input>
+                <br />
+                <label>Tracking Numbers: </label>
+                {customerData.trackingNumbers.map((number, index) => (
+                  <div key={`${index}-trackingNumbers`} id={index}>
                     <input
-                      name="MEDID"
-                      id="MEDAssembly"
+                      name="number"
+                      id="trackingNumbers"
                       className="inputText"
-                      key={`${index}-MEDID`}
                       type="text"
-                      value={MED.MEDID}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="configured"
-                      id="MEDAssembly"
-                      className="inputText"
-                      key={`${index}-configured`}
-                      type="checkbox"
-                      checked={MED.configured}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="assetID"
-                      id="MEDAssembly"
-                      className="inputText"
-                      key={`${index}-assetID`}
-                      type="text"
-                      value={MED.assetID}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="completionDue"
-                      id="MEDAssembly"
-                      className="inputText"
-                      key={`${index}-completionDue`}
-                      type="datetime-local"
-                      value={MED.completionDue}
-                      onChange={handleArrayChange}
-                    />
-                    <input
-                      name="qualityAssured"
-                      id="MEDAssembly"
-                      className="inputText"
-                      key={`${index}-qualityAssured`}
-                      type="checkbox"
-                      checked={MED.qualityAssured}
-                      onChange={handleArrayChange}
+                      value={number.number}
+                      onChange={handleIncreasableArrayChange}
                     />
                   </div>
                 ))}
@@ -913,12 +1305,15 @@ function Prospect() {
               </form>
             </div>
           );
-        case 4:
-          return <div></div>;
-        case 5:
-          return <div></div>;
         case 6:
-          return <div></div>;
+          //Installations
+          return (
+            <div>
+              <form onSubmit={handleSubmit}>
+                <button>Save Changes</button>
+              </form>
+            </div>
+          );
         default:
           console.log(page);
           return (
@@ -938,10 +1333,7 @@ function Prospect() {
             <MenuItem onClick={() => handleClick(1)}> Facility Info </MenuItem>
             <MenuItem onClick={() => handleClick(2)}> Rooms </MenuItem>
             <MenuItem onClick={() => handleClick(3)}> Equipment </MenuItem>
-            <MenuItem onClick={() => handleClick(4)}>
-              {" "}
-              Quality Assurance{" "}
-            </MenuItem>
+            {/* <MenuItem onClick={() => handleClick(4)}>Quality Assurance</MenuItem> */}
             <MenuItem onClick={() => handleClick(5)}> Shipping </MenuItem>
             <MenuItem onClick={() => handleClick(6)}> Installation </MenuItem>
           </Menu>

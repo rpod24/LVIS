@@ -19,6 +19,8 @@ import ViewFacilities from "./Pages/Facility/facility_list";
 import Facility from "./Pages/Facility/facility";
 import Prospect from "./Pages/Customer/prospect";
 import './App.css';
+import Currents from "./Pages/Customer/currents";
+import NewProspect from "./Pages/Customer/newProspect";
 
 const App = () => {
   const location = useLocation();
@@ -30,10 +32,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/Customer/Current" element={<Current />} />
+        <Route path="/Customer/Current" element={<Currents />} />
         <Route path="/Customer/Prospects" element={<Prospects />} />
         <Route path="/Customer/:id" element={<Prospect />} />
         <Route path="/Customer/Former" element={<Former />} />
+        <Route path="/Customer/New" element={<NewProspect />} />
         <Route path="/Support/CreateTicket" element={<NewTicket />} />
         {/* <Route path="/view-ticket/:id" component={<ViewTicket />} /> */}
         <Route path="/Support/Ticket/:id" element={<Ticket />} />

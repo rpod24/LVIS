@@ -100,3 +100,7 @@ label{
 .inline{
     display: inline-block;
 }
+
+.array{
+    padding-bottom: 25px;
+}
