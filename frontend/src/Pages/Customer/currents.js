@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../PageCSS/ViewTickets.css'
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from "../../defaults";
 function Currents() {
   const [facilities, setFacilitys] = useState([]);
   const [page, setPage] = useState(0);
@@ -15,8 +16,8 @@ function Currents() {
 
   const fetchFacilitys = async (page, searchTerm) => {
     try {
-      const currentPageResponse = await axios.get(`http://127.0.0.1:5000/customers?p=${page}&search=${searchTerm}`);
-      const nextPageResponse = await axios.get(`http://127.0.0.1:5000/customers?p=${page + 1}&search=${searchTerm}`);
+      const currentPageResponse = await axios.get(`http://${BASE_URL}/customers?p=${page}&search=${searchTerm}`);
+      const nextPageResponse = await axios.get(`http://${BASE_URL}/customers?p=${page + 1}&search=${searchTerm}`);
 
       if (Array.isArray(currentPageResponse.data) && currentPageResponse.data.length > 0) {
         setFacilitys(currentPageResponse.data);

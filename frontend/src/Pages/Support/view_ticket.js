@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../../PageCSS/ViewTicket.css'; // Import your custom CSS file
 import { useParams } from 'react-router-dom';
 
+import { BASE_URL } from "../../defaults";
 function Ticket() {
   const {id} = useParams();
   const [ticket, setTicket] = useState(null);
@@ -30,7 +31,7 @@ function Ticket() {
   useEffect(() => {
     const fetchTicket = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/tickets?ticket=${id}`);
+        const response = await axios.get(`http://${BASE_URL}/tickets?ticket=${id}`);
         console.log(response.data[0]);
         setTicket(response.data[0]);
         setProblem(response.data[0].problem);
@@ -83,7 +84,7 @@ function Ticket() {
       setTicket(editTicket);
     }
     try {
-      await axios.put(`http://127.0.0.1:5000/tickets?ticket=${id}`, ticket);
+      await axios.put(`http://${BASE_URL}/tickets?ticket=${id}`, ticket);
       // alert('Ticket updated successfully');
       setIsEditing(false);
       setTicket({ ...ticket, ...formData });
@@ -105,7 +106,7 @@ function Ticket() {
     const updatedNotes = [...notes, { note: newNote, date: new Date().toISOString(), person: 'Current User' }];
     ticket.notes = updatedNotes;
     try {
-      await axios.put(`http://127.0.0.1:5000/tickets?ticket=${id}`, ticket);
+      await axios.put(`http://${BASE_URL}/tickets?ticket=${id}`, ticket);
       setNotes(updatedNotes);
       setNewNote('');
     } catch (error) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../PageCSS/ViewTickets.css";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../defaults";
 function Prospects() {
   const [facilities, setFacilitys] = useState([]);
   const [page, setPage] = useState(0);
@@ -16,10 +17,10 @@ function Prospects() {
   const fetchFacilitys = async (page, searchTerm) => {
     try {
       const currentPageResponse = await axios.get(
-        `http://127.0.0.1:5000/customers?p=${page}&search=${searchTerm}`
+        `http://${BASE_URL}/customers?p=${page}&search=${searchTerm}`
       );
       const nextPageResponse = await axios.get(
-        `http://127.0.0.1:5000/customers?p=${page + 1}&search=${searchTerm}`
+        `http://${BASE_URL}/customers?p=${page + 1}&search=${searchTerm}`
       );
 
       if (

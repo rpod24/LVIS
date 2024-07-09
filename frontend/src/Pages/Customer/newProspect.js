@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Container } from "react-bootstrap";
 import "../../PageCSS/customerPage.css";
+import { BASE_URL } from "../../defaults";
 
 function NewProspect() {
   const [facilityName, setFacilityName] = useState("");
@@ -148,7 +149,7 @@ function NewProspect() {
     };
     event.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:5000/customers", newProspect);
+      const response = await axios.post("http://${BASE_URL}/customers", newProspect);
       console.log(response);
       navigate("/Customer/Prospects");
     }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../PageCSS/NewTicket.css"; // Import your custom CSS file
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../defaults";
 
 function NewTicket() {
   const [facilities, setFacilitys] = useState([]);
@@ -38,11 +39,11 @@ function NewTicket() {
       var currentPageResponse;
       if (searchTerm === "") {
         currentPageResponse = await axios.get(
-          `http://127.0.0.1:5000/facilities`
+          `http://${BASE_URL}/facilities`
         );
       } else {
         currentPageResponse = await axios.get(
-          `http://127.0.0.1:5000/facilities?p=${0}&search=${searchTerm}`
+          `http://${BASE_URL}/facilities?p=${0}&search=${searchTerm}`
         );
       }
       console.log(currentPageResponse);
@@ -98,7 +99,7 @@ function NewTicket() {
         ],
       };
       const response = await axios.post(
-        "http://127.0.0.1:5000/tickets",
+        "http://${BASE_URL}/tickets",
         finalDataNoRawData
       );
       // Reset form after successful submission

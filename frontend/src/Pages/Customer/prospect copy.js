@@ -3,6 +3,7 @@ import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../../PageCSS/customerPage.css'
+import { BASE_URL } from "../../defaults";
 
 function Prospect() {
     const param = useParams();
@@ -12,7 +13,7 @@ function Prospect() {
     useEffect(() => {
         const fetchFacility = async () => {
             try {
-                const url = `http://127.0.0.1:5000/customers/${param.id}`;
+                const url = `http://${BASE_URL}/customers/${param.id}`;
                 console.log(url);
                 const response = await axios.get(url);
                 setCustomerData(response.data);
