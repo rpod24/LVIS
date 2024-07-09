@@ -22,6 +22,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(`http://${BASE_URL}/login`, { username, password });
+      console.log(response)
       const { token } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', username);

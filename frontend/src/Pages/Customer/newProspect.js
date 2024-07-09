@@ -149,7 +149,7 @@ function NewProspect() {
     };
     event.preventDefault();
     try {
-      const response = await axios.post("http://${BASE_URL}/customers", newProspect);
+      const response = await axios.post(`http://${BASE_URL}/customers`, newProspect);
       console.log(response);
       navigate("/Customer/Prospects");
     }
