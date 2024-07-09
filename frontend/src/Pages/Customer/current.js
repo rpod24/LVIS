@@ -3,7 +3,7 @@ import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../../PageCSS/customerPage.css";
-import { TRANSMITTER, CMS, MED } from "../../defaults";
+import { TRANSMITTER, CMS, MED, BASE_URL } from "../../defaults";
 
 function Current() {
   const param = useParams();
@@ -115,7 +115,7 @@ function Current() {
   useEffect(() => {
     const fetchFacility = async () => {
       try {
-        const url = `http://127.0.0.1:5000/customers/${param.id}`;
+        const url = `http://${BASE_URL}/customers/${param.id}`;
         const response = await axios.get(url);
         setCustomerData(response.data);
       } catch (error) {
@@ -132,7 +132,7 @@ function Current() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://127.0.0.1:5000/customers/${param.id}`,
+        `http://${BASE_URL}/customers/${param.id}`,
         customerData
       );
     } catch (error) {

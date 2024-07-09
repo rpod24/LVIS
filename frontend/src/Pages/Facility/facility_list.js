@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../PageCSS/ViewFacilities.css'
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from "../../defaults";
 
 function ViewFacilities() {
     const [facilities, setFacilities] = useState([]);
@@ -18,8 +19,8 @@ function ViewFacilities() {
     const fetchFacilities = async (page, searchTerm, sort, sortDir) => {
         try {
             console.log(sort);
-            var url = `http://127.0.0.1:5000/facilities?p=${page}`
-            var urlNext = `http://127.0.0.1:5000/facilities?p=${page + 1}`
+            var url = `http://${BASE_URL}/facilities?p=${page}`
+            var urlNext = `http://${BASE_URL}/facilities?p=${page + 1}`
             if (searchTerm !== 'null') {
                 url+= `&search=${searchTerm}`
             }

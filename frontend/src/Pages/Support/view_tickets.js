@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../PageCSS/ViewTickets.css";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../defaults";
 
 function ViewTickets() {
   const [tickets, setTickets] = useState([]);
@@ -19,8 +20,8 @@ function ViewTickets() {
     try {
       console.log(sort);
       console.log(sortDir);
-      var url = `http://127.0.0.1:5000/tickets?p=${page}`;
-      var urlNext = `http://127.0.0.1:5000/tickets?p=${page + 1}`;
+      var url = `http://${BASE_URL}/tickets?p=${page}`;
+      var urlNext = `http://${BASE_URL}/tickets?p=${page + 1}`;
 
       if (searchTerm !== "null") {
         url += `&search=${searchTerm}`;

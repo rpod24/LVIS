@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "../../PageCSS/customerPage.css";
+import { BASE_URL } from "../../defaults";
 // Facility:
 // {
 //   "PartitionKey": "String",
@@ -567,7 +568,7 @@ function Facility() {
   useEffect(() => {
     const fetchFacility = async () => {
       try {
-        var url = `http://127.0.0.1:5000/facility/${param.id}`;
+        var url = `http://${BASE_URL}/facility/${param.id}`;
         console.log(url);
         facilityData = (await axios.get(url)).data;
         console.log(facilityData);

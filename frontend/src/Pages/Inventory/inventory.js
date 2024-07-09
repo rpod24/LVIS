@@ -1,7 +1,8 @@
-//http://127.0.0.1:5000/products
+//http://${BASE_URL}/products
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../PageCSS/Inventory.css'; // Import your custom CSS file
+import { BASE_URL } from "../../defaults";
 
 function Inventory() {
   const [items, setItems] = useState([]);
@@ -16,8 +17,8 @@ function Inventory() {
 
   const fetchItems = async (page, searchTerm) => {
     try {
-      const currentPageResponse = await axios.get(`http://127.0.0.1:5000/products?p=${page}&search=${searchTerm}`); //Fetches the current 50 products for the user
-      const nextPageResponse = await axios.get(`http://127.0.0.1:5000/products?p=${page + 1}&search=${searchTerm}`); //Prefetches the next 50 products for the user
+      const currentPageResponse = await axios.get(`http://${BASE_URL}/products?p=${page}&search=${searchTerm}`); //Fetches the current 50 products for the user
+      const nextPageResponse = await axios.get(`http://${BASE_URL}/products?p=${page + 1}&search=${searchTerm}`); //Prefetches the next 50 products for the user
 
       if (Array.isArray(currentPageResponse.data) && currentPageResponse.data.length > 0) {//Stops the page index from going below 0 and hides the prev button when at page 0
         setItems(currentPageResponse.data);

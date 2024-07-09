@@ -87,3 +87,5 @@ export const QAFunct = (_question, _date = "", _verified = false) => {
     verified: _verified,
   };
 };
+
+export const BASE_URL = "api.rpodonnell.com";
