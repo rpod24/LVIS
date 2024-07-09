@@ -293,9 +293,6 @@ use('inventory')
 db.createCollection('products')
 db.createCollection('inventory')
 db.products.insertOne({
-    "_id": {
-        "$oid": "6647cadc9ad024116bc95845"
-    },
     "productImage": "https://example.com/images/product123.jpg",
     "description": "High-quality wireless mouse with ergonomic design and long battery life.",
     "category": "Electronics",
@@ -327,9 +324,6 @@ db.products.insertOne({
 })
 
 db.inventory.insertOne({
-    "_id": {
-        "$oid": "6647ca2642a8577015c15688"
-    },
     "product_sku": "123456",
     "date": {
         "$date": "2024-05-17T21:20:38.748Z"
@@ -348,9 +342,6 @@ db.inventory.insertOne({
 use('support')
 db.createCollection('tickets')
 db.tickets.insertOne({
-    "_id": {
-        "$oid": "6647eb309ed642684cd47878"
-    },
     "status": "open",
     "date": "2024-05-17T12:34:56Z",
     "modifiedBy": "John Doe",
@@ -380,11 +371,23 @@ db.tickets.insertOne({
     ]
 })
 
-// use('sensitive_data')
-// db.createCollection('users')
+use('sensitive_data')
+db.createCollection('users')
+db.users.insertOne({
+    "username": "",
+    "password": {
+      "$binary": {
+        "base64": "JDJiJDEyJHl5V1Vrb3luWm1CQUg4NUtJSkJoNGVheThiV3V6LkJ6LnplMDJucEZvbVQ1emNYZnc3NHdh",
+        "subType": "00"
+      }
+    },
+    "permissions": 2,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IiIsInBlcm1pc3Npb24iOjIsImV4cCI6MTcyMDUyMzA4N30.3GL7kwAsRg74GimBkuM8LWEDKK9xvLnr9JRWsfYVmYs"
+  });
 
 // use('Customers')
 // db.createCollection('customers')
+// db.customers.insertOne()
 // db.customers.insertOne({
 //     "facilityName": "Required",
 //     "state": "Required",
