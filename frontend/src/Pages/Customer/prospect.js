@@ -108,7 +108,7 @@ function Prospect() {
   });
   const [page, setPage] = useState(
     // Number(window.localStorage.getItem("page")) || 
-    0
+    1
   );
 
   useEffect(() => {
@@ -130,7 +130,7 @@ function Prospect() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
+      await axios.post(
         `http://${BASE_URL}/customers/${param.id}`,
         customerData
       );
@@ -212,7 +212,7 @@ function Prospect() {
         arr.push(newEl);
       }
     } else if (val < arr.length) {
-      for (var i = arr.length; i > val; i--) {
+      for (var j = arr.length; j > val; j--) {
         arr.pop();
       }
     }
@@ -220,10 +220,8 @@ function Prospect() {
 
   const handleIncreasableUpdatableArrayChange = (e) => {
     const { name, value, type, checked, id } = e.target;
-    var { defaultValue } = e.target;
     const arrid = e.target.parentElement.id;
     let tempArr = [...customerData[id]];
-    defaultValue = value;
     e.target.defaultValue = value;
     const preEdit = tempArr[arrid][name];
     tempArr[arrid][name] = type === "checkbox" ? checked : value;
@@ -238,9 +236,9 @@ function Prospect() {
     ) {
       tempArr.splice(arrid, 1);
     }
-    if (id == "roomList") {
+    if (id === "roomList") {
       for (var i = 0; i < customerData.transmitterAssembly.length; i++) {
-        if (customerData.transmitterAssembly[i].room == preEdit) {
+        if (customerData.transmitterAssembly[i].room === preEdit) {
           customerData.transmitterAssembly[i].room = tempArr[arrid].room;
         }
       }
@@ -254,10 +252,8 @@ function Prospect() {
 
   const handleIncreasableArrayChange = (e) => {
     const { name, value, type, checked, id } = e.target;
-    var { defaultValue } = e.target;
     const arrid = e.target.parentElement.id;
     let tempArr = [...customerData[id]];
-    defaultValue = value;
     e.target.defaultValue = value;
     tempArr[arrid][name] = type === "checkbox" ? checked : value;
     if (
@@ -303,8 +299,6 @@ function Prospect() {
     }
     if (customerData.status === "Pending" || customerData.status === "Active") {
       switch (page) {
-        case 0:
-          return <div>Loading...</div>;
         case 1:
           return (
             <div>
@@ -1255,46 +1249,6 @@ function Prospect() {
                   checked={customerData.installGuideIncluded}
                 ></input>
                 <br />
-                <button>Save Changes</button>
-              </form>
-            </div>
-          );
-        case 5:
-          return (
-            <div>
-              <form onSubmit={handleSubmit}>
-                <label>Shipping Method: </label>
-                <input
-                  name="shippingMethod"
-                  onChange={handleChange}
-                  className="inputText"
-                  type="text"
-                  defaultValue={customerData.shippingMethod}
-                ></input>
-                <br />
-                <label>Shipping Date: </label>
-                <input
-                  name="shipDate"
-                  onChange={handleChange}
-                  className="inputText"
-                  type="datetime-local"
-                  step="60"
-                  defaultValue={customerData.shipDate}
-                ></input>
-                <br />
-                <label>Tracking Numbers: </label>
-                {customerData.trackingNumbers.map((number, index) => (
-                  <div key={`${index}-trackingNumbers`} id={index}>
-                    <input
-                      name="number"
-                      id="trackingNumbers"
-                      className="inputText"
-                      type="text"
-                      value={number.number}
-                      onChange={handleIncreasableArrayChange}
-                    />
-                  </div>
-                ))}
                 <button>Save Changes</button>
               </form>
             </div>
