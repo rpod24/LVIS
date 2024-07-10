@@ -107,7 +107,8 @@ function Prospect() {
     status: "",
   });
   const [page, setPage] = useState(
-    Number(window.localStorage.getItem("page")) || 0
+    // Number(window.localStorage.getItem("page")) || 
+    0
   );
 
   useEffect(() => {
@@ -206,14 +207,6 @@ function Prospect() {
         default:
           return;
     }
-    console.log(customerData);
-    console.log(customerData.MEDAssembly);
-    console.log(name);
-    console.log(arr);
-    console.log(val);
-    console.log(arr.length);
-    console.log(newEl);
-    console.log(value);
     if (val > arr.length) {
       for (var i = arr.length; i <= val; i++) {
         arr.push(newEl);
@@ -592,7 +585,7 @@ function Prospect() {
                       defaultValue={customerData.MEDs}
                     ></input>
                   </div>
-                  <label>Number of Mounts: </label>
+                  <label>Number of Brackets: </label>
                   <input
                     name="mounts"
                     onChange={handleChange}
@@ -630,7 +623,7 @@ function Prospect() {
                       className="inputText"
                       type="tel"
                       value={contact.phone}
-                      pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                      pattern="([0-9]{3}-[0-9]{3}-[0-9]{4})( ext [0-9]{0,8})?"
                       maxLength={12}
                       onChange={handleIncreasableArrayChange}
                     />
