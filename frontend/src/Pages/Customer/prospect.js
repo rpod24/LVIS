@@ -139,6 +139,17 @@ function Prospect() {
     }
   };
 
+  const updateDatabase = async () => {
+    try {
+      await axios.post(
+        `http://${BASE_URL}/customers/${param.id}`,
+        customerData
+      );
+    } catch (error) {
+      console.error("There was an error creating the ticket!", error);
+    }
+  };
+
   const allFieldsEmpty = (arr) => {
     var s = true;
     Object.keys(arr).forEach((element) => {
@@ -1257,6 +1268,18 @@ function Prospect() {
           //Installations
           return (
             <div>
+              <label>
+                Contract Info:
+              </label>
+              <br></br>
+              <br></br>
+              <br></br>
+              <button onClick={() => {
+                var newCustomerData = customerData;
+                newCustomerData.status = "Active";
+                setCustomerData(newCustomerData);
+                updateDatabase();
+              }}>Active Customer</button>
               <form onSubmit={handleSubmit}>
                 <button>Save Changes</button>
               </form>
