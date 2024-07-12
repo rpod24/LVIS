@@ -30,10 +30,6 @@ function NewTicket() {
   });
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetchFacilitys(searchTerm);
-  }, [searchTerm]);
-
   const fetchFacilitys = async (searchTerm) => {
     try {
       var currentPageResponse;
@@ -52,6 +48,11 @@ function NewTicket() {
       console.error("There was an error fetching the Facility data!", error);
     }
   };
+  
+  useEffect(() => {
+    fetchFacilitys(searchTerm);
+  }, [searchTerm]);
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -65,9 +66,19 @@ function NewTicket() {
     setSearchTerm(event.target.value);
     fetchFacilitys(event.target.value);
     handleChange(event);
-    console.log(jsonToNameArray(facilities))
-    console.log((facilities[0]))
-    autocomplete(document.getElementById("myInput"), jsonToNameArray(facilities));
+    autocomplete(document.getElementById("facility_name"), jsonToNameArray(facilities), () => {
+      //find facility based off of document.getElementById("facility_type").value; and get the facility type
+      var facilityName = document.getElementById("facility_name").value;
+      var facilityType = "";
+      for (var i = 0; i < facilities.length; i++) {
+        console.log(facilities[i].Name === facilityName)
+        if (facilities[i].Name === facilityName) {
+          facilityType = facilities[i].Product;
+          break;
+        }
+      }
+      document.getElementById("facility_type").value = facilityType;
+  });
   };
 
   const handleSubmit = async (e) => {
@@ -253,11 +264,11 @@ function NewTicket() {
           <label>
             Facility Name:
             <input
-              id="myInput"
+              id="facility_name"
               type="text"
               onChange={handleSearch}
-              name="myCountry"
-              placeholder="Country"
+              name="facility_name"
+              placeholder="ID or Name"
             />
           </label>
           <label>
@@ -265,9 +276,10 @@ function NewTicket() {
             <input
               type="text"
               name="facility_type"
+              id="facility_type"
               value={formData.facility_type}
               onChange={handleChange}
-              required
+              disabled
             />
           </label>
         </div>
@@ -336,7 +348,7 @@ function jsonToNameArray(json) {
   return nameArray;
 }
 
-function autocomplete(inp, arr) {
+function autocomplete(inp, arr, callback=()=>{}) {
   var currentFocus;
   inp.addEventListener("input", function (e) {
     var a,
@@ -401,6 +413,7 @@ function autocomplete(inp, arr) {
         x[i].parentNode.removeChild(x[i]);
       }
     }
+    callback();
   }
   document.addEventListener("click", function (e) {
     closeAllLists(e.target);

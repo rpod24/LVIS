@@ -215,8 +215,8 @@ function Prospect() {
         arr = customerData.MEDAssembly;
         val = Number(value);
         break;
-        default:
-          return;
+      default:
+        return;
     }
     if (val > arr.length) {
       for (var i = arr.length; i <= val; i++) {
@@ -289,6 +289,11 @@ function Prospect() {
     const { name, value, type, checked, id } = e.target;
     const arrid = e.target.parentElement.id;
     let tempArr = customerData[id];
+    console.log(tempArr);
+    console.log(arrid);
+    console.log(tempArr[arrid]);
+    console.log(name);
+    console.log(tempArr[arrid][name]);
     tempArr[arrid][name] = type === "checkbox" ? checked : value;
     setCustomerData({
       ...customerData,
@@ -301,10 +306,10 @@ function Prospect() {
     var roomList = customerData.roomList;
 
     for (var i = 0; i < customerData.transmitterAssembly.length; i++) {
-      if(roomList.length>i) {
-            customerData.transmitterAssembly[i].room = roomList[i].room;
-            console.log(roomList[i].room);
-            console.log(customerData.transmitterAssembly[i]);
+      if (roomList.length > i) {
+        customerData.transmitterAssembly[i].room = roomList[i].room;
+        console.log(roomList[i].room);
+        console.log(customerData.transmitterAssembly[i]);
       }
     }
     setCustomerData({
@@ -732,16 +737,25 @@ function Prospect() {
               <form onSubmit={handleSubmit}>
                 <table>
                   <thead>
-                    <tr>
-                      <th>Equipment</th>
-                      <th>Assembled</th>
-                      <th>Configured</th>
-                      <th>Wifi MAC Address</th>
-                      <th>Ethernet MAC Address</th>
-                      <th>Asset ID</th>
-                      <th>Frequency</th>
-                      <th>Quality Assured</th>
-                    </tr>
+                    <th>Equipment</th>
+                    <th>Power Cable</th>
+                    <th>Monitor</th>
+                    <th>Monitor Power Cable</th>
+                    <th>Monitor SN</th>
+                    <th>Monitor Mount</th>
+                    <th>HW Version</th>
+                    <th>HDMI Length</th>
+                    <th>Sliced Power Supply</th>
+                    <th>Radio Software</th>
+                    <th>Assembled</th>
+                    <th>Configured</th>
+                    <th>Wifi MAC Address 0</th>
+                    <th>Wifi MAC Address 1</th>
+                    <th>Ethernet MAC Address</th>
+                    <th>Asset ID</th>
+                    <th>Frequency</th>
+                    <th>Quality Assured</th>
+                    <th>QA Initals</th>
                   </thead>
                   <tbody>
                     {customerData.CMSAssembly.map((CMS, index) => (
@@ -752,6 +766,96 @@ function Prospect() {
                       >
                         <td>
                           <label>CMS: </label>
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="powerCable"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.powerCable}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="monitor"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.monitor}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="monitorPowerCable"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.monitorPowerCable}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="monitorSN"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.monitorSN}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="monitorMount"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.monitorMount}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="HWVersion"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.HWVersion}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="HDMIlength"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.HDMIlength}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="slicedPowerSupply"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.slicedPowerSupply}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="radioSoftware"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.radioSoftware}
+                            onChange={handleArrayChange}
+                          />
                         </td>
                         <td id={index}>
                           <input
@@ -770,6 +874,16 @@ function Prospect() {
                             className="inputText"
                             type="checkbox"
                             checked={CMS.configured}
+                            onChange={handleArrayChange}
+                          />
+                        </td>
+                        <td id={index}>
+                          <input
+                            name="wifiMacAddress"
+                            id="CMSAssembly"
+                            className="inputText"
+                            type="text"
+                            value={CMS.wifiMacAddress}
                             onChange={handleArrayChange}
                           />
                         </td>
@@ -823,23 +937,23 @@ function Prospect() {
                             onChange={handleArrayChange}
                           />
                         </td>
+
+
                       </tr>
                     ))}
                   </tbody>
                 </table>
                 <table>
                   <thead>
-                    <tr>
-                      <th>Transmitters</th>
-                      <th>Serial Number</th>
-                      <th>Room <button onClick={autoAssignRooms}>Auto Assign</button></th>
-                      <th>Asset Tag</th>
-                      <th>Bracket</th>
-                      <th>Configured</th>
-                      <th>Labeled</th>
-                      <th>Tested</th>
-                      <th>Quality Assured</th>
-                    </tr>
+                    <th>Transmitters</th>
+                    <th>Serial Number</th>
+                    <th>Room <button onClick={autoAssignRooms}>Auto Assign</button></th>
+                    <th>Asset Tag</th>
+                    <th>Bracket</th>
+                    <th>Configured</th>
+                    <th>Labeled</th>
+                    <th>Tested</th>
+                    <th>Quality Assured</th>
                   </thead>
                   <tbody>
                     {customerData.transmitterAssembly.map(
@@ -950,14 +1064,18 @@ function Prospect() {
 
                 <table>
                   <thead>
-                    <tr>
-                      <th>MEDs <button onClick={autoGenerateMedIDs}>Generate IDs</button></th>
-                      <th>MED ID</th>
-                      <th>Configured</th>
-                      <th>Asset ID</th>
-                      <th>Completion Due</th>
-                      <th>Quality Assured</th>
-                    </tr>
+                    <th>MEDs <button onClick={autoGenerateMedIDs}>Generate IDs</button></th>
+                    <th>MED ID</th>
+                    <th>Configured</th>
+                    <th>Asset ID</th>
+                    <th>Model</th>
+                    <th>OS Version</th>
+                    <th>App Version</th>
+                    <th>Group ID</th>
+                    <th></th>
+                    <th>Completion Due</th>
+                    <th>QA</th>
+                    <th>QA By</th>
                   </thead>
                   <tbody>
                     {customerData.MEDAssembly.map((MED, index) => (
@@ -970,6 +1088,7 @@ function Prospect() {
                           <label>MEDs: </label>
                         </td>
                         <td id={index}>
+                          MED-
                           <input
                             name="MEDID"
                             id="MEDAssembly"
@@ -1106,6 +1225,8 @@ function Prospect() {
                   type="checkbox"
                   checked={customerData.normallyOpen}
                 ></input>
+                <br></br>
+                <label>Display Sketch: </label>
                 <br></br>
                 <button>Save Changes</button>
               </form>
@@ -1353,5 +1474,41 @@ function Prospect() {
     </div>
   );
 }
+
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    try {
+      console.log("Enter");
+      event.preventDefault(); // Prevent the default behavior of Enter key
+      console.log("Enter");
+      let activeElement = document.activeElement;
+      console.log(activeElement.tagName);
+      if ((activeElement.tagName === 'INPUT'||activeElement.tagName === 'SELECT') && activeElement.parentElement.tagName === 'TD') {
+        console.log("Enter key pressed");
+
+        let currentRow = activeElement.parentElement.parentElement;
+        var index = Array.prototype.indexOf.call(currentRow.children, activeElement.parentElement);
+        let columnIndex = Array.prototype.indexOf.call(activeElement.parentElement.children, activeElement);
+        let nextRow = currentRow.nextElementSibling.children[index].children[columnIndex];
+        console.log(currentRow);
+        console.log(nextRow);
+        if (nextRow) {
+          // let columnIndex = Array.prototype.indexOf.call(currentRow.children, activeElement);
+          nextRow.focus();
+        }
+      }
+      else if (activeElement.tagName === 'INPUT' && activeElement.parentElement.tagName === 'DIV') {
+        let currentRow = activeElement.parentElement;
+        let nextRow = currentRow.nextElementSibling;
+        if (nextRow) {
+          let columnIndex = Array.prototype.indexOf.call(currentRow.children, activeElement);
+          nextRow.children[columnIndex].focus();
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+});
 
 export default Prospect;

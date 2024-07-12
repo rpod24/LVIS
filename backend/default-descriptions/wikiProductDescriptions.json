@@ -1,0 +1,21 @@
+{
+    "name": "Product Name",
+    "description": "Product Description",
+    "price": -1,
+    "manufacturer": "Product Manufacturer",
+    "website": "https://www.productwebsite.com",
+    "category": "Product Category",
+    "images": ["https://www.productwebsite.com/image.jpg"],
+    "serialNumber": "Serial Number",
+    "size": "Size of Product (E.G. 27 inches, 1TB, 10x5x2, etc.)",
+    "monitorSize": "Size of Monitor if Applicable",
+    "length": -1,
+    "model": "Product Model",
+    "version": "Product Version",
+    "weight": -1,
+    "color": "Product Color",
+    "specSheet": "https://www.productwebsite.com/specsheet.pdf",
+    "manual": "https://www.productwebsite.com/manual.pdf",
+    "notes": "Additional Notes",
+    "SKU": "Product SKU"
+}

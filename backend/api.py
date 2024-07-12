@@ -24,6 +24,9 @@ sensitivedb = mongo["sensitive_data"]
 supportdb = mongo["support"]
 configs = mongo["configs"]
 customersDB = mongo["Customers"]
+wiki = mongo["wiki"]
+
+productWiki = wiki["products"]
 
 users = sensitivedb["users"]
 
@@ -335,6 +338,50 @@ async def update_customer(customer_id):
     except Exception as e:
         print(e)
         return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
+
+# Add api for product wiki
+@app.route("/wiki")
+# @authenticate(TokenManager.ValidationLevel.USER)
+async def get_wiki():
+    items = json.dumps({"error": "Unexpected Error Occured!"})
+    if request.args.__len__() != 0:
+        print(request.args)
+        if request.args.get("search") is not None and request.args.get("search") != "":
+            search = {"$text": {"$search": request.args.get("search")}}
+        else:
+            search = {}
+        if request.args.get("sort") is not None and request.args.get("sort") != "":
+            req = productWiki.find(search).sort(json.loads(request.args.get("sort")))
+        else:
+            req = productWiki.find(search)
+        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
+            items = dumps(req.skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT))
+        else:
+            items = dumps(req.limit(PRODUCT_LIMIT))
+    else:
+        items = dumps(productWiki.find().limit(PRODUCT_LIMIT))
+    return items
+
+@app.route("/wiki/<product_id>")
+#Returns the product with the given id
+async def get_product_wiki(product_id):
+    print(product_id)
+    product = (productWiki.find({"PartitionKey": product_id}).limit(1))
+    return dumps(product)
+
+@app.route("/wiki", methods=["POST"])
+# @authenticate(TokenManager.ValidationLevel.USER)  
+async def create_product_wiki():
+    try:
+        product_data = await request.get_json()
+        print(product_data)
+        if not product_data:
+            return json.dumps({"error": "No product data provided"}), 400
+        result = productWiki.insert_one(product_data)
+        return dumps(productWiki.find_one(result.inserted_id)), 201
+    except Exception as e:
+        return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
+    
 
 # @app.route("/ticket")
 # # @authenticate(TokenManager.ValidationLevel.USER)

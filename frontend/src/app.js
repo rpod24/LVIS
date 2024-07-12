@@ -9,7 +9,7 @@ import Prospects from './Pages/Customer/prospects';
 import NewTicket from './Pages/Support/new_ticket';
 import ViewTickets from './Pages/Support/view_tickets';
 import Ticket from './Pages/Support/view_ticket';
-import Wiki from './Pages/wiki';
+import Wiki from './Pages/Wiki/Wiki';
 import Inventory from "./Pages/Inventory/inventory";
 import Admin from "./Pages/admin";
 import Configuration from "./Pages/configuration";
@@ -43,7 +43,7 @@ const App = () => {
         {/* <Route path="/view" component={<Ticket />} /> */}
         <Route path="/Support/Tickets" element={<ViewTickets />} />
         <Route path="/Configuration" element={<Configuration />} />
-        <Route path="/Wiki" element={<Wiki />} />
+        <Route path="/Wiki" element={<Wiki />} /> 
         <Route path="/Inventory" element={<Inventory />} />
         <Route path="/Admin" element={<Admin />} />
         <Route path="/Facilities" element={<ViewFacilities />} />
