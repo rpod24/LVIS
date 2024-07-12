@@ -29,6 +29,7 @@ function Login() {
       navigator('/home');
     } catch (error) {
       setError('Invalid email or password');
+      navigator('/home');
     }
   };
 

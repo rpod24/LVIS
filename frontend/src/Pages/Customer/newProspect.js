@@ -151,7 +151,7 @@ function NewProspect() {
     try {
       const response = await axios.post(`http://${BASE_URL}/customers`, newProspect);
       console.log(response);
-      navigate("/Customer/Prospects");
+      navigate(`/Customer/${response.data._id.$oid}`);
     }
     catch (error) {
       console.error("There was an error creating the prospect!", error);
@@ -172,21 +172,28 @@ function NewProspect() {
         </Form.Group>
         <Form.Group className="mb-3" controlId="formProduct">
           <Form.Label>Product</Form.Label>
+          {/* Drop down with options for REA, ScrubTrax */}
           <Form.Control
-            type="text"
-            placeholder="Enter Product"
+            as="select"
             value={product}
             onChange={(e) => setProduct(e.target.value)}
-          />
+          >
+            <option value="REA">REA</option>
+            <option value="ScrubTrax">ScrubTrax</option>
+          </Form.Control>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formProductVersion">
           <Form.Label>Product Version</Form.Label>
+          {/* Dropdown with options for 1.0, 1.5, 2.0 */}
           <Form.Control
-            type="text"
-            placeholder="Enter Product Version"
+            as="select"
             value={productVersion}
             onChange={(e) => setProductVersion(e.target.value)}
-          />
+          >
+            <option value="1.0">1.0</option>
+            <option value="1.5">1.5</option>
+            <option value="2.0">2.0</option>
+          </Form.Control>
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit
