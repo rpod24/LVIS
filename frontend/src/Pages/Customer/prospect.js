@@ -297,6 +297,40 @@ function Prospect() {
     console.log(customerData);
   };
 
+  const autoAssignRooms = () => {
+    var roomList = customerData.roomList;
+
+    for (var i = 0; i < customerData.transmitterAssembly.length; i++) {
+      if(roomList.length>i) {
+            customerData.transmitterAssembly[i].room = roomList[i].room;
+            console.log(roomList[i].room);
+            console.log(customerData.transmitterAssembly[i]);
+      }
+    }
+    setCustomerData({
+      ...customerData,
+      roomList: roomList,
+    });
+  };
+
+  //med ids will start as AA and go to ZZ
+  const autoGenerateMedIDs = () => {
+    var medID = "AA";
+    var data = customerData.MEDAssembly;
+    for (var i = 0; i < data.length; i++) {
+      data[i].MEDID = medID;
+      if (medID[1] === "Z") {
+        medID = String.fromCharCode(medID.charCodeAt(0) + 1) + "A";
+      } else {
+        medID = medID[0] + String.fromCharCode(medID.charCodeAt(1) + 1);
+      }
+    }
+    setCustomerData({
+      ...customerData,
+      MEDAssembly: data,
+    });
+  };
+
   const handleClick = (pageNumber) => {
     setPage(pageNumber);
     window.localStorage.setItem("page", pageNumber);
@@ -798,7 +832,7 @@ function Prospect() {
                     <tr>
                       <th>Transmitters</th>
                       <th>Serial Number</th>
-                      <th>Room</th>
+                      <th>Room <button onClick={autoAssignRooms}>Auto Assign</button></th>
                       <th>Asset Tag</th>
                       <th>Bracket</th>
                       <th>Configured</th>
@@ -917,7 +951,7 @@ function Prospect() {
                 <table>
                   <thead>
                     <tr>
-                      <th>MEDs</th>
+                      <th>MEDs <button onClick={autoGenerateMedIDs}>Generate IDs</button></th>
                       <th>MED ID</th>
                       <th>Configured</th>
                       <th>Asset ID</th>

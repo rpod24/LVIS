@@ -9,8 +9,8 @@ import { BASE_URL } from "../../defaults";
 
 function NewProspect() {
   const [facilityName, setFacilityName] = useState("");
-  const [product, setProduct] = useState("");
-  const [productVersion, setProductVersion] = useState("");
+  const [product, setProduct] = useState("REA");
+  const [productVersion, setProductVersion] = useState("1.0");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -167,6 +167,7 @@ function NewProspect() {
             type="text"
             placeholder="Enter Facility Name"
             value={facilityName}
+            required={true}
             onChange={(e) => setFacilityName(e.target.value)}
           />
         </Form.Group>
@@ -176,6 +177,7 @@ function NewProspect() {
           <Form.Control
             as="select"
             value={product}
+            required={true}
             onChange={(e) => setProduct(e.target.value)}
           >
             <option value="REA">REA</option>
@@ -188,6 +190,7 @@ function NewProspect() {
           <Form.Control
             as="select"
             value={productVersion}
+            required={true}
             onChange={(e) => setProductVersion(e.target.value)}
           >
             <option value="1.0">1.0</option>

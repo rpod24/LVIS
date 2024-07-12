@@ -110,8 +110,8 @@ function Prospects() {
                 <td>{facility.product}</td>
                 <td>{facility.productVersion}</td>
                 <td>{new Date(facility.installationDate).toLocaleString()}</td>
-                <td>{facility.roomList.length > 0}</td>
-                <td>{facility.wifi.length > 0}</td>
+                <td>{facility.roomList.length > 1? "Yes" : "No"}</td>
+                <td>{facility.wifi.length > 0 ? "Yes" : "No"}</td>
                 <td>{facility.nextStep}</td>
               </tr>
             ))}
