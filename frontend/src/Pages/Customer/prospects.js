@@ -4,6 +4,13 @@ import "../../PageCSS/ViewTickets.css";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../defaults";
 function Prospects() {
+  const config = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+    },
+    withCredentials: false,
+  };
   const [facilities, setFacilitys] = useState([]);
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -17,7 +24,8 @@ function Prospects() {
   const fetchFacilitys = async (page, searchTerm) => {
     try {
       const currentPageResponse = await axios.get(
-        `http://${BASE_URL}/customers?p=${page}&search=${searchTerm}`
+        `http://${BASE_URL}/customers?p=${page}&search=${searchTerm}`,
+          config
       );
       const nextPageResponse = await axios.get(
         `http://${BASE_URL}/customers?p=${page + 1}&search=${searchTerm}`

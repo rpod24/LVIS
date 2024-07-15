@@ -176,7 +176,7 @@ async def get_tickets():
     if request.args.__len__() != 0:
         print(request.args)
         if request.args.get("search") is not None and request.args.get("search") != "":
-            search = {"Name":  {"$regex": request.args.get("search"), "$options": "i"}}
+            search = {"$text": {"$search": request.args.get("search")}}
         if request.args.get("sort") is not None and request.args.get("sort") != "":
             req = tickets.find(search).sort(json.loads(request.args.get("sort")))
         else:
@@ -366,7 +366,8 @@ async def get_wiki():
 #Returns the product with the given id
 async def get_product_wiki(product_id):
     print(product_id)
-    product = (productWiki.find({"PartitionKey": product_id}).limit(1))
+    product = (productWiki.find({"_id": ObjectId(product_id)}).limit(1))
+    print(product)
     return dumps(product)
 
 @app.route("/wiki", methods=["POST"])

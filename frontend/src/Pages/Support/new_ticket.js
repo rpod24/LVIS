@@ -48,7 +48,7 @@ function NewTicket() {
       console.error("There was an error fetching the Facility data!", error);
     }
   };
-  
+
   useEffect(() => {
     fetchFacilitys(searchTerm);
   }, [searchTerm]);
@@ -67,18 +67,23 @@ function NewTicket() {
     fetchFacilitys(event.target.value);
     handleChange(event);
     autocomplete(document.getElementById("facility_name"), jsonToNameArray(facilities), () => {
-      //find facility based off of document.getElementById("facility_type").value; and get the facility type
-      var facilityName = document.getElementById("facility_name").value;
-      var facilityType = "";
-      for (var i = 0; i < facilities.length; i++) {
-        console.log(facilities[i].Name === facilityName)
-        if (facilities[i].Name === facilityName) {
-          facilityType = facilities[i].Product;
-          break;
+      try {
+        //find facility based off of document.getElementById("facility_type").value; and get the facility type
+        var facilityName = document.getElementById("facility_name").value;
+        var facilityType = "";
+        for (var i = 0; i < facilities.length; i++) {
+          console.log(facilities[i].Name === facilityName)
+          if (facilities[i].Name === facilityName) {
+            facilityType = facilities[i].Product;
+            break;
+          }
         }
+        document.getElementById("facility_type").value = facilityType;
+
+      } catch (error) {
+
       }
-      document.getElementById("facility_type").value = facilityType;
-  });
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -348,7 +353,7 @@ function jsonToNameArray(json) {
   return nameArray;
 }
 
-function autocomplete(inp, arr, callback=()=>{}) {
+function autocomplete(inp, arr, callback = () => { }) {
   var currentFocus;
   inp.addEventListener("input", function (e) {
     var a,

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../../PageCSS/customerPage.css";
+import "../../PageCSS/wiki.css";
 import { BASE_URL } from "../../defaults";
 
 
@@ -32,12 +32,15 @@ function Wiki() {
 
     return (
         <div>
+            <br></br>
             <h1>Wiki</h1>
+            <button onClick={() => navigate("/CreateWikiProduct")}>Create New Wiki Product</button>
             <table>
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
+                        <th>Category</th>
                         <th>Image</th>
                         <th>Notes</th>
                     </tr>
@@ -47,8 +50,8 @@ function Wiki() {
                         <tr key={product} className="wikiProduct" onClick={() => handleProductClick(product)}>
                             <td>{product.name}</td>
                             <td>{product.description}</td>
-                            {/* only the first image */}
-                            <td>{product.images && product.images[0] && <img src={product.images[0]} alt={product.images[0]} />}</td>
+                            <td>{product.category}</td>
+                            <td>{product.images && product.images[0] && <img className="productThumbnail" src={product.images[0]} alt={product.images[0]} />}</td>
                             <td>{product.notes}</td>
                         </tr>
                     ))}

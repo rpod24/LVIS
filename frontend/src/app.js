@@ -1,5 +1,6 @@
 import TopNav from "./Components/Navbar/Navbar";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { Helmet } from "react-helmet";
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
@@ -21,6 +22,8 @@ import Prospect from "./Pages/Customer/prospect";
 import './App.css';
 import Currents from "./Pages/Customer/currents";
 import NewProspect from "./Pages/Customer/newProspect";
+import WikiProduct from "./Pages/Wiki/WikiProduct";
+import NewWikiProduct from "./Pages/Wiki/NewWikiProduct";
 
 const App = () => {
   const location = useLocation();
@@ -28,6 +31,10 @@ const App = () => {
 
   return (
     <div className="App">
+      {/* <Helmet> */}
+
+        {/* <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
+      {/* </Helmet> */}
       {!isHomeRoute && <TopNav />}
       <Routes>
         <Route path="/" element={<Login />} />
@@ -43,7 +50,9 @@ const App = () => {
         {/* <Route path="/view" component={<Ticket />} /> */}
         <Route path="/Support/Tickets" element={<ViewTickets />} />
         <Route path="/Configuration" element={<Configuration />} />
-        <Route path="/Wiki" element={<Wiki />} /> 
+        <Route path="/Wiki" element={<Wiki />} />
+        <Route path="/CreateWikiProduct" element={<NewWikiProduct />} />
+        <Route path="/Wiki/:id" element={<WikiProduct />} />
         <Route path="/Inventory" element={<Inventory />} />
         <Route path="/Admin" element={<Admin />} />
         <Route path="/Facilities" element={<ViewFacilities />} />

@@ -10,34 +10,13 @@ function WikiProduct() {
     const params = useParams();
     const [wikiProducts, setWikiProducts] = useState([]);
     const navigate = useNavigate();
-    // Product Schema, for reference. Empty values are not shown except for name, description, and notes.
-    // {
-    //     "name": "",
-    //     "description": "",
-    //     "price": -1,
-    //     "manufacturer": "",
-    //     "website": "",
-    //     "category": "",
-    //     "images": [],
-    //     "serialNumber": "",
-    //     "size": "",
-    //     "monitorSize": "",
-    //     "length": -1,
-    //     "model": "",
-    //     "version": "",
-    //     "weight": -1,
-    //     "color": "",
-    //     "specSheet": "",
-    //     "manual": "",
-    //     "notes": "",
-    //     "SKU": ""
-    // }
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://${BASE_URL}/wiki/${params.id}`);
-                setWikiProducts(response.data);
+                setWikiProducts(response.data[0]);
+                console.log(response.data);
             } catch (error) {
                 console.error(error);
             }
@@ -56,7 +35,7 @@ function WikiProduct() {
                 {/* Show images if possilbe */}
                 <div className="wikiImage">
                     {wikiProducts.images && wikiProducts.images.map((image) => (
-                        <img src={image} alt={image} />
+                        <img className='product-image' key={image} src={image} alt={image} />
                     ))}
                 </div>
                 <div className="wikiProduct">

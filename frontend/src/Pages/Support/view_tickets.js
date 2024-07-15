@@ -68,6 +68,7 @@ function ViewTickets() {
   };
 
   const handleSearch = (event) => {
+    console.log(event.target.value);
     setSearchTerm(event.target.value);
     setPage(0); // Reset to the first page whenever a new search is made
   };
