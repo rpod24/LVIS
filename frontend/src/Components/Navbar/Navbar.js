@@ -43,7 +43,7 @@ function TopNav() {
             <NavDropdown
               title={
                 <span className="dropdown-title" onClick={handleCustomerInfoClick}>
-                  Customer Info
+                  Manifest
                 </span>
               }
               id="basic-nav-dropdown"

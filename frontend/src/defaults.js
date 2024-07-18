@@ -88,4 +88,4 @@ export const QAFunct = (_question, _date = "", _verified = false) => {
   };
 };
 
-export const BASE_URL = "api.rpodonnell.com";
+export const BASE_URL = "localhost:5000";
