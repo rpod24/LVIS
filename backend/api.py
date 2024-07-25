@@ -312,8 +312,6 @@ async def get_manifest_prospect():
         items = dumps(manifest.find())
     return items
 
-
-
 @app.route("/manifest/<manifest_id>")
 # Returns the manifest with the given id
 async def get_manifest_id(manifest_id):
@@ -352,6 +350,7 @@ async def update_manifest(manifest_id):
         return json.dumps({"message": "Manifest replaced successfully!"}), 200
     except Exception as e:
         return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
+
 
 
 # Add api for product wiki
