@@ -34,7 +34,7 @@ function Wiki() {
         <div>
             <br></br>
             <h1>Wiki</h1>
-            <button onClick={() => navigate("/CreateWikiProduct")}>Create New Wiki Product</button>
+            <button onClick={() => navigate("/Wiki/New")}>Create New Wiki Product</button>
             <table>
                 <thead>
                     <tr>

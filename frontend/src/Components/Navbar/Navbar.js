@@ -25,7 +25,7 @@ function TopNav() {
 
   const handleCustomerInfoClick = (event) => {
     event.preventDefault();
-    navigate('/Customer/Current');
+    navigate('/Manifest/Current');
   };
 
   const handleSupportClick = (event) => {
@@ -51,8 +51,9 @@ function TopNav() {
               onMouseEnter={handleMouseEnterCustomerInfoDropDown}
               onMouseLeave={handleMouseLeaveCustomerInfoDropDown}
               >
-              <NavDropdown.Item as={Link} to="/Customer/Current">Current</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/Customer/Prospects">Prospects</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/Manifest/Current">Active</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/Manifest/Assembly">In Progress</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/Manifest/Prospects">Prospects</NavDropdown.Item>
               {/* <NavDropdown.Item as={Link} to="/Customer/Former">Former</NavDropdown.Item> */}
             </NavDropdown>
             <NavDropdown
@@ -70,9 +71,10 @@ function TopNav() {
               <NavDropdown.Item as={Link} to="/Support/Tickets">View Tickets</NavDropdown.Item>
             </NavDropdown>
             {/* <Nav.Link href="/Configuration">Configuration</Nav.Link> */}
-            <Nav.Link href="/Facilities">Configuration</Nav.Link>
+            <Nav.Link href="/Configuration">Configuration</Nav.Link>
             <Nav.Link href="/Wiki">Product Wiki</Nav.Link>
             <Nav.Link href="/Inventory">Inventory</Nav.Link>
+            <Nav.Link href="/Marketing">Marketing</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         {/* <Form inline className="d-flex">

@@ -18,23 +18,17 @@ app = cors(app, allow_origin="*")
 
 mongo = pymongo.MongoClient("mongodb://localhost:27017/")
 
-db = mongo["DEV"]
 inventory = mongo["inventory"]
-sensitivedb = mongo["sensitive_data"]
-supportdb = mongo["support"]
-configs = mongo["configs"]
-customersDB = mongo["Customers"]
-wiki = mongo["wiki"]
-
-productWiki = wiki["products"]
-
-users = sensitivedb["users"]
-
 products = inventory["products"]
 productInventory = inventory["inventory"]
 
+sensitivedb = mongo["sensitive_data"]
+users = sensitivedb["users"]
+
+supportdb = mongo["support"]
 tickets = supportdb["tickets"]
 
+configs = mongo["configs"]
 CMSs = configs["CMS"]
 facilities = configs["Facility"]
 Group = configs["Group"]
@@ -46,12 +40,16 @@ ConfigAlert = configs["ConfigAlert"]
 ConfigCMS = configs["ConfigCMS"]
 ConfigMED = configs["ConfigMED"]
 
-prospects = customersDB["prospects"]
-customers = customersDB["customers"]
+manifestDB = mongo["manifest"]
+manifest = manifestDB["manifest"]
+
+wiki = mongo["wiki"]
+productWiki = wiki["products"]
 
 CUSTOMER_LIMIT = 25
 USER_LIMIT = 50
 PRODUCT_LIMIT = 50
+
 
 @app.route("/products")
 # @authenticate(TokenManager.ValidationLevel.USER)
@@ -61,12 +59,16 @@ async def get_products():
         if request.args.get("p") is not None:  # todo serialize the arg to int
             print(request.args.get("p"))
             items = dumps(
-                products.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
+                products.find()
+                .skip(int(request.args.get("p")) * PRODUCT_LIMIT)
+                .limit(PRODUCT_LIMIT)
             )  # for selecting pages, use https://site/page?p=i where i is the page number
             if request.args.get("search") is not None:  # todo serialize the arg to int
                 if request.args.get("search") == "":
                     items = dumps(
-                        products.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
+                        products.find()
+                        .skip(int(request.args.get("p")) * PRODUCT_LIMIT)
+                        .limit(PRODUCT_LIMIT)
                     )  # returns first 50 products in case ?p= is not in the argument
                 else:
                     items = dumps(
@@ -86,12 +88,6 @@ async def get_products():
     return items
 
 
-# @app.route("/time") Code Demo
-# # @authenticate(TokenManager.ValidationLevel.USER)
-# def get_time():
-#     return {"time": time.time()}
-
-
 @app.route("/tickets", methods=["PUT"])
 # @authenticate(TokenManager.ValidationLevel.USER)
 async def replace_ticket():
@@ -105,14 +101,13 @@ async def replace_ticket():
             return json.dumps({"error": "No ticket data provided"}), 400
         current_ticket = tickets.find_one({"ticket": ticket_data["ticket"]})
         ticket_data["_id"] = current_ticket["_id"]
-        result = tickets.replace_one(
-            {"ticket": ticket_data["ticket"]}, ticket_data
-        )
+        result = tickets.replace_one({"ticket": ticket_data["ticket"]}, ticket_data)
         if result.modified_count == 0:
             return json.dumps({"error": "Ticket not updates!"}), 405
         return json.dumps({"message": "Ticket replaced successfully!"}), 200
     except Exception as e:
         return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
+
 
 @app.route("/tickets", methods=["POST"])
 # @authenticate(TokenManager.ValidationLevel.USER)
@@ -122,11 +117,11 @@ async def create_ticket():
         print(ticket_data)
         if not ticket_data:
             return json.dumps({"error": "No ticket data provided"}), 400
-        print(dumps(tickets.find().sort({"ticket":-1}).limit(1)[0]))
-        index = (int) (tickets.find().sort({"ticket":-1}).limit(1)[0]['ticket'])
+        print(dumps(tickets.find().sort({"ticket": -1}).limit(1)[0]))
+        index = (int)(tickets.find().sort({"ticket": -1}).limit(1)[0]["ticket"])
         # Insert the new ticket into the database
         print(ticket_data)
-        ticket_data['ticket'] = index+1
+        ticket_data["ticket"] = index + 1
         print(ticket_data)
         result = tickets.insert_one(ticket_data)
         print(result.inserted_id)
@@ -141,36 +136,6 @@ async def create_ticket():
 @app.route("/tickets")
 # @authenticate(TokenManager.ValidationLevel.USER)
 async def get_tickets():
-    # items = json.dumps({"error": "Unexpected Error Occured! Request: " + request.url})
-    # if request.args.__len__() != 0:  # if there are args do:
-    #     if request.args.get("ticket", type=int) is not None:
-    #         return dumps(tickets.find({"ticket": request.args.get("ticket", type=int)}).limit(1))
-    #     elif request.args.get("p") is not None:  # todo serialize the arg to int
-    #         print(request.args.get("p"))
-    #         items = dumps(
-    #             tickets.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
-    #         )  # for selecting pages, use https://site/page?p=i where i is the page number
-    #         if request.args.get("search") is not None:  # todo serialize the arg to int
-    #             if request.args.get("search") == "":
-    #                 items = dumps(
-    #                     tickets.find().skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT)
-    #                 )  # returns first 50 tickets in case ?p= is not in the argument
-    #             else:
-    #                 items = dumps(
-    #                     tickets.find({"$text": {"$search": request.args.get("search")}})
-    #                     .skip(int(request.args.get("p")) * PRODUCT_LIMIT)
-    #                     .limit(PRODUCT_LIMIT)
-    #                 )  # searches through the db and returns at most 50 for the current page
-    #     elif request.args.get("ticket") is not None:
-    #         items = json.dumps({"error": "Invalid Ticket Entered!"})
-    #     else:
-    #         print(request.args.get("p"))
-    # else:
-    #     items = dumps(
-    #         tickets.find().limit(PRODUCT_LIMIT)
-    #     )  # returns first 50 tickets in case ?p= is not in the argument
-    #     print(items)
-    # return items
     items = json.dumps({"error": "Unexpected Error Occured!"})
     search = ""
     if request.args.__len__() != 0:
@@ -181,7 +146,11 @@ async def get_tickets():
             req = tickets.find(search).sort(json.loads(request.args.get("sort")))
         else:
             req = tickets.find(search)
-        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
+        if (
+            request.args.get("p") is not None
+            and request.args.get("p").isnumeric()
+            and int(request.args.get("p")) >= 0
+        ):
             # items = dumps(req.skip(int(request.args.get("p")) * 50).limit(50))
             items = dumps(req.limit(50))
         else:
@@ -189,6 +158,7 @@ async def get_tickets():
     else:
         items = dumps(tickets.find())
     return items
+
 
 @app.route("/tickets/<ticket_id>", methods=["DELETE"])
 # @authenticate(TokenManager.ValidationLevel.USER)
@@ -200,21 +170,26 @@ async def delete_ticket(ticket_id):
         return json.dumps({"message": "Ticket deleted successfully!"}), 200
     except Exception as e:
         return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
-    
-@app.route("/facilities")
-#Returns 50 facilities at a time based on the page number
+
+
+@app.route("/configuration")
+# Returns 50 facilities at a time based on the page number
 async def get_facilities():
     items = json.dumps({"error": "Unexpected Error Occured!"})
     search = ""
     if request.args.__len__() != 0:
         print(request.args)
         if request.args.get("search") is not None and request.args.get("search") != "":
-            search = {"Name":  {"$regex": request.args.get("search"), "$options": "i"}}
+            search = {"Name": {"$regex": request.args.get("search"), "$options": "i"}}
         if request.args.get("sort") is not None and request.args.get("sort") != "":
             req = facilities.find(search).sort(json.loads(request.args.get("sort")))
         else:
             req = facilities.find(search)
-        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
+        if (
+            request.args.get("p") is not None
+            and request.args.get("p").isnumeric()
+            and int(request.args.get("p")) >= 0
+        ):
             # items = dumps(req.skip(int(request.args.get("p")) * 50).limit(50))
             items = dumps(req.limit(50))
         else:
@@ -223,121 +198,161 @@ async def get_facilities():
         items = dumps(facilities.find())
     return items
 
-@app.route("/facility/<facility_id>")
-#Returns the facility with the given id
+
+@app.route("/configuration/<facility_id>")
+# Returns the facility with the given id
 async def get_facility(facility_id):
     print(facility_id)
-    facility = (facilities.find({"PartitionKey": facility_id}).limit(1))
-    groups = (Group.find({"PartitionKey": facility_id}))
-    locations = (Location.find({"PartitionKey": facility_id}))
-    meds = (MEDs.find({"PartitionKey": facility_id}))
-    monitors = (Monitor.find({"PartitionKey": facility_id}))
-    rooms = (Room.find({"PartitionKey": facility_id}))
-    config_alerts = (ConfigAlert.find({"PartitionKey": facility_id}))
-    config_cms = (ConfigCMS.find({"PartitionKey": facility_id}))
-    config_med = (ConfigMED.find({"PartitionKey": facility_id}))
-    cms = (CMSs.find({"PartitionKey": facility_id}))
-    return dumps({
-        "facility": facility,
-        "groups": groups,
-        "locations": locations,
-        "meds": meds,
-        "monitors": monitors,
-        "rooms": rooms,
-        "config_alerts": config_alerts,
-        "config_cms": config_cms,
-        "config_med": config_med,
-        "cms": cms
-    })
+    facility = facilities.find({"PartitionKey": facility_id}).limit(1)
+    groups = Group.find({"PartitionKey": facility_id})
+    locations = Location.find({"PartitionKey": facility_id})
+    meds = MEDs.find({"PartitionKey": facility_id})
+    monitors = Monitor.find({"PartitionKey": facility_id})
+    rooms = Room.find({"PartitionKey": facility_id})
+    config_alerts = ConfigAlert.find({"PartitionKey": facility_id})
+    config_cms = ConfigCMS.find({"PartitionKey": facility_id})
+    config_med = ConfigMED.find({"PartitionKey": facility_id})
+    cms = CMSs.find({"PartitionKey": facility_id})
+    return dumps(
+        {
+            "facility": facility,
+            "groups": groups,
+            "locations": locations,
+            "meds": meds,
+            "monitors": monitors,
+            "rooms": rooms,
+            "config_alerts": config_alerts,
+            "config_cms": config_cms,
+            "config_med": config_med,
+            "cms": cms,
+        }
+    )
 
 
-
-@app.route("/prospects")
-#Returns 50 customers at a time based on the page number
-async def get_prospects():
-    items = json.dumps({"error": "Unexpected Error Occured!"})
-    if request.args.__len__() != 0:
-        print(request.args)
-        if request.args.get("search") is not None and request.args.get("search") != "":
-            search = {"$text": {"$search": request.args.get("search")}, "status": "Pending"}
-        else:
-            search = {"status": "Pending"}
-        if request.args.get("sort") is not None and request.args.get("sort") != "":
-            req = prospects.find(search).sort(json.loads(request.args.get("sort")))
-        else:
-            req = prospects.find(search)
-        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
-            items = dumps(req.skip(int(request.args.get("p")) * CUSTOMER_LIMIT).limit(CUSTOMER_LIMIT))
-        else:
-            items = dumps(req.limit(CUSTOMER_LIMIT))
-    else:
-        items = dumps(prospects.find().limit(CUSTOMER_LIMIT))
-    return items
-
-@app.route("/customers")
-#Returns 50 customers at a time based on the page number
-async def get_customers():
+@app.route("/manifest")
+# returns 50 manifest at a time based on the page number and based on the status of the manifest
+async def get_manifest():
     items = json.dumps({"error": "Unexpected Error Occured!"})
     search = ""
     if request.args.__len__() != 0:
         print(request.args)
         if request.args.get("search") is not None and request.args.get("search") != "":
-            search = {"$text": {"$search": request.args.get("search")}}
+            search = {"Name": {"$regex": request.args.get("search"), "$options": "i"}}
         if request.args.get("sort") is not None and request.args.get("sort") != "":
-            req = customers.find(search).sort(json.loads(request.args.get("sort")))
+            req = manifest.find(search).sort(json.loads(request.args.get("sort")))
         else:
-            req = customers.find(search)
-        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
-            items = dumps(req.skip(int(request.args.get("p")) * CUSTOMER_LIMIT).limit(CUSTOMER_LIMIT))
+            req = manifest.find(search)
+        if (
+            request.args.get("p") is not None
+            and request.args.get("p").isnumeric()
+            and int(request.args.get("p")) >= 0
+        ):
+            # items = dumps(req.skip(int(request.args.get("p")) * 50).limit(50))
+            items = dumps(req.limit(50))
         else:
-            items = dumps(req.limit(CUSTOMER_LIMIT))
+            items = dumps(req.limit(50))
     else:
-        items = dumps(customers.find().limit(CUSTOMER_LIMIT))
+        items = dumps(manifest.find())
     return items
 
-@app.route("/customers/<customer_id>")
-#Returns the customer with the given id
-async def get_customer(customer_id):
-    id = ObjectId(customer_id)
-    print(customer_id)
-    customer = (customers.find({"_id":id}).limit(1)[0])
-    return dumps(customer)
 
-@app.route("/customers", methods=["POST"])
+@app.route("/manifest/active/")
+# returns 50 manifest at a time based on the page number and based on the status of the manifest (active)
+async def get_manifest_active():
+    items = json.dumps({"error": "Unexpected Error Occured!"})
+    search = {"Status": "Active"}
+    if request.args.__len__() != 0:
+        print(request.args)
+        if request.args.get("search") is not None and request.args.get("search") != "":
+            search = {
+                "Status": "Active",
+                "Name": {"$regex": request.args.get("search"), "$options": "i"},
+            }
+        if request.args.get("sort") is not None and request.args.get("sort") != "":
+            req = manifest.find(search).sort(json.loads(request.args.get("sort")))
+        else:
+            req = manifest.find(search)
+        if (
+            request.args.get("p") is not None
+            and request.args.get("p").isnumeric()
+            and int(request.args.get("p")) >= 0
+        ):
+            items = dumps(req.limit(50))
+        else:
+            items = dumps(req.limit(50))
+    else:
+        items = dumps(manifest.find())
+    return items
+
+@app.route("/manifest/prospect/")
+# returns 50 manifest at a time based on the page number and based on the status of the manifest (prospect)
+async def get_manifest_prospect():
+    items = json.dumps({"error": "Unexpected Error Occured!"})
+    search = {"Status": "Prospect"}
+    if request.args.__len__() != 0:
+        print(request.args)
+        if request.args.get("search") is not None and request.args.get("search") != "":
+            search = {
+                "Status": "Prospect",
+                "Name": {"$regex": request.args.get("search"), "$options": "i"},
+            }
+        if request.args.get("sort") is not None and request.args.get("sort") != "":
+            req = manifest.find(search).sort(json.loads(request.args.get("sort")))
+        else:
+            req = manifest.find(search)
+        if (
+            request.args.get("p") is not None
+            and request.args.get("p").isnumeric()
+            and int(request.args.get("p")) >= 0
+        ):
+            items = dumps(req.limit(50))
+        else:
+            items = dumps(req.limit(50))
+    else:
+        items = dumps(manifest.find())
+    return items
+
+
+
+@app.route("/manifest/<manifest_id>")
+# Returns the manifest with the given id
+async def get_manifest_id(manifest_id):
+    manifest_id = manifest.find({"PartitionKey": manifest_id}).limit(1)
+    return dumps(manifest_id)
+
+
+@app.route("/manifest", methods=["POST"])
 # @authenticate(TokenManager.ValidationLevel.USER)
-async def create_customer():
+async def create_manifest():
     try:
-        customer_data = await request.get_json()
-        print(customer_data)
-        if not customer_data:
-            return json.dumps({"error": "No customer data provided"}), 400
-        result = customers.insert_one(customer_data)
-        return dumps(customers.find_one(result.inserted_id)), 201
+        manifest_data = await request.get_json()
+        print(manifest_data)
+        if not manifest_data:
+            return json.dumps({"error": "No manifest data provided"}), 400
+        result = manifest.insert_one(manifest_data)
+        return dumps(manifest.find_one(result.inserted_id)), 201
     except Exception as e:
         return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
-    
-@app.route("/customers/<customer_id>", methods=["POST"])
+
+
+@app.route("/manifest/<manifest_id>", methods=["POST"])
 # @authenticate(TokenManager.ValidationLevel.USER)
-async def update_customer(customer_id):
+# updates the manifest with the given id
+async def update_manifest(manifest_id):
     try:
-        customer_data = await request.get_json()
-        print(customer_data)
-        if not customer_data:
-            return json.dumps({"error": "No customer data provided"}), 419
-        current_customer = customers.find_one({"_id": ObjectId(customer_id)})
-        if(str(current_customer["_id"]) != str(customer_data["_id"]["$oid"])):
-            return json.dumps({"error": "Customer ID does not match!" + str(customer_data["_id"]["$oid"]) + "!=" + str(current_customer["_id"])}), 420
-        customer_data["_id"] = current_customer["_id"]
-        print("-----------------")
-        print( customers.find_one_and_replace(
-            {"_id": ObjectId(customer_id)}, customer_data
-        ))
-        # if result.modified_count == 0:
-        #     return json.dumps({"error": "Customer not updates!"}), 405
-        return json.dumps({"message": "Customer replaced successfully!"}), 200
+        manifest_data = await request.get_json()
+        print(manifest_data)
+        if not manifest_data:
+            return json.dumps({"error": "No manifest data provided"}), 400
+        current_manifest = manifest.find_one({"_id": ObjectId(manifest_id)})
+        manifest_data["_id"] = current_manifest["_id"]
+        result = manifest.replace_one({"PartitionKey": manifest_id}, manifest)
+        if result.modified_count == 0:
+            return json.dumps({"error": "Manifest not updates!"}), 405
+        return json.dumps({"message": "Manifest replaced successfully!"}), 200
     except Exception as e:
-        print(e)
         return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
+
 
 # Add api for product wiki
 @app.route("/wiki")
@@ -354,24 +369,34 @@ async def get_wiki():
             req = productWiki.find(search).sort(json.loads(request.args.get("sort")))
         else:
             req = productWiki.find(search)
-        if request.args.get("p") is not None and request.args.get("p").isnumeric() and int(request.args.get("p")) >= 0:
-            items = dumps(req.skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(PRODUCT_LIMIT))
+        if (
+            request.args.get("p") is not None
+            and request.args.get("p").isnumeric()
+            and int(request.args.get("p")) >= 0
+        ):
+            items = dumps(
+                req.skip(int(request.args.get("p")) * PRODUCT_LIMIT).limit(
+                    PRODUCT_LIMIT
+                )
+            )
         else:
             items = dumps(req.limit(PRODUCT_LIMIT))
     else:
         items = dumps(productWiki.find().limit(PRODUCT_LIMIT))
     return items
 
+
 @app.route("/wiki/<product_id>")
-#Returns the product with the given id
+# Returns the product with the given id
 async def get_product_wiki(product_id):
     print(product_id)
-    product = (productWiki.find({"_id": ObjectId(product_id)}).limit(1))
+    product = productWiki.find({"_id": ObjectId(product_id)}).limit(1)
     print(product)
     return dumps(product)
 
+
 @app.route("/wiki", methods=["POST"])
-# @authenticate(TokenManager.ValidationLevel.USER)  
+# @authenticate(TokenManager.ValidationLevel.USER)
 async def create_product_wiki():
     try:
         product_data = await request.get_json()
@@ -382,7 +407,7 @@ async def create_product_wiki():
         return dumps(productWiki.find_one(result.inserted_id)), 201
     except Exception as e:
         return json.dumps({"error": f"Unexpected Error Occured: {str(e)}"}), 500
-    
+
 
 # @app.route("/ticket")
 # # @authenticate(TokenManager.ValidationLevel.USER)

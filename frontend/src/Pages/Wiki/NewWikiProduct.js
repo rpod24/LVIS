@@ -95,6 +95,10 @@ function NewWikiProduct() {
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
                 </div>
                 <div className="form-group">
+                    <label>SKU:</label>
+                    <input type="text" value={SKU} onChange={(e) => setSKU(e.target.value)} />
+                </div>
+                <div className="form-group">
                     <label>Description:</label>
                     <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
                 </div>
@@ -175,10 +179,6 @@ function NewWikiProduct() {
                 <div className="form-group">
                     <label>Notes:</label>
                     <input type="text" value={notes} onChange={(e) => setNotes(e.target.value)} />
-                </div>
-                <div className="form-group">
-                    <label>SKU:</label>
-                    <input type="text" value={SKU} onChange={(e) => setSKU(e.target.value)} />
                 </div>
                 <button type="submit" className="submit-button">Submit</button>
             </form>

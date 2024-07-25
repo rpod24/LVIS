@@ -295,7 +295,7 @@ import { BASE_URL } from "../../defaults";
 function Facility() {
   const param = useParams();
   const [page, setPage] = useState(
-    Number(window.localStorage.getItem("facilityPage")) || 0
+    Number(window.localStorage.getItem("configurationPage")) || 0
   );
   const [CMS, setCMS] = useState([{
     PartitionKey: "",
@@ -568,7 +568,7 @@ function Facility() {
   useEffect(() => {
     const fetchFacility = async () => {
       try {
-        var url = `http://${BASE_URL}/facility/${param.id}`;
+        var url = `http://${BASE_URL}/configuration/${param.id}`;
         console.log(url);
         facilityData = (await axios.get(url)).data;
         console.log(facilityData);
@@ -598,7 +598,7 @@ function Facility() {
 
   const handleClick = (pageNumber) => {
     setPage(pageNumber);
-    window.localStorage.setItem("facilityPage", pageNumber);
+    window.localStorage.setItem("configurationPage", pageNumber);
   };
 
   const handleChange = (event) => {

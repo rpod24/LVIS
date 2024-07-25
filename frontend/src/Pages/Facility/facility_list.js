@@ -19,8 +19,8 @@ function ViewFacilities() {
     const fetchFacilities = async (page, searchTerm, sort, sortDir) => {
         try {
             console.log(sort);
-            var url = `http://${BASE_URL}/facilities?p=${page}`
-            var urlNext = `http://${BASE_URL}/facilities?p=${page + 1}`
+            var url = `http://${BASE_URL}/configuration?p=${page}`
+            var urlNext = `http://${BASE_URL}/configuration?p=${page + 1}`
             if (searchTerm !== 'null') {
                 url+= `&search=${searchTerm}`
             }
@@ -44,7 +44,7 @@ function ViewFacilities() {
     };
 
     const handleRowClick = (facility) => {
-        navigate('/Facility/' + facility);
+        navigate('/Configuration/' + facility);
     };
 
     const handleNextPage = () => {

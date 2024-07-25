@@ -133,12 +133,17 @@ function Ticket() {
         <div className="row">
           <p><strong>Status:</strong>
             {isEditing ? (
-              <input
+              <select
                 type="text"
                 name="status"
                 value={formData.status}
                 onChange={handleInputChange}
-              />
+              >
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="pending">Pending</option>
+                <option value="holding">On Hold</option>
+              </select>
             ) : (
               ticket.status
             )}

@@ -2,6 +2,8 @@
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@material-ui/lab": "^4.0.0-alpha.61",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0",
     "pip": "^0.0.1",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.23.1",

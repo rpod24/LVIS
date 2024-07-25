@@ -32,7 +32,6 @@ function WikiProduct() {
                     <h2>{wikiProducts.name}</h2>
                     <p>{wikiProducts.description}</p>
                 </div>
-                {/* Show images if possilbe */}
                 <div className="wikiImage">
                     {wikiProducts.images && wikiProducts.images.map((image) => (
                         <img className='product-image' key={image} src={image} alt={image} />

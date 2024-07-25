@@ -50,7 +50,7 @@ function Prospects() {
   };
 
   const handleRowClick = (facility) => {
-    navigate("/Customer/" + facility);
+    navigate("/Manifest/" + facility);
   };
 
   const handleNextPage = () => {
@@ -76,7 +76,7 @@ function Prospects() {
         <h1>View Facilities</h1>
         <button
           onClick={() => {
-            navigate("/Customer/New");
+            navigate("/Manifest/New");
           }}
         >
           New Prospect
