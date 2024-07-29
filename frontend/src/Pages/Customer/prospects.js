@@ -24,11 +24,11 @@ function Prospects() {
   const fetchFacilitys = async (page, searchTerm) => {
     try {
       const currentPageResponse = await axios.get(
-        `http://${BASE_URL}/customers?p=${page}&search=${searchTerm}`,
+        `http://${BASE_URL}/manifest/prospect/?p=${page}&search=${searchTerm}`,
           config
       );
       const nextPageResponse = await axios.get(
-        `http://${BASE_URL}/customers?p=${page + 1}&search=${searchTerm}`
+        `http://${BASE_URL}/manifest/prospect/?p=${page + 1}&search=${searchTerm}`
       );
 
       if (
@@ -50,7 +50,7 @@ function Prospects() {
   };
 
   const handleRowClick = (facility) => {
-    navigate("/Manifest/" + facility);
+    navigate("/Manifest/Prospects/" + facility);
   };
 
   const handleNextPage = () => {
@@ -109,8 +109,8 @@ function Prospects() {
             })
             .map((facility) => (
               <tr
-                key={facility._id.$oid}
-                onClick={() => handleRowClick(facility._id.$oid)}
+                key={facility._id}
+                onClick={() => handleRowClick(facility._id)}
                 style={{ cursor: "pointer" }}
               >
                 {/* Facility, product, version, isntall date, ship date, room numbers?, wifi?, next step */}

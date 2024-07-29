@@ -149,9 +149,9 @@ function NewManifest() {
     };
     event.preventDefault();
     try {
-      const response = await axios.post(`http://${BASE_URL}/customers`, newProspect);
+      const response = await axios.post(`http://${BASE_URL}/manifest`, newProspect);
       console.log(response);
-      navigate(`/Manifest/${response.data._id.$oid}`);
+      navigate(`/Manifest/${response.data._id}`);
     }
     catch (error) {
       console.error("There was an error creating the prospect!", error);

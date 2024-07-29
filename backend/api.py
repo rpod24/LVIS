@@ -256,11 +256,40 @@ async def get_manifest():
     return items
 
 
+@app.route("/manifest/assembly/")
+# returns 50 manifest at a time based on the page number and based on the status of the manifest (active)
+async def get_manifest_aseembly():
+    items = json.dumps({"error": "Unexpected Error Occured!"})
+    search = {"status": "Assembly"}
+    if request.args.__len__() != 0:
+        print(request.args)
+        if request.args.get("search") is not None and request.args.get("search") != "":
+            print(request.args.get("search"))
+            search = {
+                "status": "Assembly",
+                "Name": {"$regex": request.args.get("search"), "$options": "i"},
+            }
+        if request.args.get("sort") is not None and request.args.get("sort") != "":
+            req = manifest.find(search).sort(json.loads(request.args.get("sort")))
+        else:
+            req = manifest.find(search)
+        if (
+            request.args.get("p") is not None
+            and request.args.get("p").isnumeric()
+            and int(request.args.get("p")) >= 0
+        ):
+            items = dumps(req.limit(50))
+        else:
+            items = dumps(req.limit(50))
+    else:
+        items = dumps(manifest.find(search))
+    return items
+
 @app.route("/manifest/active/")
 # returns 50 manifest at a time based on the page number and based on the status of the manifest (active)
 async def get_manifest_active():
     items = json.dumps({"error": "Unexpected Error Occured!"})
-    search = {"Status": "Active"}
+    search = {"status": "Active"}
     if request.args.__len__() != 0:
         print(request.args)
         if request.args.get("search") is not None and request.args.get("search") != "":
@@ -281,21 +310,18 @@ async def get_manifest_active():
         else:
             items = dumps(req.limit(50))
     else:
-        items = dumps(manifest.find())
+        items = dumps(manifest.find(search))
     return items
 
 @app.route("/manifest/prospect/")
 # returns 50 manifest at a time based on the page number and based on the status of the manifest (prospect)
 async def get_manifest_prospect():
     items = json.dumps({"error": "Unexpected Error Occured!"})
-    search = {"Status": "Prospect"}
+    search = {'status': "Pending"}
     if request.args.__len__() != 0:
         print(request.args)
         if request.args.get("search") is not None and request.args.get("search") != "":
-            search = {
-                "Status": "Prospect",
-                "Name": {"$regex": request.args.get("search"), "$options": "i"},
-            }
+            search = {'$and':[{"Status": "Prospect"},{"Name": {"$regex": request.args.get("search"), "$options": "i"}}]}
         if request.args.get("sort") is not None and request.args.get("sort") != "":
             req = manifest.find(search).sort(json.loads(request.args.get("sort")))
         else:
@@ -309,14 +335,14 @@ async def get_manifest_prospect():
         else:
             items = dumps(req.limit(50))
     else:
-        items = dumps(manifest.find())
+        items = dumps(manifest.find(search))
     return items
 
 @app.route("/manifest/<manifest_id>")
 # Returns the manifest with the given id
 async def get_manifest_id(manifest_id):
-    manifest_id = manifest.find({"PartitionKey": manifest_id}).limit(1)
-    return dumps(manifest_id)
+    manifest_id = manifest.find({"_id": ObjectId(manifest_id)}).limit(1)
+    return dumps(manifest_id[0])
 
 
 @app.route("/manifest", methods=["POST"])
@@ -344,7 +370,7 @@ async def update_manifest(manifest_id):
             return json.dumps({"error": "No manifest data provided"}), 400
         current_manifest = manifest.find_one({"_id": ObjectId(manifest_id)})
         manifest_data["_id"] = current_manifest["_id"]
-        result = manifest.replace_one({"PartitionKey": manifest_id}, manifest)
+        result = manifest.replace_one({"_id": ObjectId(manifest_id)}, manifest_data)
         if result.modified_count == 0:
             return json.dumps({"error": "Manifest not updates!"}), 405
         return json.dumps({"message": "Manifest replaced successfully!"}), 200

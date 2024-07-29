@@ -9,10 +9,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 // import { BsSearch } from 'react-icons/bs';
 
 import './navbarStyle.css';
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 function TopNav() {
+  const location = useLocation();
   const [showCustomerInfo, setShowCustomerInfo] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const navigate = useNavigate();
@@ -23,18 +24,40 @@ function TopNav() {
   const handleMouseEnterSupportDropDown = () => setShowSupport(true);
   const handleMouseLeaveSupportDropDown = () => setShowSupport(false);
 
+  const [location1, setLocation1] = useState("");
+  const [location2, setLocation2] = useState("");
+
+  useEffect(() => {
+    setLocation1(location.pathname.split("/")[1]);
+    setLocation2(location.pathname.split("/")[2]);
+  }, []);
+
   const handleCustomerInfoClick = (event) => {
     event.preventDefault();
-    navigate('/Manifest/Current');
+    navigate('/Manifest/Active');
+    setLocation1("Manifest"); 
+    setLocation2("Active");
   };
 
   const handleSupportClick = (event) => {
     event.preventDefault();
-    navigate('/Support/CreateTicket');
+    navigate('/Support/CreateTicket'); 
+    setLocation1("Support"); 
+    setLocation2("");
   };
+
+  const handleRouteDisplay = (event) => {
+    event.preventDefault();
+  }
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
+      <div style={{ 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'flexStart', 'marginLeft': '10px' }}
+      >
+        <p>LVIS</p>
+        <p>{location1}</p>
+        <p>{location2}</p>
+      </div>
       <Container>
         <Navbar.Brand href="/home">LVIS</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -50,10 +73,10 @@ function TopNav() {
               show={showCustomerInfo}
               onMouseEnter={handleMouseEnterCustomerInfoDropDown}
               onMouseLeave={handleMouseLeaveCustomerInfoDropDown}
-              >
-              <NavDropdown.Item as={Link} to="/Manifest/Current">Active</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/Manifest/Assembly">In Progress</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/Manifest/Prospects">Prospects</NavDropdown.Item>
+            >
+              <NavDropdown.Item as={Link} to="/Manifest/Active" onClick={() => { setLocation1("Manifest"); setLocation2("Active"); }}>Active</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/Manifest/Assembly" onClick={() => { setLocation1("Manifest"); setLocation2("Assembly"); }}>In Progress</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/Manifest/Prospects" onClick={() => { setLocation1("Manifest"); setLocation2("Prospects"); }}>Prospects</NavDropdown.Item>
               {/* <NavDropdown.Item as={Link} to="/Customer/Former">Former</NavDropdown.Item> */}
             </NavDropdown>
             <NavDropdown
@@ -66,15 +89,15 @@ function TopNav() {
               show={showSupport}
               onMouseEnter={handleMouseEnterSupportDropDown}
               onMouseLeave={handleMouseLeaveSupportDropDown}
-              >
-              <NavDropdown.Item as={Link} to="/Support/CreateTicket">Open a Ticket</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/Support/Tickets">View Tickets</NavDropdown.Item>
+            >
+              <NavDropdown.Item as={Link} to="/Support/CreateTicket" onClick={() => { setLocation1("Tickets"); setLocation2("Creating Ticket"); }}>Open a Ticket</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/Support/Tickets" onClick={() => { setLocation1("Tickets"); setLocation2(""); }}>View Tickets</NavDropdown.Item>
             </NavDropdown>
             {/* <Nav.Link href="/Configuration">Configuration</Nav.Link> */}
-            <Nav.Link href="/Configuration">Configuration</Nav.Link>
-            <Nav.Link href="/Wiki">Product Wiki</Nav.Link>
-            <Nav.Link href="/Inventory">Inventory</Nav.Link>
-            <Nav.Link href="/Marketing">Marketing</Nav.Link>
+            <Nav.Link href="/Configuration" onClick={() => { setLocation1("Configuration"); setLocation2(""); }}>Configuration</Nav.Link>
+            <Nav.Link href="/Wiki" onClick={() => { setLocation1("Wiki"); setLocation2(""); }}>Product Wiki</Nav.Link>
+            <Nav.Link href="/Inventory" onClick={() => { setLocation1("Inventory"); setLocation2(""); }}>Inventory</Nav.Link>
+            <Nav.Link href="/Marketing" onClick={() => { setLocation1("Marketing"); setLocation2(""); }}>Marketing</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         {/* <Form inline className="d-flex">

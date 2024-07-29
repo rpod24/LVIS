@@ -12,17 +12,19 @@ import Ticket from './Pages/Support/view_ticket';
 import Wiki from './Pages/Wiki/Wiki';
 import Inventory from "./Pages/Inventory/inventory";
 import Admin from "./Pages/admin";
-import Configuration from "./Pages/configuration";
 import Login from "./Pages";
 import Home from "./Pages/home";
 import ViewFacilities from "./Pages/Facility/facility_list";
 import Facility from "./Pages/Facility/facility";
 import './App.css';
-import Current from "./Pages/Customer/current";
+import Active from "./Pages/Customer/active";
 import NewManifest from "./Pages/Customer/newManifest";
 import WikiProduct from "./Pages/Wiki/WikiProduct";
 import NewWikiProduct from "./Pages/Wiki/NewWikiProduct";
-import Manifest from "./Pages/Customer/manifest";
+import Assembly from "./Pages/Customer/assembly";
+import ManifestProspect from "./Pages/Customer/manifest/manifest_prospect";
+import ManifestAssembly from "./Pages/Customer/manifest/manifest_assembly";
+import ManifestActive from "./Pages/Customer/manifest/manifest_active";
 
 const App = () => {
   const location = useLocation();
@@ -38,9 +40,12 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/Manifest/Current" element={<Current />} />
+        <Route path="/Manifest/Active" element={<Active />} />
+        <Route path="/Manifest/Active/:id" element={<ManifestActive />} />
+        <Route path="/Manifest/Assembly" element={<Assembly />} />
+        <Route path="/Manifest/Assembly/:id" element={<ManifestAssembly />} />
         <Route path="/Manifest/Prospects" element={<Prospects />} />
-        <Route path="/Manifest/:id" element={<Manifest />} />
+        <Route path="/Manifest/Prospects/:id" element={<ManifestProspect />} />
         <Route path="/Manifest/Former" element={<Former />} />
         <Route path="/Manifest/New" element={<NewManifest />} />
 
@@ -48,7 +53,7 @@ const App = () => {
         <Route path="/Support/Ticket/:id" element={<Ticket />} />
         <Route path="/Support/Tickets" element={<ViewTickets />} />
 
-        <Route path="/Configuration" element={<Configuration />} />
+        <Route path="/Configuration" element={<ViewFacilities />} />
         <Route path="/Wiki" element={<Wiki />} />
         <Route path="/Wiki/New" element={<NewWikiProduct />} />
         <Route path="/Wiki/:id" element={<WikiProduct />} />
