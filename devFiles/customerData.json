@@ -1,0 +1,22 @@
+{
+  "customerName": "",
+  "partner": false,
+  "corperate": false,
+  "vent": "",
+  "rent": false,
+  "installationStart": "",
+  "installationEnd": "",
+  "warrentyEnd": "",
+  "rentalEnd": "",
+  "endOfFirmco": "",
+  "endOfServiceContract": "",
+  "owner": "",
+  "contractWith": "",
+  "contractSigned": false,
+  "phone": "",
+  "email": "",
+  "address": "",
+  "city": "",
+  "zip": "",
+  "country": ""
+}

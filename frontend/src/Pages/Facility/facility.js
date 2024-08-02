@@ -36,7 +36,6 @@ import { BASE_URL } from "../../defaults";
 //   "Locked": "Boolean",
 // }
 
-
 // Group
 // {
 //   "PartitionKey": "String",
@@ -64,7 +63,6 @@ import { BASE_URL } from "../../defaults";
 //   "ServiceHistory": "String",
 //   "Spare": "Boolean"
 // }
-
 
 // Location
 // {
@@ -297,76 +295,30 @@ function Facility() {
   const [page, setPage] = useState(
     Number(window.localStorage.getItem("configurationPage")) || 0
   );
-  const [CMS, setCMS] = useState([{
-    PartitionKey: "",
-    RowKey: "",
-    Timestamp: "",
-    FacilityID: "",
-    GroupID: "",
-    CMS: "",
-    ConfigID: "",
-    HWVersion: "",
-    OSVersion: "",
-    SWVersion: "",
-    PTVersion: "",
-    RadioVersion: "",
-    LastBootDT: "",
-    LastSyncedDT: "",
-    LastSignal: "",
-    TimeOffset: 0.0,
-    Status: "",
-  }]);
-  const [ConfigAlert, setConfigAlert] = useState([{
-    AlertMin: {
+  const [CMS, setCMS] = useState([
+    {
       PartitionKey: "",
       RowKey: "",
       Timestamp: "",
-      DefinitionType: "",
-      Shift: "",
-      EquipmentType: "",
-      ID: "",
-      AlertFilter: "",
-      DevFilter: "",
-      Enabled: false,
-      Seconds: 0,
-      SecondsFromStart: 0,
-      SecondsFromClear: 0,
-      Color1: "",
-      Color2: "",
-      Blinks: false,
-      SortLast: false,
-      Tone: "",
-      Repeats: false,
-      Volume: 0,
-      AlertCount: 0,
-      Timeout: 0,
+      FacilityID: "",
+      GroupID: "",
+      CMS: "",
+      ConfigID: "",
+      HWVersion: "",
+      OSVersion: "",
+      SWVersion: "",
+      PTVersion: "",
+      RadioVersion: "",
+      LastBootDT: "",
+      LastSyncedDT: "",
+      LastSignal: "",
+      TimeOffset: 0.0,
+      Status: "",
     },
-    Timeout: {
-      PartitionKey: "",
-      RowKey: "",
-      Timestamp: "",
-      DefinitionType: "",
-      Shift: "",
-      EquipmentType: "",
-      ID: "",
-      AlertFilter: "",
-      DevFilter: "",
-      Enabled: false,
-      Seconds: 0,
-      SecondsFromStart: 0,
-      SecondsFromClear: 0,
-      Color1: "",
-      Color2: "",
-      Blinks: false,
-      SortLast: false,
-      Tone: "",
-      Repeats: false,
-      Volume: 0,
-      AlertCount: 0,
-      Timeout: 0,
-    },
-    Elevaton: [
-      {
+  ]);
+  const [ConfigAlert, setConfigAlert] = useState([
+    {
+      AlertMin: {
         PartitionKey: "",
         RowKey: "",
         Timestamp: "",
@@ -390,7 +342,7 @@ function Facility() {
         AlertCount: 0,
         Timeout: 0,
       },
-      {
+      Timeout: {
         PartitionKey: "",
         RowKey: "",
         Timestamp: "",
@@ -414,53 +366,107 @@ function Facility() {
         AlertCount: 0,
         Timeout: 0,
       },
-    ],
-  }]);
-  const [ConfigCMS, setConfigCMS] = useState([{
-    PartitionKey: "",
-    RowKey: "",
-    Timestamp: "",
-    FacilityID: "",
-    ShowGroupOnly: false,
-    ShowLocationPane: false,
-    ShowEmptyRooms: false,
-    ShowAllStatus: false,
-    ShowSpares: false,
-    StatusDirection: "",
-    ColumnLeveling: false,
-    DefaultVolume: 0,
-    PlayConnectTones: false,
-    PlayDCConnectTones: false,
-    PlayLocConnectTones: false,
-    UseMobileWarn: false,
-    RecentAlertPeriod: 0,
-    ShowResponse: false,
-    ResponseTarget: 0,
-    CustomPort: "",
-    DisableScreen: false,
-    VendorMessage: "",
-    SyncTimeout: 0,
-    SyncInterval: 0,
-    SyncFailToOffline: 0,
-    FullSyncInterval: 0,
-    CheckInPeriod: 0,
-  }]);
-  const [ConfigMED, setConfigMED] = useState([{
-    PartitionKey: "",
-    RowKey: "",
-    Timestamp: "",
-    FacilityID: "",
-    GroupIDs: "",
-    DisableSettings: false,
-    Brightness: 0,
-    MaxEscalation: false,
-    Notification: 0,
-    Vibration: false,
-    Volume: 0,
-    Ucode: 0,
-    SUCode: 0,
-    Acode: 0,
-  }]);
+      Elevaton: [
+        {
+          PartitionKey: "",
+          RowKey: "",
+          Timestamp: "",
+          DefinitionType: "",
+          Shift: "",
+          EquipmentType: "",
+          ID: "",
+          AlertFilter: "",
+          DevFilter: "",
+          Enabled: false,
+          Seconds: 0,
+          SecondsFromStart: 0,
+          SecondsFromClear: 0,
+          Color1: "",
+          Color2: "",
+          Blinks: false,
+          SortLast: false,
+          Tone: "",
+          Repeats: false,
+          Volume: 0,
+          AlertCount: 0,
+          Timeout: 0,
+        },
+        {
+          PartitionKey: "",
+          RowKey: "",
+          Timestamp: "",
+          DefinitionType: "",
+          Shift: "",
+          EquipmentType: "",
+          ID: "",
+          AlertFilter: "",
+          DevFilter: "",
+          Enabled: false,
+          Seconds: 0,
+          SecondsFromStart: 0,
+          SecondsFromClear: 0,
+          Color1: "",
+          Color2: "",
+          Blinks: false,
+          SortLast: false,
+          Tone: "",
+          Repeats: false,
+          Volume: 0,
+          AlertCount: 0,
+          Timeout: 0,
+        },
+      ],
+    },
+  ]);
+  const [ConfigCMS, setConfigCMS] = useState([
+    {
+      PartitionKey: "",
+      RowKey: "",
+      Timestamp: "",
+      FacilityID: "",
+      ShowGroupOnly: false,
+      ShowLocationPane: false,
+      ShowEmptyRooms: false,
+      ShowAllStatus: false,
+      ShowSpares: false,
+      StatusDirection: "",
+      ColumnLeveling: false,
+      DefaultVolume: 0,
+      PlayConnectTones: false,
+      PlayDCConnectTones: false,
+      PlayLocConnectTones: false,
+      UseMobileWarn: false,
+      RecentAlertPeriod: 0,
+      ShowResponse: false,
+      ResponseTarget: 0,
+      CustomPort: "",
+      DisableScreen: false,
+      VendorMessage: "",
+      SyncTimeout: 0,
+      SyncInterval: 0,
+      SyncFailToOffline: 0,
+      FullSyncInterval: 0,
+      CheckInPeriod: 0,
+    },
+  ]);
+  const [ConfigMED, setConfigMED] = useState([
+    {
+      PartitionKey: "",
+      RowKey: "",
+      Timestamp: "",
+      FacilityID: "",
+      GroupIDs: "",
+      DisableSettings: false,
+      Brightness: 0,
+      MaxEscalation: false,
+      Notification: 0,
+      Vibration: false,
+      Volume: 0,
+      Ucode: 0,
+      SUCode: 0,
+      Acode: 0,
+    },
+  ]);
   const [Facility, setFacility] = useState({
     PartitionKey: "",
     RowKey: "",
@@ -490,79 +496,89 @@ function Facility() {
     Dirty: false,
     Locked: false,
   });
-  const [Group, setGroup] = useState([{
-    PartitionKey: "",
-    RowKey: "",
-    Timestamp: "",
-    FacilityID: "",
-    GroupID: "",
-    Name: "",
-    ShortName: "",
-    ServiceHistory: "",
-    Installation: "",
-    Spare: false,
-    LastRecordDT: "",
-    UpdateFromDT: "",
-  }]);
-  const [Location, setLocation] = useState([{
-    PartitionKey: "",
-    RowKey: "",
-    Timestamp: "",
-    GroupID: "",
-    RoomID: "",
-    LocationID: "",
-    LocationSN: "",
-    ServiceHistory: "",
-    Spare: false,
-    Portable: false,
-  }]);
-  const [MED, setMED] = useState([{
-    PartitionKey: "",
-    RowKey: "",
-    Timestamp: "",
-    FacilityID: "",
-    MedID: "",
-    ConfigID: "",
-    HWType: "",
-    HWVersion: "",
-    OSVersion: "",
-    SWVersion: "",
-    LastBootDT: "",
-    Status: "",
-  }]);
-  const [Monitor, setMonitor] = useState([{
-    PartitionKey: "",
-    RowKey: "",
-    Timestamp: "",
-    LastGroupID: "",
-    LastLocationID: "",
-    MonitorID: "",
-    MonitorSN: "",
-    ServiceHistory: "",
-    Model: "",
-    HWVersion: "",
-    SWVersion: "",
-    BatteryState: "",
-    LastBattery: 0.0,
-    LastTxID: "",
-    LastRecordDT: "",
-    LastSequence: "",
-    LastSequenceDT: "",
-    SignalCMS: "",
-    Status: "",
-    ServiceDetail: "",
-    UpdateFromDT: "",
-  }]);
-  const [Room, setRoom] = useState([{
-    PartitionKey: "",
-    RowKey: "",
-    Timestamp: "",
-    FacilityID: "",
-    GroupID: "",
-    RoomID: "",
-    ServiceHistory: "",
-    Spare: false,
-  }]);
+  const [Group, setGroup] = useState([
+    {
+      PartitionKey: "",
+      RowKey: "",
+      Timestamp: "",
+      FacilityID: "",
+      GroupID: "",
+      Name: "",
+      ShortName: "",
+      ServiceHistory: "",
+      Installation: "",
+      Spare: false,
+      LastRecordDT: "",
+      UpdateFromDT: "",
+    },
+  ]);
+  const [Location, setLocation] = useState([
+    {
+      PartitionKey: "",
+      RowKey: "",
+      Timestamp: "",
+      GroupID: "",
+      RoomID: "",
+      LocationID: "",
+      LocationSN: "",
+      ServiceHistory: "",
+      Spare: false,
+      Portable: false,
+    },
+  ]);
+  const [MED, setMED] = useState([
+    {
+      PartitionKey: "",
+      RowKey: "",
+      Timestamp: "",
+      FacilityID: "",
+      MedID: "",
+      ConfigID: "",
+      HWType: "",
+      HWVersion: "",
+      OSVersion: "",
+      SWVersion: "",
+      LastBootDT: "",
+      Status: "",
+    },
+  ]);
+  const [Monitor, setMonitor] = useState([
+    {
+      PartitionKey: "",
+      RowKey: "",
+      Timestamp: "",
+      LastGroupID: "",
+      LastLocationID: "",
+      MonitorID: "",
+      MonitorSN: "",
+      ServiceHistory: "",
+      Model: "",
+      HWVersion: "",
+      SWVersion: "",
+      BatteryState: "",
+      LastBattery: 0.0,
+      LastTxID: "",
+      LastRecordDT: "",
+      LastSequence: "",
+      LastSequenceDT: "",
+      SignalCMS: "",
+      Status: "",
+      ServiceDetail: "",
+      UpdateFromDT: "",
+    },
+  ]);
+  const [Room, setRoom] = useState([
+    {
+      PartitionKey: "",
+      RowKey: "",
+      Timestamp: "",
+      FacilityID: "",
+      GroupID: "",
+      RoomID: "",
+      ServiceHistory: "",
+      Spare: false,
+    },
+  ]);
   var facilityData;
 
   useEffect(() => {
@@ -584,17 +600,17 @@ function Facility() {
   }, [param.id]);
 
   const setData = (facilityData) => {
-        setFacility(facilityData.facility[0]);
-        setCMS(facilityData.cms);
-        setConfigAlert(facilityData.config_alerts);
-        setConfigCMS(facilityData.config_cms);
-        setConfigMED(facilityData.config_med);
-        setGroup(facilityData.groups);
-        setLocation(facilityData.locations);
-        setRoom(facilityData.rooms);
-        setMonitor(facilityData.monitors);
-        setMED(facilityData.meds);
-  }
+    setFacility(facilityData.facility[0]);
+    setCMS(facilityData.cms);
+    setConfigAlert(facilityData.configAlerts);
+    setConfigCMS(facilityData.configCMS);
+    setConfigMED(facilityData.configMED);
+    setGroup(facilityData.groups);
+    setLocation(facilityData.locations);
+    setRoom(facilityData.rooms);
+    setMonitor(facilityData.monitors);
+    setMED(facilityData.meds);
+  };
 
   const handleClick = (pageNumber) => {
     setPage(pageNumber);
@@ -603,9 +619,13 @@ function Facility() {
 
   const handleChange = (event) => {
     const { name, value, type, checked, id } = event.target;
+    console.log(name, value, type, checked, id);
     switch (page) {
       case 1:
-        setFacility({ ...Facility, [name]: type === "checkbox" ? checked : value });
+        setFacility({
+          ...Facility,
+          [name]: type === "checkbox" ? checked : value,
+        });
         break;
       case 2:
         setCMS({ ...CMS, [name]: type === "checkbox" ? checked : value });
@@ -614,27 +634,72 @@ function Facility() {
         setGroup({ ...Group, [name]: type === "checkbox" ? checked : value });
         break;
       case 4:
-        setLocation({ ...Location, [name]: type === "checkbox" ? checked : value });
+        setLocation({
+          ...Location,
+          [name]: type === "checkbox" ? checked : value,
+        });
         break;
       case 5:
         setRoom({ ...Room, [name]: type === "checkbox" ? checked : value });
         break;
       case 6:
-        setMonitor({ ...Monitor, [name]: type === "checkbox" ? checked : value });
+        setMonitor({
+          ...Monitor,
+          [name]: type === "checkbox" ? checked : value,
+        });
         break;
       case 7:
         setMED({ ...MED, [name]: type === "checkbox" ? checked : value });
         break;
       case 8:
-        setConfigAlert({ ...ConfigAlert, [name]: type === "checkbox" ? checked : value });
+        if(id === "AlertMin"){
+          setConfigAlert({
+            ...ConfigAlert,
+            [id]: {
+              ...ConfigAlert[id],
+              [name]: type === "checkbox" ? checked : value,
+            },
+          });
+        } else if(id === "Timeout"){
+          setConfigAlert({
+            ...ConfigAlert,
+            [id]: {
+              ...ConfigAlert[id],
+              [name]: type === "checkbox" ? checked : value,
+            },
+          });
+        } else if(id === "Activity"){
+          setConfigAlert({
+            ...ConfigAlert,
+            [id]: {
+              ...ConfigAlert[id],
+              [name]: type === "checkbox" ? checked : value,
+            },
+          });
+        } else if(id === "Elevation"){
+          setConfigAlert({
+            ...ConfigAlert,
+            [id]: {
+              ...ConfigAlert[id],
+              [name]: type === "checkbox" ? checked : value,
+            },
+          });
+        }
         break;
       case 9:
-        setConfigCMS({ ...ConfigCMS, [name]: type === "checkbox" ? checked : value });
+        setConfigCMS({
+          ...ConfigCMS,
+          [name]: type === "checkbox" ? checked : value,
+        });
         break;
       case 10:
-        setConfigMED({ ...ConfigMED, [name]: type === "checkbox" ? checked : value });
+        setConfigMED({
+          ...ConfigMED,
+          [name]: type === "checkbox" ? checked : value,
+        });
         break;
     }
+    handleSubmit(event);
   };
 
   const handleSubmit = async (e) => {
@@ -643,34 +708,36 @@ function Facility() {
     try {
       switch (page) {
         case 1:
-          res = await axios.post("tbdURL", Facility);
+          res = await axios.post(`http://${BASE_URL}/configuration/facility/${param.id}`, Facility);
           break;
         case 2:
-          res = await axios.post("tbdURL", CMS);
+          res = await axios.post(`http://${BASE_URL}/configuration/cms/${param.id}`, CMS);
           break;
         case 3:
-          res = await axios.post("tbdURL", Group);
+          res = await axios.post(`http://${BASE_URL}/configuration/group/${param.id}`, Group);
           break;
         case 4:
-          res = await axios.post("tbdURL", Location);
+          res = await axios.post(`http://${BASE_URL}/configuration/location/${param.id}`, Location);
           break;
         case 5:
-          res = await axios.post("tbdURL", Room);
+          res = await axios.post(`http://${BASE_URL}/configuration/room/${param.id}`, Room);
           break;
         case 6:
-          res = await axios.post("tbdURL", Monitor);
+          res = await axios.post(`http://${BASE_URL}/configuration/monitor/${param.id}`, Monitor);
           break;
         case 7:
-          res = await axios.post("tbdURL", MED);
+          res = await axios.post(`http://${BASE_URL}/configuration/med/${param.id}`, MED);
           break;
         case 8:
-          res = await axios.post("tbdURL", ConfigAlert);
+          console.log(ConfigAlert)
+          console.log(`http://${BASE_URL}/configuration/configAlert?configAlert_id=${param.id}`)
+          res = await axios.post(`http://${BASE_URL}/configuration/configAlert?configAlert_id=${param.id}`, ConfigAlert[0]);
           break;
         case 9:
-          res = await axios.post("tbdURL", ConfigCMS);
+          res = await axios.post(`http://${BASE_URL}/configuration/configcms/${param.id}`, ConfigCMS);
           break;
         case 10:
-          res = await axios.post("tbdURL", ConfigMED);
+          res = await axios.post(`http://${BASE_URL}/configuration/configmed/${param.id}`, ConfigMED);
           break;
       }
       console.log(res);
@@ -698,8 +765,8 @@ function Facility() {
                 <input
                   type="text"
                   name="FacilityID"
-                    className="inputText"
-                  value={Facility.FacilityID}
+                  className="inputText"
+                  defaultValue={Facility.FacilityID}
                   onChange={handleChange}
                 />
               </label>
@@ -708,8 +775,8 @@ function Facility() {
                 <input
                   type="text"
                   name="Name"
-                    className="inputText"
-                  value={Facility.Name}
+                  className="inputText"
+                  defaultValue={Facility.Name}
                   onChange={handleChange}
                 />
               </label>
@@ -718,8 +785,8 @@ function Facility() {
                 <input
                   type="text"
                   name="ShortName"
-                    className="inputText"
-                  value={Facility.ShortName}
+                  className="inputText"
+                  defaultValue={Facility.ShortName}
                   onChange={handleChange}
                 />
               </label>
@@ -728,8 +795,8 @@ function Facility() {
                 <input
                   type="text"
                   name="Address1"
-                    className="inputText"
-                  value={Facility.Address1}
+                  className="inputText"
+                  defaultValue={Facility.Address1}
                   onChange={handleChange}
                 />
               </label>
@@ -738,8 +805,8 @@ function Facility() {
                 <input
                   type="text"
                   name="Address2"
-                    className="inputText"
-                  value={Facility.Address2}
+                  className="inputText"
+                  defaultValue={Facility.Address2}
                   onChange={handleChange}
                 />
               </label>
@@ -748,8 +815,8 @@ function Facility() {
                 <input
                   type="text"
                   name="City"
-                    className="inputText"
-                  value={Facility.City}
+                  className="inputText"
+                  defaultValue={Facility.City}
                   onChange={handleChange}
                 />
               </label>
@@ -758,8 +825,8 @@ function Facility() {
                 <input
                   type="text"
                   name="State"
-                    className="inputText"
-                  value={Facility.State}
+                  className="inputText"
+                  defaultValue={Facility.State}
                   onChange={handleChange}
                 />
               </label>
@@ -768,8 +835,8 @@ function Facility() {
                 <input
                   type="text"
                   name="Zip"
-                    className="inputText"
-                  value={Facility.Zip}
+                  className="inputText"
+                  defaultValue={Facility.Zip}
                   onChange={handleChange}
                 />
               </label>
@@ -778,8 +845,8 @@ function Facility() {
                 <input
                   type="text"
                   name="TimeZone"
-                    className="inputText"
-                  value={Facility.TimeZone}
+                  className="inputText"
+                  defaultValue={Facility.TimeZone}
                   onChange={handleChange}
                 />
               </label>
@@ -788,8 +855,8 @@ function Facility() {
                 <input
                   type="text"
                   name="Country"
-                    className="inputText"
-                  value={Facility.Country}
+                  className="inputText"
+                  defaultValue={Facility.Country}
                   onChange={handleChange}
                 />
               </label>
@@ -798,8 +865,8 @@ function Facility() {
                 <input
                   type="text"
                   name="Coordinates"
-                    className="inputText"
-                  value={Facility.Coordinates}
+                  className="inputText"
+                  defaultValue={Facility.Coordinates}
                   onChange={handleChange}
                 />
               </label>
@@ -808,8 +875,8 @@ function Facility() {
                 <input
                   type="text"
                   name="Phone"
-                    className="inputText"
-                  value={Facility.Phone}
+                  className="inputText"
+                  defaultValue={Facility.Phone}
                   onChange={handleChange}
                 />
               </label>
@@ -818,7 +885,7 @@ function Facility() {
                 <input
                   type="text"
                   name="PrimaryContact"
-                  value={Facility.PrimaryContact}
+                  defaultValue={Facility.PrimaryContact}
                   onChange={handleChange}
                 />
               </label>
@@ -827,7 +894,7 @@ function Facility() {
                 <input
                   type="text"
                   name="Product"
-                  value={Facility.Product}
+                  defaultValue={Facility.Product}
                   onChange={handleChange}
                 />
               </label>
@@ -836,7 +903,7 @@ function Facility() {
                 <input
                   type="text"
                   name="CMSVersion"
-                  value={Facility.CMSVersion}
+                  defaultValue={Facility.CMSVersion}
                   onChange={handleChange}
                 />
               </label>
@@ -845,7 +912,7 @@ function Facility() {
                 <input
                   type="text"
                   name="Status"
-                  value={Facility.Status}
+                  defaultValue={Facility.Status}
                   onChange={handleChange}
                 />
               </label>
@@ -854,7 +921,7 @@ function Facility() {
                 <input
                   type="text"
                   name="ServiceStatus"
-                  value={Facility.ServiceStatus}
+                  defaultValue={Facility.ServiceStatus}
                   onChange={handleChange}
                 />
               </label>
@@ -863,7 +930,7 @@ function Facility() {
                 <input
                   type="text"
                   name="ServiceDetail"
-                  value={Facility.ServiceDetail}
+                  defaultValue={Facility.ServiceDetail}
                   onChange={handleChange}
                 />
               </label>
@@ -872,7 +939,7 @@ function Facility() {
                 <input
                   type="text"
                   name="ServiceHistory"
-                  value={Facility.ServiceHistory}
+                  defaultValue={Facility.ServiceHistory}
                   onChange={handleChange}
                 />
               </label>
@@ -881,7 +948,7 @@ function Facility() {
                 <input
                   type="text"
                   name="LastRecordDT"
-                  value={Facility.LastRecordDT}
+                  defaultValue={Facility.LastRecordDT}
                   onChange={handleChange}
                 />
               </label>
@@ -890,7 +957,7 @@ function Facility() {
                 <input
                   type="text"
                   name="UpdateFromDT"
-                  value={Facility.UpdateFromDT}
+                  defaultValue={Facility.UpdateFromDT}
                   onChange={handleChange}
                 />
               </label>
@@ -899,7 +966,7 @@ function Facility() {
                 <input
                   type="text"
                   name="StartQueue"
-                  value={Facility.StartQueue}
+                  defaultValue={Facility.StartQueue}
                   onChange={handleChange}
                 />
               </label>
@@ -938,7 +1005,7 @@ function Facility() {
                     <input
                       type="text"
                       name="FacilityID"
-                      value={cms.FacilityID}
+                      defaultValue={cms.FacilityID}
                       onChange={handleChange}
                     />
                   </label>
@@ -947,7 +1014,7 @@ function Facility() {
                     <input
                       type="text"
                       name="GroupID"
-                      value={cms.GroupID}
+                      defaultValue={cms.GroupID}
                       onChange={handleChange}
                     />
                   </label>
@@ -956,7 +1023,7 @@ function Facility() {
                     <input
                       type="text"
                       name="CMS"
-                      value={cms.CMS}
+                      defaultValue={cms.CMS}
                       onChange={handleChange}
                     />
                   </label>
@@ -965,7 +1032,7 @@ function Facility() {
                     <input
                       type="text"
                       name="ConfigID"
-                      value={cms.ConfigID}
+                      defaultValue={cms.ConfigID}
                       onChange={handleChange}
                     />
                   </label>
@@ -974,7 +1041,7 @@ function Facility() {
                     <input
                       type="text"
                       name="HWVersion"
-                      value={cms.HWVersion}
+                      defaultValue={cms.HWVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -983,7 +1050,7 @@ function Facility() {
                     <input
                       type="text"
                       name="OSVersion"
-                      value={cms.OSVersion}
+                      defaultValue={cms.OSVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -992,7 +1059,7 @@ function Facility() {
                     <input
                       type="text"
                       name="SWVersion"
-                      value={cms.SWVersion}
+                      defaultValue={cms.SWVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -1001,7 +1068,7 @@ function Facility() {
                     <input
                       type="text"
                       name="PTVersion"
-                      value={cms.PTVersion}
+                      defaultValue={cms.PTVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -1010,7 +1077,7 @@ function Facility() {
                     <input
                       type="text"
                       name="RadioVersion"
-                      value={cms.RadioVersion}
+                      defaultValue={cms.RadioVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -1019,7 +1086,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastBootDT"
-                      value={cms.LastBootDT}
+                      defaultValue={cms.LastBootDT}
                       onChange={handleChange}
                     />
                   </label>
@@ -1028,7 +1095,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastSyncedDT"
-                      value={cms.LastSyncedDT}
+                      defaultValue={cms.LastSyncedDT}
                       onChange={handleChange}
                     />
                   </label>
@@ -1037,7 +1104,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastSignal"
-                      value={cms.LastSignal}
+                      defaultValue={cms.LastSignal}
                       onChange={handleChange}
                     />
                   </label>
@@ -1046,7 +1113,7 @@ function Facility() {
                     <input
                       type="number"
                       name="TimeOffset"
-                      value={cms.TimeOffset}
+                      defaultValue={cms.TimeOffset}
                       onChange={handleChange}
                     />
                   </label>
@@ -1055,7 +1122,7 @@ function Facility() {
                     <input
                       type="text"
                       name="Status"
-                      value={cms.Status}
+                      defaultValue={cms.Status}
                       onChange={handleChange}
                     />
                   </label>
@@ -1077,7 +1144,7 @@ function Facility() {
                     <input
                       type="text"
                       name="FacilityID"
-                      value={group.FacilityID}
+                      defaultValue={group.FacilityID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1086,7 +1153,7 @@ function Facility() {
                     <input
                       type="text"
                       name="GroupID"
-                      value={group.GroupID}
+                      defaultValue={group.GroupID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1095,7 +1162,7 @@ function Facility() {
                     <input
                       type="text"
                       name="Name"
-                      value={group.Name}
+                      defaultValue={group.Name}
                       onChange={handleChange}
                     />
                   </label>
@@ -1104,7 +1171,7 @@ function Facility() {
                     <input
                       type="text"
                       name="ShortName"
-                      value={group.ShortName}
+                      defaultValue={group.ShortName}
                       onChange={handleChange}
                     />
                   </label>
@@ -1113,7 +1180,7 @@ function Facility() {
                     <input
                       type="text"
                       name="ServiceHistory"
-                      value={group.ServiceHistory}
+                      defaultValue={group.ServiceHistory}
                       onChange={handleChange}
                     />
                   </label>
@@ -1122,7 +1189,7 @@ function Facility() {
                     <input
                       type="text"
                       name="Installation"
-                      value={group.Installation}
+                      defaultValue={group.Installation}
                       onChange={handleChange}
                     />
                   </label>
@@ -1140,7 +1207,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastRecordDT"
-                      value={group.LastRecordDT}
+                      defaultValue={group.LastRecordDT}
                       onChange={handleChange}
                     />
                   </label>
@@ -1149,7 +1216,7 @@ function Facility() {
                     <input
                       type="text"
                       name="UpdateFromDT"
-                      value={group.UpdateFromDT}
+                      defaultValue={group.UpdateFromDT}
                       onChange={handleChange}
                     />
                   </label>
@@ -1171,7 +1238,7 @@ function Facility() {
                     <input
                       type="text"
                       name="GroupID"
-                      value={location.GroupID}
+                      defaultValue={location.GroupID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1180,7 +1247,7 @@ function Facility() {
                     <input
                       type="text"
                       name="RoomID"
-                      value={location.RoomID}
+                      defaultValue={location.RoomID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1189,7 +1256,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LocationID"
-                      value={location.LocationID}
+                      defaultValue={location.LocationID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1198,7 +1265,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LocationSN"
-                      value={location.LocationSN}
+                      defaultValue={location.LocationSN}
                       onChange={handleChange}
                     />
                   </label>
@@ -1207,7 +1274,7 @@ function Facility() {
                     <input
                       type="text"
                       name="ServiceHistory"
-                      value={location.ServiceHistory}
+                      defaultValue={location.ServiceHistory}
                       onChange={handleChange}
                     />
                   </label>
@@ -1247,7 +1314,7 @@ function Facility() {
                     <input
                       type="text"
                       name="FacilityID"
-                      value={room.FacilityID}
+                      defaultValue={room.FacilityID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1256,7 +1323,7 @@ function Facility() {
                     <input
                       type="text"
                       name="GroupID"
-                      value={room.GroupID}
+                      defaultValue={room.GroupID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1265,7 +1332,7 @@ function Facility() {
                     <input
                       type="text"
                       name="RoomID"
-                      value={room.RoomID}
+                      defaultValue={room.RoomID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1274,7 +1341,7 @@ function Facility() {
                     <input
                       type="text"
                       name="ServiceHistory"
-                      value={room.ServiceHistory}
+                      defaultValue={room.ServiceHistory}
                       onChange={handleChange}
                     />
                   </label>
@@ -1305,7 +1372,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastGroupID"
-                      value={monitor.LastGroupID}
+                      defaultValue={monitor.LastGroupID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1314,7 +1381,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastLocationID"
-                      value={monitor.LastLocationID}
+                      defaultValue={monitor.LastLocationID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1323,7 +1390,7 @@ function Facility() {
                     <input
                       type="text"
                       name="MonitorID"
-                      value={monitor.MonitorID}
+                      defaultValue={monitor.MonitorID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1332,7 +1399,7 @@ function Facility() {
                     <input
                       type="text"
                       name="MonitorSN"
-                      value={monitor.MonitorSN}
+                      defaultValue={monitor.MonitorSN}
                       onChange={handleChange}
                     />
                   </label>
@@ -1341,7 +1408,7 @@ function Facility() {
                     <input
                       type="text"
                       name="ServiceHistory"
-                      value={monitor.ServiceHistory}
+                      defaultValue={monitor.ServiceHistory}
                       onChange={handleChange}
                     />
                   </label>
@@ -1350,7 +1417,7 @@ function Facility() {
                     <input
                       type="text"
                       name="Model"
-                      value={monitor.Model}
+                      defaultValue={monitor.Model}
                       onChange={handleChange}
                     />
                   </label>
@@ -1359,7 +1426,7 @@ function Facility() {
                     <input
                       type="text"
                       name="HWVersion"
-                      value={monitor.HWVersion}
+                      defaultValue={monitor.HWVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -1368,7 +1435,7 @@ function Facility() {
                     <input
                       type="text"
                       name="SWVersion"
-                      value={monitor.SWVersion}
+                      defaultValue={monitor.SWVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -1377,7 +1444,7 @@ function Facility() {
                     <input
                       type="text"
                       name="BatteryState"
-                      value={monitor.BatteryState}
+                      defaultValue={monitor.BatteryState}
                       onChange={handleChange}
                     />
                   </label>
@@ -1386,7 +1453,7 @@ function Facility() {
                     <input
                       type="number"
                       name="LastBattery"
-                      value={monitor.LastBattery}
+                      defaultValue={monitor.LastBattery}
                       onChange={handleChange}
                     />
                   </label>
@@ -1395,7 +1462,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastTxID"
-                      value={monitor.LastTxID}
+                      defaultValue={monitor.LastTxID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1404,7 +1471,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastRecordDT"
-                      value={monitor.LastRecordDT}
+                      defaultValue={monitor.LastRecordDT}
                       onChange={handleChange}
                     />
                   </label>
@@ -1413,7 +1480,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastSequence"
-                      value={monitor.LastSequence}
+                      defaultValue={monitor.LastSequence}
                       onChange={handleChange}
                     />
                   </label>
@@ -1422,7 +1489,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastSequenceDT"
-                      value={monitor.LastSequenceDT}
+                      defaultValue={monitor.LastSequenceDT}
                       onChange={handleChange}
                     />
                   </label>
@@ -1431,7 +1498,7 @@ function Facility() {
                     <input
                       type="text"
                       name="SignalCMS"
-                      value={monitor.SignalCMS}
+                      defaultValue={monitor.SignalCMS}
                       onChange={handleChange}
                     />
                   </label>
@@ -1440,7 +1507,7 @@ function Facility() {
                     <input
                       type="text"
                       name="Status"
-                      value={monitor.Status}
+                      defaultValue={monitor.Status}
                       onChange={handleChange}
                     />
                   </label>
@@ -1449,7 +1516,7 @@ function Facility() {
                     <input
                       type="text"
                       name="ServiceDetail"
-                      value={monitor.ServiceDetail}
+                      defaultValue={monitor.ServiceDetail}
                       onChange={handleChange}
                     />
                   </label>
@@ -1458,7 +1525,7 @@ function Facility() {
                     <input
                       type="text"
                       name="UpdateFromDT"
-                      value={monitor.UpdateFromDT}
+                      defaultValue={monitor.UpdateFromDT}
                       onChange={handleChange}
                     />
                   </label>
@@ -1480,7 +1547,7 @@ function Facility() {
                     <input
                       type="text"
                       name="FacilityID"
-                      value={med.FacilityID}
+                      defaultValue={med.FacilityID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1489,7 +1556,7 @@ function Facility() {
                     <input
                       type="text"
                       name="MedID"
-                      value={med.MedID}
+                      defaultValue={med.MedID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1498,7 +1565,7 @@ function Facility() {
                     <input
                       type="text"
                       name="ConfigID"
-                      value={med.ConfigID}
+                      defaultValue={med.ConfigID}
                       onChange={handleChange}
                     />
                   </label>
@@ -1507,7 +1574,7 @@ function Facility() {
                     <input
                       type="text"
                       name="HWType"
-                      value={med.HWType}
+                      defaultValue={med.HWType}
                       onChange={handleChange}
                     />
                   </label>
@@ -1516,7 +1583,7 @@ function Facility() {
                     <input
                       type="text"
                       name="HWVersion"
-                      value={med.HWVersion}
+                      defaultValue={med.HWVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -1525,7 +1592,7 @@ function Facility() {
                     <input
                       type="text"
                       name="OSVersion"
-                      value={med.OSVersion}
+                      defaultValue={med.OSVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -1534,7 +1601,7 @@ function Facility() {
                     <input
                       type="text"
                       name="SWVersion"
-                      value={med.SWVersion}
+                      defaultValue={med.SWVersion}
                       onChange={handleChange}
                     />
                   </label>
@@ -1543,7 +1610,7 @@ function Facility() {
                     <input
                       type="text"
                       name="LastBootDT"
-                      value={med.LastBootDT}
+                      defaultValue={med.LastBootDT}
                       onChange={handleChange}
                     />
                   </label>
@@ -1552,7 +1619,7 @@ function Facility() {
                     <input
                       type="text"
                       name="Status"
-                      value={med.Status}
+                      defaultValue={med.Status}
                       onChange={handleChange}
                     />
                   </label>
@@ -1564,41 +1631,923 @@ function Facility() {
       case 8:
         // array for each config alert
         return (
+          // {
+          //   "_id": {
+          //     "$oid": "667071218badf127ae5af491"
+          //   },
+          //   "PartitionKey": "CAVN001",
+          //   "RowKey": "AL001",
+          //   "Description": "Alert 1",
+          //   "AlertMin": {
+          //     "PartitionKey": "CAVN001",
+          //     "RowKey": "AM001",
+          //     "DefinitionType": "AlertMin",
+          //     "Shift": "All",
+          //     "EquipmentType": "Facility",
+          //     "ID": "",
+          //     "AlertFilter": "All",
+          //     "DevFilter": "All",
+          //     "Enabled": true,
+          //     "Seconds": -1,
+          //     "SecondsFromStart": 0,
+          //     "SecondsFromClear": -1,
+          //     "Color1": "",
+          //     "Color2": "",
+          //     "Blinks": false,
+          //     "SortLast": false,
+          //     "Tone": "",
+          //     "Repeats": false,
+          //     "Volume": -1,
+          //     "AlertCount": -1,
+          //     "Timeout": -1
+          //   },
+          //   "Timeout": {
+          //     "PartitionKey": "CAVN001",
+          //     "RowKey": "TO001",
+          //     "DefinitionType": "Timeout",
+          //     "Shift": "All",
+          //     "EquipmentType": "Facility",
+          //     "ID": "",
+          //     "AlertFilter": "All",
+          //     "DevFilter": "All",
+          //     "Enabled": true,
+          //     "Seconds": -1,
+          //     "SecondsFromStart": -1,
+          //     "SecondsFromClear": 0,
+          //     "Color1": "",
+          //     "Color2": "",
+          //     "Blinks": false,
+          //     "SortLast": false,
+          //     "Tone": "",
+          //     "Repeats": false,
+          //     "Volume": -1,
+          //     "AlertCount": -1,
+          //     "Timeout": -1
+          //   },
+          //   "Activity": {
+          //     "PartitionKey": "CAVN001",
+          //     "RowKey": "TO001",
+          //     "DefinitionType": "ActivityWarning",
+          //     "Shift": "All",
+          //     "EquipmentType": "Facility",
+          //     "ID": "",
+          //     "AlertFilter": "All",
+          //     "DevFilter": "All",
+          //     "Enabled": true,
+          //     "Seconds": 5,
+          //     "SecondsFromStart": -1,
+          //     "SecondsFromClear": -1,
+          //     "Color1": "",
+          //     "Color2": "",
+          //     "Blinks": false,
+          //     "SortLast": false,
+          //     "Tone": "",
+          //     "Repeats": false,
+          //     "Volume": -1,
+          //     "AlertCount": -1,
+          //     "Timeout": -1
+          //   },
+          //   "Elevation": [
+          //     {
+          //       "PartitionKey": "CAVN001",
+          //       "RowKey": "EL001",
+          //       "DefinitionType": "Timeout",
+          //       "Shift": "All",
+          //       "EquipmentType": "Facility",
+          //       "ID": "",
+          //       "AlertFilter": "All",
+          //       "DevFilter": "All",
+          //       "Enabled": true,
+          //       "Seconds": 5,
+          //       "SecondsFromStart": -1,
+          //       "SecondsFromClear": -1,
+          //       "Color1": "yellow",
+          //       "Color2": "dark_yellow",
+          //       "Blinks": true,
+          //       "SortLast": false,
+          //       "Tone": "Short",
+          //       "Repeats": false,
+          //       "Volume": 64,
+          //       "AlertCount": 1,
+          //       "Timeout": 5
+          //     },
+          //     {
+          //       "PartitionKey": "CAVN001",
+          //       "RowKey": "EL002",
+          //       "DefinitionType": "Timeout",
+          //       "Shift": "All",
+          //       "EquipmentType": "Facility",
+          //       "ID": "",
+          //       "AlertFilter": "All",
+          //       "DevFilter": "All",
+          //       "Enabled": true,
+          //       "Seconds": 10,
+          //       "SecondsFromStart": -1,
+          //       "SecondsFromClear": -1,
+          //       "Color1": "yellow",
+          //       "Color2": "dark_yellow",
+          //       "Blinks": true,
+          //       "SortLast": false,
+          //       "Tone": "Short",
+          //       "Repeats": false,
+          //       "Volume": 64,
+          //       "AlertCount": 1,
+          //       "Timeout": 15
+          //     }
+          //   ]
+          // }
           <div>
             <form onSubmit={handleChange}>
-              {/* array for each config alert */}
+              {ConfigAlert? ConfigAlert.map((configAlert, index) => (
+                <div key={index} className="array">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th colSpan="2">Config Alert {index + 1}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Description:</td>
+                        <td>
+                          <input
+                            type="text"
+                            name="Description"
+                            defaultValue={configAlert.Description}
+                            onChange={handleChange}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <label>Alert Min:</label>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Shift</th>
+                        <th>Equipment Type</th>
+                        <th>ID</th>
+                        <th>Alert Filter</th>
+                        <th>Dev Filter</th>
+                        <th>Enabled</th>
+                        <th>Seconds From Start</th>
+                        <th>Seconds From Clear</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <input
+                            type="text"
+                            name="Shift"
+                            defaultValue={configAlert.AlertMin!= null? configAlert.AlertMin.Shift!=null? configAlert.AlertMin.Shift: "" : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="EquipmentType"
+                            defaultValue={configAlert.AlertMin.EquipmentType ? configAlert.AlertMin.EquipmentType : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="ID"
+                            defaultValue={configAlert.AlertMin.ID? configAlert.AlertMin.ID : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="AlertFilter"
+                            defaultValue={configAlert.AlertMin.AlertFilter? configAlert.AlertMin.AlertFilter : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="DevFilter"
+                            defaultValue={configAlert.AlertMin.DevFilter? configAlert.AlertMin.DevFilter : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="checkbox"
+                            name="Enabled"
+                            checked={configAlert.AlertMin.Enabled ? configAlert.AlertMin.Enabled : false}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            name="SecondsFromStart"
+                            defaultValue={configAlert.AlertMin.SecondsFromStart? configAlert.AlertMin.SecondsFromStart : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            name="SecondsFromClear"
+                            defaultValue={configAlert.AlertMin.SecondsFromClear? configAlert.AlertMin.SecondsFromClear : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <label>Timeout:</label>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Shift</th>
+                        <th>Equipment Type</th>
+                        <th>ID</th>
+                        <th>Alert Filter</th>
+                        <th>Dev Filter</th>
+                        <th>Enabled</th>
+                        <th>Seconds From Start</th>
+                        <th>Seconds From Clear</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <input
+                            type="text"
+                            name="Shift"
+                            defaultValue={configAlert.AlertMin.Shift? configAlert.AlertMin.Shift: ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="EquipmentType"
+                            defaultValue={configAlert.Timeout.EquipmentType? configAlert.Timeout.EquipmentType: ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="ID"
+                            defaultValue={configAlert.Timeout.ID? configAlert.Timeout.ID : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="AlertFilter"
+                            defaultValue={configAlert.Timeout.AlertFilter? configAlert.Timeout.AlertFilter : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="DevFilter"
+                            defaultValue={configAlert.Timeout.DevFilter? configAlert.Timeout.DevFilter : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="checkbox"
+                            name="Enabled"
+                            checked={configAlert.Timeout.Enabled? configAlert.Timeout.Enabled : false}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            name="SecondsFromStart"
+                            defaultValue={configAlert.Timeout.SecondsFromStart? configAlert.Timeout.SecondsFromStart : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            name="SecondsFromClear"
+                            defaultValue={configAlert.Timeout.SecondsFromClear? configAlert.Timeout.SecondsFromClear : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <label>Activity Warning:</label>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Shift</th>
+                        <th>Equipment Type</th>
+                        <th>ID</th>
+                        <th>Alert Filter</th>
+                        <th>Dev Filter</th>
+                        <th>Enabled</th>
+                        <th>Seconds</th>
+                        <th>Alert Count</th>
+                        <th>Timeout</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <input
+                            type="text"
+                            name="Shift"
+                            defaultValue={configAlert.AlertMin!= null? configAlert.AlertMin.Shift!=null? configAlert.AlertMin.Shift: "" : ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="EquipmentType"
+                            defaultValue={configAlert.Timeout.EquipmentType? configAlert.Timeout.EquipmentType: ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="ID"
+                            defaultValue={configAlert.Activity?configAlert.Activity.ID? configAlert.Activity.ID : "":""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="AlertFilter"
+                            defaultValue={configAlert.Activity? configAlert.Activity.AlertFilter? configAlert.Activity.AlertFilter : "": ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="DevFilter"
+                            defaultValue={configAlert.Activity? configAlert.Activity.DevFilter? configAlert.Activity.DevFilter : "": ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="checkbox"
+                            name="Enabled"
+                            checked={configAlert.Activity? configAlert.Activity.Enabled? configAlert.Activity.Enabled : false : false}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            name="Seconds"
+                            defaultValue={configAlert.Activity? configAlert.Activity.Seconds? configAlert.Activity.Seconds : "": ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            name="AlertCount"
+                            defaultValue={configAlert.Activity? configAlert.Activity.AlertCount? configAlert.Activity.AlertCount : "": ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            name="Timeout"
+                            defaultValue={configAlert.Activity? configAlert.Activity.Timeout? configAlert.Activity.Timeout : "": ""}
+                            onChange={handleChange}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <label>Elevation:</label>
+                  {configAlert.Elevation? configAlert.Elevation.map((elevation, elevationIndex) => (
+                    <table key={elevationIndex}>
+                      <thead>
+                        <tr>
+                          <th>Shift</th>
+                          <th>Equipment Type</th>
+                          <th>ID</th>
+                          <th>Alert Filter</th>
+                          <th>Dev Filter</th>
+                          <th>Seconds</th>
+                          <th>Color 1</th>
+                          <th>Color 2</th>
+                          <th>Blinks</th>
+                          <th>SortLast</th>
+                          <th>Tone</th>
+                          <th>Repeats</th>
+                          <th>Volume</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <input
+                              type="text"
+                              name="Shift"
+                              defaultValue={elevation.Shift? elevation.Shift : ""}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              name="EquipmentType"
+                              defaultValue={configAlert.Timeout.EquipmentType? configAlert.Timeout.EquipmentType: ""}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              name="ID"
+                              defaultValue={elevation.ID? elevation.ID : ""}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              name="AlertFilter"
+                              defaultValue={elevation.AlertFilter}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              name="DevFilter"
+                              defaultValue={elevation.DevFilter}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              name="Seconds"
+                              defaultValue={elevation.Seconds}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              name="Color1"
+                              defaultValue={elevation.Color1}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              name="Color2"
+                              defaultValue={elevation.Color2}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              name="Blinks"
+                              checked={elevation.Blinks}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              name="SortLast"
+                              checked={elevation.SortLast}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              name="Tone"
+                              defaultValue={elevation.Tone}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              name="Repeats"
+                              checked={elevation.Repeats}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              name="Volume"
+                              defaultValue={elevation.Volume}
+                              onChange={handleChange}
+                            />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  )): null}
+                </div>
+              )): null}
+            </form>
+
+            {/* <form onSubmit={handleChange}>
               {ConfigAlert.map((configAlert, index) => (
                 <div key={index} className="array">
                   <label>
-                    Alert Min:
+                    Description:
                     <input
                       type="text"
-                      name="AlertMin"
-                      value={configAlert.AlertMin}
+                      name="Description"
+                      value={configAlert.Description}
                       onChange={handleChange}
                     />
                   </label>
-                  <label>
-                    Timeout:
-                    <input
-                      type="text"
-                      name="Timeout"
-                      value={configAlert.Timeout}
-                      onChange={handleChange}
-                    />
-                  </label>
-                  <label>
-                    Elevation:
-                    <input
-                      type="text"
-                      name="Elevation"
-                      value={configAlert.Elevation}
-                      onChange={handleChange}
-                    />
-                  </label>
+                  <label>Alert Min:</label>
+                  <div key={index} className="table">
+                    <label>
+                      Shift:
+                      <input
+                        type="text"
+                        name="Shift"
+                        value={configAlert.AlertMin.Shift}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Equipment Type:
+                      <input
+                        type="text"
+                        name="EquipmentType"
+                        value={configAlert.AlertMin.EquipmentType}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      ID:
+                      <input
+                        type="text"
+                        name="ID"
+                        value={configAlert.AlertMin.ID}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Alert Filter:
+                      <input
+                        type="text"
+                        name="AlertFilter"
+                        value={configAlert.AlertMin.AlertFilter}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Dev Filter:
+                      <input
+                        type="text"
+                        name="DevFilter"
+                        value={configAlert.AlertMin.DevFilter}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Enabled:
+                      <input
+                        type="checkbox"
+                        name="Enabled"
+                        checked={configAlert.AlertMin.Enabled}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Seconds From Start:
+                      <input
+                        type="number"
+                        name="SecondsFromStart"
+                        value={configAlert.AlertMin.SecondsFromStart}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Seconds From Clear:
+                      <input
+                        type="number"
+                        name="SecondsFromClear"
+                        value={configAlert.AlertMin.SecondsFromClear}
+                        onChange={handleChange}
+                      />
+                    </label>
+                  </div>
+                  <br></br>
+                  <label>Timeout:</label>
+                  <div key={index} className="table">
+                    <label>
+                      Shift:
+                      <input
+                        type="text"
+                        name="Shift"
+                        value={configAlert.Timeout.Shift}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Equipment Type:
+                      <input
+                        type="text"
+                        name="EquipmentType"
+                        value={configAlert.Timeout.EquipmentType}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      ID:
+                      <input
+                        type="text"
+                        name="ID"
+                        value={configAlert.Timeout.ID}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Alert Filter:
+                      <input
+                        type="text"
+                        name="AlertFilter"
+                        value={configAlert.Timeout.AlertFilter}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Dev Filter:
+                      <input
+                        type="text"
+                        name="DevFilter"
+                        value={configAlert.Timeout.DevFilter}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Enabled:
+                      <input
+                        type="checkbox"
+                        name="Enabled"
+                        checked={configAlert.Timeout.Enabled}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Seconds From Start:
+                      <input
+                        type="number"
+                        name="SecondsFromStart"
+                        value={configAlert.Timeout.SecondsFromStart}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Seconds From Clear:
+                      <input
+                        type="number"
+                        name="SecondsFromClear"
+                        value={configAlert.Timeout.SecondsFromClear}
+                        onChange={handleChange}
+                      />
+                    </label>
+                  </div>
+                  <label>Activity Warning:</label>
+                  <div key={index} className="table">
+                    <label>
+                      Shift:
+                      <input
+                        type="text"
+                        name="Shift"
+                        value={configAlert.Activity.Shift}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Equipment Type:
+                      <input
+                        type="text"
+                        name="EquipmentType"
+                        value={configAlert.Activity.EquipmentType}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      ID:
+                      <input
+                        type="text"
+                        name="ID"
+                        value={configAlert.Activity.ID}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Alert Filter:
+                      <input
+                        type="text"
+                        name="AlertFilter"
+                        value={configAlert.Activity.AlertFilter}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Dev Filter:
+                      <input
+                        type="text"
+                        name="DevFilter"
+                        value={configAlert.Activity.DevFilter}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Enabled:
+                      <input
+                        type="checkbox"
+                        name="Enabled"
+                        checked={configAlert.Activity.Enabled}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Seconds:
+                      <input
+                        type="number"
+                        name="Seconds"
+                        value={configAlert.Activity.Seconds}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Alert Count:
+                      <input
+                        type="number"
+                        name="AlertCount"
+                        value={configAlert.Activity.AlertCount}
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <label>
+                      Timeout:
+                      <input
+                        type="number"
+                        name="Timeout"
+                        value={configAlert.Activity.Timeout}
+                        onChange={handleChange}
+                      />
+                    </label>
+                  </div>
+                  <label>Elevation:</label>
+                  {configAlert.Elevation.map((elevation, index) => (
+                    <div key={index} className="table">
+                      <label>
+                        Shift:
+                        <input
+                          type="text"
+                          name="Shift"
+                          value={elevation.Shift}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Equipment Type:
+                        <input
+                          type="text"
+                          name="EquipmentType"
+                          value={elevation.EquipmentType}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        ID:
+                        <input
+                          type="text"
+                          name="ID"
+                          value={elevation.ID}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Alert Filter:
+                        <input
+                          type="text"
+                          name="AlertFilter"
+                          value={elevation.AlertFilter}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Dev Filter:
+                        <input
+                          type="text"
+                          name="DevFilter"
+                          value={elevation.DevFilter}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Seconds:
+                        <input
+                          type="number"
+                          name="Seconds"
+                          value={elevation.Seconds}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Color 1:
+                        <input
+                          type="text"
+                          name="Color1"
+                          value={elevation.Color1}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Color 2:
+                        <input
+                          type="text"
+                          name="Color2"
+                          value={elevation.Color2}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Blinks:
+                        <input
+                          type="checkbox"
+                          name="Blinks"
+                          checked={elevation.Blinks}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        SortLast:
+                        <input
+                          type="checkbox"
+                          name="SortLast"
+                          checked={elevation.SortLast}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Tone:
+                        <input
+                          type="text"
+                          name="Tone"
+                          value={elevation.Tone}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Repeats:
+                        <input
+                          type="checkbox"
+                          name="Repeats"
+                          checked={elevation.Repeats}
+                          onChange={handleChange}
+                        />
+                      </label>
+                      <label>
+                        Volume:
+                        <input
+                          type="number"
+                          name="Volume"
+                          value={elevation.Volume}
+                          onChange={handleChange}
+                        />
+                      </label>
+                    </div>
+                  ))}
                 </div>
               ))}
-            </form>
+            </form> */}
           </div>
         );
       case 9:
@@ -1610,7 +2559,7 @@ function Facility() {
                 <input
                   type="text"
                   name="FacilityID"
-                  value={ConfigCMS.FacilityID}
+                  defaultValue={ConfigCMS.FacilityID}
                   onChange={handleChange}
                 />
               </label>
@@ -1664,7 +2613,7 @@ function Facility() {
                 <input
                   type="text"
                   name="StatusDirection"
-                  value={ConfigCMS.StatusDirection}
+                  defaultValue={ConfigCMS.StatusDirection}
                   onChange={handleChange}
                 />
               </label>
@@ -1682,7 +2631,7 @@ function Facility() {
                 <input
                   type="number"
                   name="DefaultVolume"
-                  value={ConfigCMS.DefaultVolume}
+                  defaultValue={ConfigCMS.DefaultVolume}
                   onChange={handleChange}
                 />
               </label>
@@ -1727,7 +2676,7 @@ function Facility() {
                 <input
                   type="number"
                   name="RecentAlertPeriod"
-                  value={ConfigCMS.RecentAlertPeriod}
+                  defaultValue={ConfigCMS.RecentAlertPeriod}
                   onChange={handleChange}
                 />
               </label>
@@ -1745,7 +2694,7 @@ function Facility() {
                 <input
                   type="number"
                   name="ResponseTarget"
-                  value={ConfigCMS.ResponseTarget}
+                  defaultValue={ConfigCMS.ResponseTarget}
                   onChange={handleChange}
                 />
               </label>
@@ -1754,7 +2703,7 @@ function Facility() {
                 <input
                   type="text"
                   name="CustomPort"
-                  value={ConfigCMS.CustomPort}
+                  defaultValue={ConfigCMS.CustomPort}
                   onChange={handleChange}
                 />
               </label>
@@ -1772,7 +2721,7 @@ function Facility() {
                 <input
                   type="text"
                   name="VendorMessage"
-                  value={ConfigCMS.VendorMessage}
+                  defaultValue={ConfigCMS.VendorMessage}
                   onChange={handleChange}
                 />
               </label>
@@ -1781,7 +2730,7 @@ function Facility() {
                 <input
                   type="number"
                   name="SyncTimeout"
-                  value={ConfigCMS.SyncTimeout}
+                  defaultValue={ConfigCMS.SyncTimeout}
                   onChange={handleChange}
                 />
               </label>
@@ -1790,7 +2739,7 @@ function Facility() {
                 <input
                   type="number"
                   name="SyncInterval"
-                  value={ConfigCMS.SyncInterval}
+                  defaultValue={ConfigCMS.SyncInterval}
                   onChange={handleChange}
                 />
               </label>
@@ -1799,7 +2748,7 @@ function Facility() {
                 <input
                   type="number"
                   name="SyncFailToOffline"
-                  value={ConfigCMS.SyncFailToOffline}
+                  defaultValue={ConfigCMS.SyncFailToOffline}
                   onChange={handleChange}
                 />
               </label>
@@ -1808,7 +2757,7 @@ function Facility() {
                 <input
                   type="number"
                   name="FullSyncInterval"
-                  value={ConfigCMS.FullSyncInterval}
+                  defaultValue={ConfigCMS.FullSyncInterval}
                   onChange={handleChange}
                 />
               </label>
@@ -1817,7 +2766,7 @@ function Facility() {
                 <input
                   type="number"
                   name="CheckInPeriod"
-                  value={ConfigCMS.CheckInPeriod}
+                  defaultValue={ConfigCMS.CheckInPeriod}
                   onChange={handleChange}
                 />
               </label>
@@ -1834,7 +2783,7 @@ function Facility() {
                 <input
                   type="text"
                   name="FacilityID"
-                  value={ConfigMED.FacilityID}
+                  defaultValue={ConfigMED.FacilityID}
                   onChange={handleChange}
                 />
               </label>
@@ -1843,7 +2792,7 @@ function Facility() {
                 <input
                   type="text"
                   name="GroupIDs"
-                  value={ConfigMED.GroupIDs}
+                  defaultValue={ConfigMED.GroupIDs}
                   onChange={handleChange}
                 />
               </label>
@@ -1861,7 +2810,7 @@ function Facility() {
                 <input
                   type="number"
                   name="Brightness"
-                  value={ConfigMED.Brightness}
+                  defaultValue={ConfigMED.Brightness}
                   onChange={handleChange}
                 />
               </label>
@@ -1879,7 +2828,7 @@ function Facility() {
                 <input
                   type="number"
                   name="Notification"
-                  value={ConfigMED.Notification}
+                  defaultValue={ConfigMED.Notification}
                   onChange={handleChange}
                 />
               </label>
@@ -1897,7 +2846,7 @@ function Facility() {
                 <input
                   type="number"
                   name="Volume"
-                  value={ConfigMED.Volume}
+                  defaultValue={ConfigMED.Volume}
                   onChange={handleChange}
                 />
               </label>
@@ -1906,7 +2855,7 @@ function Facility() {
                 <input
                   type="number"
                   name="Ucode"
-                  value={ConfigMED.Ucode}
+                  defaultValue={ConfigMED.Ucode}
                   onChange={handleChange}
                 />
               </label>
@@ -1915,7 +2864,7 @@ function Facility() {
                 <input
                   type="number"
                   name="SUCode"
-                  value={ConfigMED.SUCode}
+                  defaultValue={ConfigMED.SUCode}
                   onChange={handleChange}
                 />
               </label>
@@ -1924,7 +2873,7 @@ function Facility() {
                 <input
                   type="number"
                   name="Acode"
-                  value={ConfigMED.Acode}
+                  defaultValue={ConfigMED.Acode}
                   onChange={handleChange}
                 />
               </label>

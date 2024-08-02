@@ -117,20 +117,6 @@
     "trackingNumbers": [
     ],
     "shipDate": "",
-    "contractInfo": {
-      "vent": "",
-      "rent": false,
-      "installationDates": {
-        "start": "",
-        "end": ""
-      },
-      "warrentyEnd": "",
-      "rentalEnd": "",
-      "endOfFirmco": "",
-      "endOfServiceContract": "",
-      "owner": "",
-      "contractWith": "",
-      "contractSigned": false
-    },
+    "customer": "",
     "status": "Pending"
   }

@@ -59,7 +59,11 @@ const App = () => {
         <Route path="/Wiki/:id" element={<WikiProduct />} />
 
         <Route path="/Inventory" element={<Inventory />} />
+
         <Route path="/Admin" element={<Admin />} />
+
+        <Route path="/Settings" element={<Admin />} />
+
         <Route path="/Configuration" element={<ViewFacilities />} />
         <Route path="/Configuration/:id" element={<Facility />} />
       </Routes>

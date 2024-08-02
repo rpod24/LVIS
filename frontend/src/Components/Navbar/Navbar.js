@@ -97,7 +97,7 @@ function TopNav() {
             <Nav.Link href="/Configuration" onClick={() => { setLocation1("Configuration"); setLocation2(""); }}>Configuration</Nav.Link>
             <Nav.Link href="/Wiki" onClick={() => { setLocation1("Wiki"); setLocation2(""); }}>Product Wiki</Nav.Link>
             <Nav.Link href="/Inventory" onClick={() => { setLocation1("Inventory"); setLocation2(""); }}>Inventory</Nav.Link>
-            <Nav.Link href="/Marketing" onClick={() => { setLocation1("Marketing"); setLocation2(""); }}>Marketing</Nav.Link>
+            <Nav.Link href="/Company" onClick={() => { setLocation1("Company"); setLocation2(""); }}>Companies</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         {/* <Form inline className="d-flex">
