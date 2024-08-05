@@ -2,12 +2,58 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient, ObjectId } = require("mongodb");
 const bodyParser = require("body-parser");
+const multer = require('multer');
 const jwt = require("jsonwebtoken");
 const { TokenManager } = require("./token_manager");
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb', parameterLimit: 1000000 }));
+
+const storage = multer.diskStorage({
+  destination: (req, file, callBack) => {
+    callBack(null, 'uploads')
+  },
+  filename: (req, file, callBack) => {
+    callBack(null, `${file.originalname}`)
+  }
+})
+let upload = multer({ dest: 'uploads/' }).fields([{ name: 'file', maxCount: 20 }])
+
+// const multerConfig = {
+
+//   storage: multer.diskStorage({
+//     //Setup where the user's file will go
+//     destination: function (req, file, next) {
+//       next(null, './public/photo-storage');
+//     },
+
+//     //Then give the file a unique name
+//     filename: function (req, file, next) {
+//       console.log(file);
+//       const ext = file.mimetype.split('/')[1];
+//       next(null, file.fieldname + '-' + Date.now() + '.' + ext);
+//     }
+//   }),
+
+//   //A means of ensuring only images are uploaded. 
+//   fileFilter: function (req, file, next) {
+//     if (!file) {
+//       next();
+//     }
+//     const image = file.mimetype.startsWith('image/');
+//     if (image) {
+//       console.log('photo uploaded');
+//       next(null, true);
+//     } else {
+//       console.log("file not supported");
+
+//       //TODO:  A better message response to user on failure.
+//       return next();
+//     }
+//   }
+// };
 
 const mongoUrl = "mongodb://localhost:27017/";
 const client = new MongoClient(mongoUrl);
@@ -73,6 +119,39 @@ client
         );
       };
     };
+
+
+
+
+
+    app.post('/Wiki/New/upload', upload, (req, res) => {
+      const file = req.files.file;
+      if (!file) return res.sendStatus(400);
+      var status = [`http://localhost:5001/images/${file[0].filename}`];
+      if (file.length > 1) {
+        for (let i = 1; i < file.length; i++) {
+          status.push(`http://localhost:5001/images/${file[i].filename}`);
+        }
+      }
+      // res.sendStatus(200);
+      res.status(200).send(status);
+    });
+
+    app.get("/images/:image_id", async (req, res) => {
+      try {
+        //look in the uploads folder for the image
+        res.sendFile(`${__dirname}/uploads/${req.params.image_id}`);
+      } catch (err) {
+        res.status(500).json({ error: "Unexpected Error Occured!" });
+      }
+    });
+
+
+
+
+
+
+
 
     app.get("/products", async (req, res) => {
       try {
@@ -194,8 +273,10 @@ client
       try {
         let items;
         const search = req.query.search
-          ? { Name: { $regex: req.query.search, $options: "i" } }
+          ? { $or: [{ Name: { $regex: new RegExp(req.query.search, 'i') } }, { PartitionKey: { $regex: new RegExp(req.query.search, 'i') } }] }
           : {};
+        console.log(search)
+        console.log(req.query.search)
         const sort = req.query.sort ? JSON.parse(req.query.sort) : {};
         const page = parseInt(req.query.p) || 0;
 
@@ -205,7 +286,7 @@ client
           .skip(page * 50)
           .limit(50)
           .toArray();
-
+        console.log(items.length)
         res.json(items);
       } catch (err) {
         res.status(500).json({ error: "Unexpected Error Occured!" });
@@ -255,168 +336,6 @@ client
         res.status(500).json({ error: "Unexpected Error Occured!" });
       }
     });
-
-    // app.post("/configuration/facility/", async (req, res) => {
-    //   try {
-    //     const facilityData = req.body;
-    //     if (!facilityData)
-    //       return res.status(400).json({ error: "No facility data provided" });
-
-    //     const result = await facilities.insertOne(facilityData);
-    //     res
-    //       .status(201)
-    //       .json(await facilities.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
-
-    // app.post("/configuration/group/", async (req, res) => {
-    //   try {
-    //     const groupData = req.body;
-    //     if (!groupData)
-    //       return res.status(400).json({ error: "No group data provided" });
-
-    //     const result = await Group.insertOne(groupData);
-    //     res.status(201).json(await Group.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
-
-    // app.post("/configuration/location/", async (req, res) => {
-    //   try {
-    //     const locationData = req.body;
-    //     if (!locationData)
-    //       return res.status(400).json({ error: "No location data provided" });
-
-    //     const result = await Location.insertOne(locationData);
-    //     res
-    //       .status(201)
-    //       .json(await Location.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
-
-    // app.post("/configuration/med/", async (req, res) => {
-    //   try {
-    //     const medData = req.body;
-    //     if (!medData)
-    //       return res.status(400).json({ error: "No med data provided" });
-
-    //     const result = await MEDs.insertOne(medData);
-    //     res.status(201).json(await MEDs.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
-
-    // app.post("/configuration/monitor/", async (req, res) => {
-    //   try {
-    //     const monitorData = req.body;
-    //     if (!monitorData)
-    //       return res.status(400).json({ error: "No monitor data provided" });
-
-    //     const result = await Monitor.insertOne(monitorData);
-    //     res.status(201).json(await Monitor.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
-
-    // app.post("/configuration/room/", async (req, res) => {
-    //   try {
-    //     const roomData = req.body;
-    //     if (!roomData)
-    //       return res.status(400).json({ error: "No room data provided" });
-
-    //     const result = await Room.insertOne(roomData);
-    //     res.status(201).json(await Room.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
-
-    // app.post("/configuration/configAlert/", async (req, res) => {
-    //   try {
-    //     const configAlertData = req.body;
-    //     if (!configAlertData)
-    //       return res
-    //         .status(400)
-    //         .json({ error: "No configAlert data provided" });
-
-    //     const result = await ConfigAlert.insertOne(configAlertData);
-    //     res
-    //       .status(201)
-    //       .json(await ConfigAlert.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
-
-    // app.post("/configuration/configCMS/", async (req, res) => {
-    //   try {
-    //     const configCMSData = req.body;
-    //     if (!configCMSData)
-    //       return res.status(400).json({ error: "No configCMS data provided" });
-
-    //     const result = await ConfigCMS.insertOne(configCMSData);
-    //     res
-    //       .status(201)
-    //       .json(await ConfigCMS.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
-
-    // app.post("/configuration/configMED/", async (req, res) => {
-    //   try {
-    //     const configMEDData = req.body;
-    //     if (!configMEDData)
-    //       return res.status(400).json({ error: "No configMED data provided" });
-
-    //     const result = await ConfigMED.insertOne(configMEDData);
-    //     res
-    //       .status(201)
-    //       .json(await ConfigMED.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
-
-    // app.post("/configuration/cms/", async (req, res) => {
-    //   try {
-    //     const cmsData = req.body;
-    //     if (!cmsData)
-    //       return res.status(400).json({ error: "No cms data provided" });
-
-    //     const result = await CMSs.insertOne(cmsData);
-    //     res.status(201).json(await CMSs.findOne({ _id: result.insertedId }));
-    //   } catch (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: `Unexpected Error Occured: ${err.message}` });
-    //   }
-    // });
 
     app.post("/configuration/facility/:facility_id", async (req, res) => {
       try {
@@ -599,9 +518,7 @@ client
       try {
         const configAlertId = req.query.configAlert_id;
         const configAlertData = req.body;
-        console.log(configAlertId);
-        console.log(configAlertData);
-        if (configAlertData==null||configAlertId.length==0)
+        if (configAlertData == null || configAlertId.length == 0)
           return res
             .status(400)
             .json({ error: "No configAlert data provided" });
@@ -856,8 +773,6 @@ client
     });
 
     app.post("/manifest/:manifest_id", async (req, res) => {
-      console.log(req.params.manifest_id);
-      console.log(req.body);
       try {
         const manifestId = req.params.manifest_id;
         const manifestData = req.body;

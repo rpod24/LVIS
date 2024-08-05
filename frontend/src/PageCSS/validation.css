@@ -1,0 +1,17 @@
+.required{
+    border-color: red;
+    color: red;
+    border: solid;
+}
+
+.warning{
+    border-color: rgb(255, 225, 0);
+    color: rgb(255, 225, 0);
+    border: solid;
+}
+
+.ok{
+    border-color: black;
+    border: none;
+}
+

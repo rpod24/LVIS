@@ -1,26 +1,26 @@
 //Page to add a new Wiki Product, all fields are available to be filled out however name, description, and category are required fields.
-   // Product Schema, for reference. Empty values are not shown except for name, description, and notes.
-    // {
-    //     "name": "",
-    //     "description": "",
-    //     "price": -1,
-    //     "manufacturer": "",
-    //     "website": "",
-    //     "category": "",
-    //     "images": [],
-    //     "serialNumber": "",
-    //     "size": "",
-    //     "monitorSize": "",
-    //     "length": -1,
-    //     "model": "",
-    //     "version": "",
-    //     "weight": -1,
-    //     "color": "",
-    //     "specSheet": "",
-    //     "manual": "",
-    //     "notes": "",
-    //     "SKU": ""
-    // }
+// Product Schema, for reference. Empty values are not shown except for name, description, and notes.
+// {
+//     "name": "",
+//     "description": "",
+//     "price": -1,
+//     "manufacturer": "",
+//     "website": "",
+//     "category": "",
+//     "images": [],
+//     "serialNumber": "",
+//     "size": "",
+//     "monitorSize": "",
+//     "length": -1,
+//     "model": "",
+//     "version": "",
+//     "weight": -1,
+//     "color": "",
+//     "specSheet": "",
+//     "manual": "",
+//     "notes": "",
+//     "SKU": ""
+// }
 import React, { useState } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../defaults';
@@ -34,7 +34,7 @@ function NewWikiProduct() {
     const [manufacturer, setManufacturer] = useState('');
     const [website, setWebsite] = useState('');
     const [category, setCategory] = useState('');
-    const [images, setImages] = useState(['']);
+    const [files, setFiles] = useState([]);
     const [serialNumber, setSerialNumber] = useState('');
     const [size, setSize] = useState('');
     const [monitorSize, setMonitorSize] = useState('');
@@ -56,9 +56,10 @@ function NewWikiProduct() {
             description,
             price,
             manufacturer,
+            files,
             website,
             category,
-            images,
+            files,
             serialNumber,
             size,
             monitorSize,
@@ -73,23 +74,35 @@ function NewWikiProduct() {
             SKU
         };
         try {
-            await axios.post(`http://${BASE_URL}/wiki`, product);
+            const formData = new FormData();
+            files.forEach((file, index) => {
+              formData.append(`file`, file);
+            });
+            const config = {
+              headers: {
+                'content-type': 'multipart/form-data',
+              },
+            };
+            await axios.post(`http://${BASE_URL}/Wiki/New/upload`, formData, config).then((response) => {
+                product.files = response.data;
+                axios.post(`http://${BASE_URL}/wiki`, product);
+            });
             navigate('/wiki');
         } catch (error) {
             console.error(error);
         }
     };
 
-    const handleNewImage = (imageUrl) =>{
-        setImages([...images, imageUrl
-        ]);
-    }
+    function handleNewImage(event) {
+        setFiles([...event.target.files]);
+      }
 
     return (
         <div className="form-container">
-        <br></br>
+            <br></br>
             <h1>New Wiki Product</h1>
-            <form onSubmit={handleSubmit}>
+            {/* http://localhost:5001 */}
+            <form method="post" encType="multipart/form-data" onSubmit={handleSubmit} action='/upload'>
                 <div className="form-group">
                     <label>Name:</label>
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -119,22 +132,7 @@ function NewWikiProduct() {
                     <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} />
                 </div>
                 <div className="form-group">
-                    <label>Images:</label>
-                    {images.map((image, index) => (
-                        <input
-                            key={index}
-                            type="text"
-                            value={image}
-                            onChange={(e) => {
-                                const newImages = [...images];
-                                newImages[index] = e.target.value;
-                                if (newImages[newImages.length - 1] !== '') {
-                                    newImages.push('');
-                                }
-                                setImages(newImages);
-                            }}
-                        />
-                    ))}
+                    <input type="file" multiple onChange={(e) => handleNewImage(e)} />
                 </div>
                 <div className="form-group">
                     <label>Serial Number:</label>

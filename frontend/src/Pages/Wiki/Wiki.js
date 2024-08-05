@@ -27,7 +27,7 @@ function Wiki() {
     const handleProductClick = (product) => {
         console.log(product);
         console.log(Object.keys(product));
-        navigate(`/wiki/${product._id.$oid}`);
+        navigate(`/wiki/${product._id}`);
     };
 
     return (
@@ -51,7 +51,7 @@ function Wiki() {
                             <td>{product.name}</td>
                             <td>{product.description}</td>
                             <td>{product.category}</td>
-                            <td>{product.images && product.images[0] && <img className="productThumbnail" src={product.images[0]} alt={product.images[0]} />}</td>
+                            <td>{product.files && product.files[0] && <img className="productThumbnail" src={product.files[0]} alt={product.files[0]} />}</td>
                             <td>{product.notes}</td>
                         </tr>
                     ))}

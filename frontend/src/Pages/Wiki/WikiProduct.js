@@ -15,7 +15,7 @@ function WikiProduct() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://${BASE_URL}/wiki/${params.id}`);
-                setWikiProducts(response.data[0]);
+                setWikiProducts(response.data);
                 console.log(response.data);
             } catch (error) {
                 console.error(error);
@@ -33,7 +33,7 @@ function WikiProduct() {
                     <p>{wikiProducts.description}</p>
                 </div>
                 <div className="wikiImage">
-                    {wikiProducts.images && wikiProducts.images.map((image) => (
+                    {wikiProducts.files && wikiProducts.files.map((image) => (
                         <img className='product-image' key={image} src={image} alt={image} />
                     ))}
                 </div>

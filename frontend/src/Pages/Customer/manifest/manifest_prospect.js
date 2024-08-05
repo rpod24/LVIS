@@ -5,6 +5,7 @@ import axios from "axios";
 import "../../../PageCSS/customerPage.css";
 import { TRANSMITTER, CMS, MED } from "../../../defaults";
 import { BASE_URL } from "../../../defaults";
+import "../../../PageCSS/validation.css";
 
 function ManifestProspect() {
     const param = useParams();
@@ -371,7 +372,7 @@ function ManifestProspect() {
         //                 <input
         //                     name="facilityName"
         //                     onChange={handleChange}
-        //                     className="inputText"
+        //                     className={"inputText" + (customerData.facilityName == "" ? " required" : "")}
         //                     type="text"
         //                     defaultValue={customerData!=null? customerData.facilityName:""}
         //                 ></input>
@@ -380,7 +381,7 @@ function ManifestProspect() {
         //                 <input
         //                     name="city"
         //                     onChange={handleChange}
-        //                     className="inputText"
+        //                     className={"inputText" + (customerData.facilityName == "" ? " required" : "")}
         //                     type="text"
         //                     defaultValue={customerData!=null? customerData.city:""}
         //                 ></input>
@@ -398,97 +399,16 @@ function ManifestProspect() {
                             <input
                                 name="facilityName"
                                 onChange={handleChange}
-                                className="inputText"
+                                className={"inputText" + (customerData.facilityName == "" ? " required" : "")}
                                 type="text"
                                 defaultValue={customerData != null ? customerData.facilityName : ""}
                             ></input>
                             <br />
-                            <label>City: </label>
-                            <input
-                                name="city"
-                                onChange={handleChange}
-                                className="inputText"
-                                type="text"
-                                defaultValue={customerData != null ? customerData.city : ""}
-                            ></input>
-                            <br />
-                            <label>State: </label>
-                            <input
-                                name="state"
-                                onChange={handleChange}
-                                className="inputText"
-                                type="text"
-                                defaultValue={customerData != null ? customerData.state : ""}
-                            ></input>
-                            <br />
-                            <label>Zip: </label>
-                            <input
-                                name="zip"
-                                onChange={handleChange}
-                                className="inputText"
-                                type="text"
-                                defaultValue={customerData != null ? customerData.zip : ""}
-                            ></input>
-                            <br />
-                            <label>Address: </label>
-                            <input
-                                name="address"
-                                onChange={handleChange}
-                                className="inputText"
-                                type="text"
-                                defaultValue={customerData != null ? customerData.address : ""}
-                            ></input>
-                            <br />
-                            <label>Phone: </label>
-                            <input
-                                name="phone"
-                                onChange={handleChange}
-                                className="inputText"
-                                type="text"
-                                defaultValue={customerData != null ? customerData.phone : ""}
-                            ></input>
-                            <br />
-                            <label>Facility ID: </label>
-                            <input
-                                name="facilityID"
-                                onChange={handleChange}
-                                className="inputText"
-                                type="text"
-                                defaultValue={customerData != null ? customerData.facilityID : ""}
-                            ></input>
-                            <br />
-                            <label>Product: </label>
-                            <input
-                                name="product"
-                                onChange={handleChange}
-                                className="inputText"
-                                type="text"
-                                defaultValue={customerData != null ? customerData.product : ""}
-                            ></input>
-                            <br />
-                            <label>Product Version: </label>
-                            <input
-                                name="productVersion"
-                                onChange={handleChange}
-                                className="inputText"
-                                type="number"
-                                defaultValue={customerData != null ? customerData.productVersion : ""}
-                            ></input>
-                            <br />
-                            <label>Installation Date: </label>
-                            <input
-                                name="installationDate"
-                                onChange={handleChange}
-                                className="inputText"
-                                type="text"
-                                defaultValue={customerData != null ? customerData.installationDate : ""}
-                            ></input>
-                            <br /><br />
                             <label>State: </label>
                             <select
                                 name="state"
                                 onChange={handleChange}
-                                className="inputText"
+                                className={"inputText" + (customerData.state == "" ? " required" : "")}
                                 type="text"
                                 defaultValue={customerData.state}
                             >
@@ -549,7 +469,7 @@ function ManifestProspect() {
                             <input
                                 name="city"
                                 onChange={handleChange}
-                                className="inputText"
+                                className={"inputText" + (customerData.city == "" ? " required" : "")}
                                 type="text"
                                 defaultValue={customerData.city}
                             ></input>
@@ -557,7 +477,7 @@ function ManifestProspect() {
                             <input
                                 name="zip"
                                 onChange={handleChange}
-                                className="inputText"
+                                className={"inputText" + (customerData.zip == "" ? " required" : "")}
                                 type="number"
                                 defaultValue={customerData.zip}
                             ></input>
@@ -565,7 +485,7 @@ function ManifestProspect() {
                             <input
                                 name="address"
                                 onChange={handleChange}
-                                className="inputText"
+                                className={"inputText" + (customerData.address == "" ? " required" : "")}
                                 type="text"
                                 defaultValue={customerData.address}
                             ></input>
@@ -578,14 +498,14 @@ function ManifestProspect() {
                                 defaultValue={customerData.phone}
                                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                                 maxLength={12}
-                                className={`inputText ${!inputValidity.phone ? 'invalid-input' : ''}`}
+                                className={`inputText ${customerData.phone == "" ? 'required' : ''}`}
                             ></input>
                             <br />
                             <label>Website: </label>
                             <input
                                 name="website"
                                 onChange={handleChange}
-                                className="inputText"
+                                className={"inputText" + (customerData.website == "" ? " warning" : "")}
                                 type="url"
                                 defaultValue={customerData.website}
                             ></input>
@@ -594,7 +514,7 @@ function ManifestProspect() {
                             <select
                                 name="product"
                                 onChange={handleChange}
-                                className="inputText"
+                                className={"inputText" + (customerData.product == "" ? " required" : "")}
                                 type="text"
                                 defaultValue={customerData.product}
                             >
@@ -607,7 +527,7 @@ function ManifestProspect() {
                                     <select
                                         name="productVersion"
                                         onChange={handleChange}
-                                        className="inputText"
+                                        className={"inputText" + (customerData.productVersion == "" ? " required" : "")}
                                         type="number"
                                         defaultValue={customerData.productVersion}
                                     >
@@ -622,7 +542,7 @@ function ManifestProspect() {
                                     <select
                                         name="productVersion"
                                         onChange={handleChange}
-                                        className="inputText"
+                                        className={"inputText" + (customerData.productVersion == "" ? " required" : "")}
                                         type="number"
                                         defaultValue={customerData.productVersion}
                                     >
@@ -632,13 +552,32 @@ function ManifestProspect() {
                                     </select>
                                 </div>
                             )}
+                            <label>Facility ID: </label>
+                            <input
+                                name="facilityID"
+                                onChange={handleChange}
+                                className={"inputText" + (customerData.facilityID == "" ? " warning" : "")}
+                                type="text"
+                                defaultValue={customerData != null ? customerData.facilityID : ""}
+                            ></input>
+                            <br />
+                            <label>Installation Date: </label>
+                            <input
+                                name="installationDate"
+                                onChange={handleChange}
+                                className={"inputText" + (customerData.installationDate == "" ? " warning" : "")}
+                                type="datetime-local"
+                                step="60"
+                                defaultValue={customerData.installationDate}
+                            ></input>
+                            <br /><br />
                             <div>
                                 <div className="inline long">
                                     <label className="inline normal">Transmitters: </label>
                                     <input
                                         name="transmitters"
                                         onChange={handleSpecialChange}
-                                        className="inputText short"
+                                        className={"inputText short" + (customerData.transmitters == "" ? " required" : "")}
                                         type="number"
                                         defaultValue={customerData.transmitters}
                                         min={0}
@@ -649,7 +588,7 @@ function ManifestProspect() {
                                 <input
                                     name="sparesTransmitters"
                                     onChange={handleSpecialChange}
-                                    className="inputText"
+                                    className={"inputText" + (customerData.sparesTransmitters == "" ? " required" : "")}
                                     type="number"
                                     defaultValue={customerData.sparesTransmitters}
                                     min={0}
@@ -662,7 +601,7 @@ function ManifestProspect() {
                                     <input
                                         name="CMSs"
                                         onChange={handleSpecialChange}
-                                        className="inputText short"
+                                        className={"inputText short" + (customerData.CMSs == "" ? " required" : "")}
                                         type="number"
                                         defaultValue={customerData.CMSs}
                                         min={0}
@@ -673,7 +612,7 @@ function ManifestProspect() {
                                 <input
                                     name="headlessCMSs"
                                     onChange={handleSpecialChange}
-                                    className="inputText"
+                                    className={"inputText" + (customerData.headlessCMSs == "" ? " required" : "")}
                                     type="number"
                                     defaultValue={customerData.headlessCMSs}
                                 ></input>
@@ -684,7 +623,7 @@ function ManifestProspect() {
                                     <input
                                         name="MEDs"
                                         onChange={handleSpecialChange}
-                                        className="inputText short"
+                                        className={"inputText short" + (customerData.MEDs == "" ? " required" : "")}
                                         type="number"
                                         defaultValue={customerData.MEDs}
                                     ></input>
@@ -693,7 +632,7 @@ function ManifestProspect() {
                                 <input
                                     name="mounts"
                                     onChange={handleChange}
-                                    className="inputText"
+                                    className={"inputText" + (customerData.mounts == "" ? " required" : "")}
                                     type="number"
                                     defaultValue={customerData.mounts}
                                 ></input>
@@ -706,7 +645,7 @@ function ManifestProspect() {
                                     <input
                                         name="name"
                                         id="contacts"
-                                        className="inputText"
+                                        className={"inputText" + (index==0? contact.name == "" ? " required" : "" : "")}
                                         type="text"
                                         value={contact.name}
                                         onChange={handleIncreasableArrayChange}
@@ -715,7 +654,7 @@ function ManifestProspect() {
                                     <input
                                         name="email"
                                         id="contacts"
-                                        className="inputText"
+                                        className={"inputText" + (index==0? contact.name == "" ? " required" : "" : "")}
                                         type="email"
                                         value={contact.email}
                                         onChange={handleIncreasableArrayChange}
@@ -724,7 +663,7 @@ function ManifestProspect() {
                                     <input
                                         name="phone"
                                         id="contacts"
-                                        className="inputText"
+                                        className={"inputText" + (index==0? contact.name == "" ? " required" : "" : "")}
                                         type="tel"
                                         value={contact.phone}
                                         pattern="([0-9]{3}-[0-9]{3}-[0-9]{4})( ext [0-9]{0,8})?"
@@ -738,7 +677,7 @@ function ManifestProspect() {
                             <input
                                 name="nextStep"
                                 onChange={handleChange}
-                                className="inputText"
+                                className={"inputText" + (customerData.nextStep == "" ? " warning" : "")}
                                 type="text"
                                 defaultValue={customerData.nextStep}
                             ></input>
@@ -784,7 +723,7 @@ function ManifestProspect() {
                                                     <input
                                                         name="room"
                                                         id="roomList"
-                                                        className="inputText"
+                                                        className={"inputText" + (customerData.facilityName == "" ? " required" : "")}
                                                         type="text"
                                                         value={room.room}
                                                         onChange={handleIncreasableUpdatableArrayChange}

@@ -25,6 +25,7 @@ import Assembly from "./Pages/Customer/assembly";
 import ManifestProspect from "./Pages/Customer/manifest/manifest_prospect";
 import ManifestAssembly from "./Pages/Customer/manifest/manifest_assembly";
 import ManifestActive from "./Pages/Customer/manifest/manifest_active";
+import "./PageCSS/Theme.css"
 
 const App = () => {
   const location = useLocation();

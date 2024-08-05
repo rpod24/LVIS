@@ -35,11 +35,11 @@ function NewTicket() {
       var currentPageResponse;
       if (searchTerm === "") {
         currentPageResponse = await axios.get(
-          `http://${BASE_URL}/facilities`
+          `http://${BASE_URL}/configuration`
         );
       } else {
         currentPageResponse = await axios.get(
-          `http://${BASE_URL}/facilities?p=${0}&search=${searchTerm}`
+          `http://${BASE_URL}/configuration?p=${0}&search=${searchTerm}`
         );
       }
       console.log(currentPageResponse);
@@ -66,14 +66,13 @@ function NewTicket() {
     setSearchTerm(event.target.value);
     fetchFacilitys(event.target.value);
     handleChange(event);
-    autocomplete(document.getElementById("facility_name"), jsonToNameArray(facilities), () => {
+    autocomplete(document.getElementById("facility_name"), facilities, () => {
       try {
-        //find facility based off of document.getElementById("facility_type").value; and get the facility type
         var facilityName = document.getElementById("facility_name").value;
         var facilityType = "";
         for (var i = 0; i < facilities.length; i++) {
           console.log(facilities[i].Name === facilityName)
-          if (facilities[i].Name === facilityName) {
+          if (facilities[i].Name === facilityName || facilities[i].FacilityID === facilityName) {
             facilityType = facilities[i].Product;
             break;
           }
@@ -349,6 +348,7 @@ function jsonToNameArray(json) {
   var nameArray = [];
   for (var i = 0; i < json.length; i++) {
     nameArray.push(json[i].Name);
+    // nameArray.push(json[i].FacilityID);
   }
   return nameArray;
 }
@@ -370,11 +370,11 @@ function autocomplete(inp, arr, callback = () => { }) {
     a.setAttribute("class", "autocomplete-items");
     this.parentNode.appendChild(a);
     for (i = 0; i < arr.length; i++) {
-      if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+      if (arr[i].Name.substr(0, val.length).toUpperCase() === val.toUpperCase() || arr[i].FacilityID.substr(0, val.length).toUpperCase() === val.toUpperCase()) {
         b = document.createElement("DIV");
-        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-        b.innerHTML += arr[i].substr(val.length);
-        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+        b.innerHTML = "<strong>" + arr[i].Name.substr(0, val.length) + "</strong>";
+        b.innerHTML += arr[i].Name.substr(val.length);
+        b.innerHTML += "<input type='hidden' value='" + arr[i].Name + "'>";
         b.addEventListener("click", function (e) {
           inp.value = this.getElementsByTagName("input")[0].value;
           closeAllLists();

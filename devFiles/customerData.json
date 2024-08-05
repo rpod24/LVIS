@@ -1,16 +1,15 @@
 {
   "customerName": "",
   "partner": false,
-  "corperate": false,
-  "vent": "",
-  "rent": false,
+  "corparate": false,
+  "ventSystem": "",
+  "renting": false,
   "installationStart": "",
   "installationEnd": "",
   "warrentyEnd": "",
   "rentalEnd": "",
   "endOfFirmco": "",
   "endOfServiceContract": "",
-  "owner": "",
   "contractWith": "",
   "contractSigned": false,
   "phone": "",
@@ -18,5 +17,12 @@
   "address": "",
   "city": "",
   "zip": "",
-  "country": ""
+  "country": "",
+  "lead": false,
+  "leadGenerator": "",
+  "leads": [],
+  "ownership": "",
+  "management": "",
+  "billee": "",
+  "quotes": []
 }
