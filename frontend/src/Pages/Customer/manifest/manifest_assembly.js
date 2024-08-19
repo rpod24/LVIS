@@ -398,6 +398,27 @@ function ManifestAssembly() {
       return <div>Loading...</div>;
     }
 
+    //FORMATTING EXPLANATION
+    // Example:
+    // <input
+    //   name="facilityName"
+    //   onChange={handleChange}
+    //   className="inputText"
+    //   type="text"
+    //   defaultValue={customerData.facilityName}
+    //   ></input>
+    // The name field is the key in the customerData object that the input will update
+    // The onChange field is how the form updates the state of the customerData object
+    // The className field is the class of the input for css
+    // The type field is the type of input
+    // The defaultValue field is the value in the json object, customerData
+
+    // The format should go like this
+    // <label> LABEL TEXT, whatever the field is </label>
+    // <input ...></input> as described above
+    // <br /> for spacing, if needed, only use when separating different sections
+    // <div> for grouping inputs together
+
     switch (page) {
       case 1:
         return (
