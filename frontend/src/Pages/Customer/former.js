@@ -1,5 +1,5 @@
 import React from 'react';
-
+//WIP Page for former facilities
 function Former() {
   return (
     <div className="HomePage">

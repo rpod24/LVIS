@@ -3,11 +3,11 @@ import axios from "axios";
 import "../../PageCSS/ViewTickets.css";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../defaults";
+// Very similar to the Prospects page, but for Assembly facilities instead
 function Assembly() {
   const config = {
     headers: {
       "Access-Control-Allow-Origin": "*",
-      // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
     },
     withCredentials: false,
   };
@@ -67,7 +67,7 @@ function Assembly() {
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
-    setPage(0); // Reset to the first page whenever a new search is made
+    setPage(0);
   };
 
   return (
@@ -84,7 +84,6 @@ function Assembly() {
       <table>
         <thead>
           <tr>
-            {/* Facility, product, version, isntall date, ship date, room numbers?, wifi?, next step */}
             <th>Facility</th>
             <th>Product</th>
             <th>Version</th>
@@ -106,7 +105,6 @@ function Assembly() {
                 onClick={() => handleRowClick(facility._id)}
                 style={{ cursor: "pointer" }}
               >
-                {/* Facility, product, version, isntall date, ship date, room numbers?, wifi?, next step */}
                 <td>{facility.facilityName}</td>
                 <td>{facility.product}</td>
                 <td>{facility.productVersion}</td>

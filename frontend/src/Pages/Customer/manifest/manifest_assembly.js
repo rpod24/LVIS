@@ -244,7 +244,6 @@ function ManifestAssembly() {
     });
   };
 
-  //med ids will start as AA and go to ZZ
   const autoGenerateMedIDs = () => {
     var medID = "AA";
     var data = customerData.MEDAssembly;
@@ -1365,7 +1364,6 @@ function ManifestAssembly() {
           </div>
         );
       case 5:
-        //Installations
         return (
           <div>
             <label>Install Info:</label>
@@ -1428,7 +1426,7 @@ document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     try {
       console.log("Enter");
-      event.preventDefault(); // Prevent the default behavior of Enter key
+      event.preventDefault(); 
       console.log("Enter");
       let activeElement = document.activeElement;
       console.log(activeElement.tagName);
@@ -1453,7 +1451,6 @@ document.addEventListener("keydown", function (event) {
         console.log(currentRow);
         console.log(nextRow);
         if (nextRow) {
-          // let columnIndex = Array.prototype.indexOf.call(currentRow.children, activeElement);
           nextRow.focus();
         }
       } else if (

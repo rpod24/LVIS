@@ -1,3 +1,9 @@
+// This file is old code and all the over arching design that is now split into multiple files for readability and organization.
+
+// Some code was removed for brevity and clarity and some code was added to make the snippets standalone.
+
+
+
 // import React, { useEffect, useState, useRef } from "react";
 // import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 // import { useParams } from "react-router-dom";

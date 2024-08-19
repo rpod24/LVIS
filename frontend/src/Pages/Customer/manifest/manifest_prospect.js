@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../../PageCSS/customerPage.css";
 import { TRANSMITTER, CMS, MED } from "../../../defaults";
@@ -11,107 +11,10 @@ function ManifestProspect() {
     const param = useParams();
     const [updateState, setUpdateState] = useState(false);
     const [customerData, setCustomerData] = useState(null);
-    // const [customerData, setCustomerData] = useState({
-    //     _id: "",
-    //     facilityName: "-1",
-    //     state: "",
-    //     city: "",
-    //     zip: "",
-    //     address: "",
-    //     phone: "",
-    //     facilityID: "",
-    //     product: "",
-    //     productVersion: -1,
-    //     installationDate: "",
-    //     stagingDeadline: "",
-    //     assemblyDeadline: "",
-    //     assemblyDate: "",
-    //     QADate: "",
-    //     shippingDate: "",
-    //     transmitters: 0,
-    //     sparesTransmitters: 0,
-    //     CMSs: 0,
-    //     headlessCMSs: 0,
-    //     MEDs: 0,
-    //     displays: {},
-    //     contacts: [],
-    //     notes: [],
-    //     website: "",
-    //     wifi: [],
-    //     facilityMapURL: [],
-    //     mapHasCMS: false,
-    //     mapLayoutPhoto: [],
-    //     powerCables: [],
-    //     roomList: [],
-    //     transmitterSketch: "",
-    //     CMSDisplaySoftwareFile: "",
-    //     radioSoftwareFile: "",
-    //     radioType: "",
-    //     MEDModel: "",
-    //     MEDSoftwareVersion: -1,
-    //     normallyOpen: false,
-    //     nextStep: "",
-    //     CMSAssembly: [],
-    //     MEDAssembly: [],
-    //     transmitterAssembly: [],
-    //     qualityAssurance: {
-    //         preshipping: [
-    //             {
-    //                 qa: "",
-    //                 status: false,
-    //                 date: "",
-    //             },
-    //         ],
-    //         followUp: [
-    //             {
-    //                 qa: "",
-    //                 status: false,
-    //                 date: "",
-    //             },
-    //         ],
-    //     },
-    //     qualityAssuranceDate: "",
-    //     qaApprovedStaffMember: "",
-    //     shippingMethod: "",
-    //     quantityOfTransmitters: 0,
-    //     quantityOfiQMounts: 0,
-    //     quantityOfCMSs: 0,
-    //     quantityOfHeadlessCMSs: 0,
-    //     quantityOfMEDs: 0,
-    //     numberOfChargers: 0,
-    //     quantityOfDisplays: 0,
-    //     mountTypesIncluded: {
-    //         wall: 0,
-    //         articulating: 0,
-    //         floor: 0,
-    //     },
-    //     cordsIncluded: {},
-    //     hardwareIncluded: false,
-    //     batteriesIncluded: false,
-    //     securityScrewIncluded: false,
-    //     documentationIncluded: false,
-    //     installGuideIncluded: false,
-    //     trackingNumbers: [{ number: "123456" }],
-    //     shipDate: "",
-    //     contractInfo: {
-    //         vent: "",
-    //         rent: false,
-    //         installationDates: {
-    //             start: "",
-    //             end: "",
-    //         },
-    //         warrentyEnd: "",
-    //         rentalEnd: "",
-    //         endOfFirmco: "",
-    //         endOfServiceContract: "",
-    //         owner: "",
-    //         contractWith: "",
-    //         contractSigned: false,
-    //     },
-    //     status: "",
-    // });
+    const navigate = useNavigate();
+
     const [page, setPage] = useState(
-        window.localStorage.getItem("manifestId") === param.id ? Number(window.localStorage.getItem("page")) :
+        window.localStorage.getItem("manifestId") === param.id ? Number(window.localStorage.getItem("page")) : // If the user has already been on this page, load the last page they were on
             1
     );
 
@@ -120,10 +23,7 @@ function ManifestProspect() {
             try {
                 const url = `http://${BASE_URL}/manifest/${param.id}`;
                 const response = await axios.get(url);
-                // while(customerData.productVersion === -1){
                 setCustomerData(response.data);
-                //     console.log("waiting");
-                // }
                 state(response.data);
             } catch (error) {
                 console.error(
@@ -136,7 +36,7 @@ function ManifestProspect() {
     }, [param.id]);
 
     const state = (data) => {
-        console.log(data);
+        // TODO: This is not a good implementation, it should be refactored, the goal was to force a re-render of the page which it does well.
         var newCustomerData = {
             ...data
         };
@@ -150,6 +50,10 @@ function ManifestProspect() {
         console.log(customerData);
     }
 
+    const reroute = () => {
+        navigate("/Manifest/Assembly/" + param.id);// Navigate to the Assembly page after the manifest is approved
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -162,18 +66,18 @@ function ManifestProspect() {
         }
     };
 
-    const updateDatabase = async () => {
+    const updateDatabase = async () => { // Approves the Manifest and updates the database
         try {
             await axios.post(
                 `http://${BASE_URL}/manifest/${param.id}`,
                 customerData
             );
         } catch (error) {
-            console.error("There was an error creating the ticket!", error);
+            console.error("There was an error approving the manifest!", error);
         }
     };
 
-    const allFieldsEmpty = (arr) => {
+    const allFieldsEmpty = (arr) => { // checks if all fields in an object are empty
         var s = true;
         Object.keys(arr).forEach((element) => {
             if (arr[element] !== "") {
@@ -184,7 +88,7 @@ function ManifestProspect() {
         return s;
     };
 
-    const generateEmptyJSON = (arr) => {
+    const generateEmptyJSON = (arr) => { // Generates an empty JSON object with the same keys as the input object
         let temp = {};
         Object.keys(arr).forEach((element) => {
             temp[element] = "";
@@ -192,7 +96,7 @@ function ManifestProspect() {
         return temp;
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e) => { // Handles changes to the customerData object aka the form
         const { name, value, type, checked } = e.target;
         setCustomerData({
             ...customerData,
@@ -201,7 +105,7 @@ function ManifestProspect() {
         console.log(customerData);
     };
 
-    const handleSpecialChange = (e) => {
+    const handleSpecialChange = (e) => { // Handles changes to the customerData object for the special fields
         const { name, value, type, checked } = e.target;
         setCustomerData({
             ...customerData,
@@ -252,7 +156,7 @@ function ManifestProspect() {
         }
     };
 
-    const handleIncreasableUpdatableArrayChange = (e) => {
+    const handleIncreasableUpdatableArrayChange = (e) => { // Handles changes to the increasable arrays, mainly used for the roomList
         const { name, value, type, checked, id } = e.target;
         const arrid = e.target.parentElement.id;
         let tempArr = [...customerData[id]];
@@ -284,7 +188,7 @@ function ManifestProspect() {
         console.log(customerData);
     };
 
-    const handleIncreasableArrayChange = (e) => {
+    const handleIncreasableArrayChange = (e) => { // Handles changes to the increasable arrays, mainly used for the contacts info, good for variable length arrays in the json
         const { name, value, type, checked, id } = e.target;
         const arrid = e.target.parentElement.id;
         let tempArr = [...customerData[id]];
@@ -308,89 +212,19 @@ function ManifestProspect() {
         console.log(customerData);
     };
 
-    const handleArrayChange = (e) => {
-        const { name, value, type, checked, id } = e.target;
-        const arrid = e.target.parentElement.id;
-        let tempArr = customerData[id];
-        console.log(tempArr);
-        console.log(arrid);
-        console.log(tempArr[arrid]);
-        console.log(name);
-        console.log(tempArr[arrid][name]);
-        tempArr[arrid][name] = type === "checkbox" ? checked : value;
-        setCustomerData({
-            ...customerData,
-            [id]: tempArr,
-        });
-        console.log(customerData);
-    };
-
-    const handleClick = (pageNumber) => {
+    const handleClick = (pageNumber) => { // Updates the page
         setPage(pageNumber);
         window.localStorage.setItem("page", pageNumber);
         window.localStorage.setItem("manifestId", param.id);
         console.log(customerData);
     };
 
-
-    const [inputValidity, setInputValidity] = useState({
-        phone: true,
-        zip: true,
-        email: true,
-    });
-
-    const validateInput = (name, value) => {
-        let isValid = true;
-        switch (name) {
-            case "phone":
-                isValid = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(value);
-                break;
-            case "zip":
-                isValid = /^[0-9]{5}$/.test(value);
-                break;
-            case "email":
-                isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-                break;
-            default:
-                break;
-        }
-        setInputValidity((prevValidity) => ({
-            ...prevValidity,
-            [name]: isValid,
-        }));
-    };
-
     const pageGen = () => {
         if (customerData === null) {
             return <div>Loading...</div>;
         }
-        // else if (true) {
-        //     return (
-        //         <div>
-        //             <form onSubmit={handleSubmit}>
-        //                 <label>Facility Name: {updateState? "test" : "false"} </label>
-        //                 <input
-        //                     name="facilityName"
-        //                     onChange={handleChange}
-        //                     className={"inputText" + (customerData.facilityName == "" ? " required" : "")}
-        //                     type="text"
-        //                     defaultValue={customerData!=null? customerData.facilityName:""}
-        //                 ></input>
-        //                 <br />
-        //                 <label>City: </label>
-        //                 <input
-        //                     name="city"
-        //                     onChange={handleChange}
-        //                     className={"inputText" + (customerData.facilityName == "" ? " required" : "")}
-        //                     type="text"
-        //                     defaultValue={customerData!=null? customerData.city:""}
-        //                 ></input>
-        //                 <button>Save Changes</button>
-        //             </form>
-        //         </div>
-        //     );
-        // }
         switch (page) {
+            //Each case is the page number that the user is on
             case 1:
                 return (
                     <div>
@@ -479,6 +313,7 @@ function ManifestProspect() {
                                 onChange={handleChange}
                                 className={"inputText" + (customerData.zip == "" ? " required" : "")}
                                 type="number"
+                                pattern="^\s*?\d{5}(?:[-\s]\d{4})?\s*?$"
                                 defaultValue={customerData.zip}
                             ></input>
                             <label>Address: </label>
@@ -546,7 +381,6 @@ function ManifestProspect() {
                                         type="number"
                                         defaultValue={customerData.productVersion}
                                     >
-                                        <option value={0}>0.0</option>
                                         <option value={1}>1.0</option>
                                         <option value={2}>Other</option>
                                     </select>
@@ -645,7 +479,7 @@ function ManifestProspect() {
                                     <input
                                         name="name"
                                         id="contacts"
-                                        className={"inputText" + (index==0? contact.name == "" ? " required" : "" : "")}
+                                        className={"inputText" + (index == 0 ? contact.name == "" ? " required" : "" : "")}
                                         type="text"
                                         value={contact.name}
                                         onChange={handleIncreasableArrayChange}
@@ -654,7 +488,7 @@ function ManifestProspect() {
                                     <input
                                         name="email"
                                         id="contacts"
-                                        className={"inputText" + (index==0? contact.name == "" ? " required" : "" : "")}
+                                        className={"inputText" + (index == 0 ? contact.name == "" ? " required" : "" : "")}
                                         type="email"
                                         value={contact.email}
                                         onChange={handleIncreasableArrayChange}
@@ -663,7 +497,7 @@ function ManifestProspect() {
                                     <input
                                         name="phone"
                                         id="contacts"
-                                        className={"inputText" + (index==0? contact.name == "" ? " required" : "" : "")}
+                                        className={"inputText" + (index == 0 ? contact.name == "" ? " required" : "" : "")}
                                         type="tel"
                                         value={contact.phone}
                                         pattern="([0-9]{3}-[0-9]{3}-[0-9]{4})( ext [0-9]{0,8})?"
@@ -689,6 +523,7 @@ function ManifestProspect() {
                                     newCustomerData.status = "Assembly";
                                     setCustomerData(newCustomerData);
                                     updateDatabase();
+                                    reroute();
                                 }}
                             >
                                 Approve Manifest
@@ -761,11 +596,11 @@ function ManifestProspect() {
     );
 }
 
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", function (event) { // Allows the user to use the enter key to navigate the form, mainly used for the roomList on this page but also used for the equipment on other pages
     if (event.key === "Enter") {
         try {
             console.log("Enter");
-            event.preventDefault(); // Prevent the default behavior of Enter key
+            event.preventDefault();
             console.log("Enter");
             let activeElement = document.activeElement;
             console.log(activeElement.tagName);
@@ -790,7 +625,6 @@ document.addEventListener("keydown", function (event) {
                 console.log(currentRow);
                 console.log(nextRow);
                 if (nextRow) {
-                    // let columnIndex = Array.prototype.indexOf.call(currentRow.children, activeElement);
                     nextRow.focus();
                 }
             } else if (

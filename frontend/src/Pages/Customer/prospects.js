@@ -6,8 +6,7 @@ import { BASE_URL } from "../../defaults";
 function Prospects() {
   const config = {
     headers: {
-      "Access-Control-Allow-Origin": "*",
-      // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+      "Access-Control-Allow-Origin": "*", // Allow CORS, this should be removed in production
     },
     withCredentials: false,
   };
@@ -17,6 +16,7 @@ function Prospects() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
+  // Fetch the facilities when the page loads
   useEffect(() => {
     fetchFacilitys(page, searchTerm);
   }, [page, searchTerm]);
@@ -26,10 +26,10 @@ function Prospects() {
       const currentPageResponse = await axios.get(
         `http://${BASE_URL}/manifest/prospect/?p=${page}&search=${searchTerm}`,
           config
-      );
+      ); // Gets the current page the user is on
       const nextPageResponse = await axios.get(
         `http://${BASE_URL}/manifest/prospect/?p=${page + 1}&search=${searchTerm}`
-      );
+      );// Gets the next page to see if there is a next page
 
       if (
         Array.isArray(currentPageResponse.data) &&
@@ -50,7 +50,7 @@ function Prospects() {
   };
 
   const handleRowClick = (facility) => {
-    navigate("/Manifest/Prospects/" + facility);
+    navigate("/Manifest/Prospects/" + facility); // Navigate to the facility page when a row is clicked
   };
 
   const handleNextPage = () => {
@@ -91,7 +91,6 @@ function Prospects() {
       <table>
         <thead>
           <tr>
-            {/* Facility, product, version, isntall date, ship date, room numbers?, wifi?, next step */}
             <th>Facility</th>
             <th>Product</th>
             <th>Version</th>
@@ -103,7 +102,7 @@ function Prospects() {
         </thead>
         <tbody>
           {facilities
-            .filter((facility) => {
+            .filter((facility) => { // Filter out the facilities that are not pending(aka Prospects)
               console.log(facility);
               return facility.status == "Pending" ? facility : null;
             })
@@ -113,7 +112,6 @@ function Prospects() {
                 onClick={() => handleRowClick(facility._id)}
                 style={{ cursor: "pointer" }}
               >
-                {/* Facility, product, version, isntall date, ship date, room numbers?, wifi?, next step */}
                 <td>{facility.facilityName}</td>
                 <td>{facility.product}</td>
                 <td>{facility.productVersion}</td>
