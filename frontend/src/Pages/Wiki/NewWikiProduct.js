@@ -101,7 +101,6 @@ function NewWikiProduct() {
         <div className="form-container">
             <br></br>
             <h1>New Wiki Product</h1>
-            {/* http://localhost:5001 */}
             <form method="post" encType="multipart/form-data" onSubmit={handleSubmit} action='/upload'>
                 <div className="form-group">
                     <label>Name:</label>

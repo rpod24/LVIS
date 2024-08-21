@@ -1,7 +1,6 @@
-// src/components/NewTicket/NewTicket.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../../PageCSS/NewTicket.css"; // Import your custom CSS file
+import "../../PageCSS/NewTicket.css";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../defaults";
 
@@ -117,7 +116,6 @@ function NewTicket() {
         `http://${BASE_URL}/tickets`,
         finalDataNoRawData
       );
-      // Reset form after successful submission
       console.log(response);
       console.log(response.data);
       console.log(response.data.ticket);
@@ -242,29 +240,6 @@ function NewTicket() {
               disabled
             />
           </label>
-          {/* <label>
-            Facility Name:
-            <input
-              type="text"
-              name="facility_name"
-              value={formData.facility_name}
-              onChange={handleSearch}
-              list="facility_name"
-              required
-            />
-            <datalist id="facility_name">
-              <option>Option</option>
-              <option>Option2</option>
-              {
-                console.log(facilities)}
-              {
-              facilities.length > 0 ? <option>Option</option>:  (
-                facilities.map((facility) => (
-                  <option >{facility.name}</option>
-                ))
-              )}
-            </datalist>
-          </label> */}
           <label>
             Facility Name:
             <input
@@ -348,7 +323,6 @@ function jsonToNameArray(json) {
   var nameArray = [];
   for (var i = 0; i < json.length; i++) {
     nameArray.push(json[i].Name);
-    // nameArray.push(json[i].FacilityID);
   }
   return nameArray;
 }

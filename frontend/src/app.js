@@ -33,10 +33,6 @@ const App = () => {
 
   return (
     <div className="App">
-      {/* <Helmet> */}
-
-        {/* <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
-      {/* </Helmet> */}
       {!isHomeRoute && <TopNav />}
       <Routes>
         <Route path="/" element={<Login />} />

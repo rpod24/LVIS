@@ -1,5 +1,7 @@
-//Page to generate a new prospect, requires just a facility name, product, and product version to create a new prospect
-
+// This page is used to create a new manifest for a customer. 
+// It is a form that takes in the facility name, product, and product version.
+// The form is submitted to the backend and a new manifest is created in the database. 
+// The user is then redirected to the manifest page for the new manifest.
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -8,12 +10,15 @@ import "../../PageCSS/customerPage.css";
 import { BASE_URL } from "../../defaults";
 
 function NewManifest() {
-  const [facilityName, setFacilityName] = useState("");
+  //States for each field in the form
+  const [facilityName, setFacilityName] = useState(""); 
   const [product, setProduct] = useState("REA");
   const [productVersion, setProductVersion] = useState("1.0");
+  //Hook to redirect the user to the new manifest page
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
+    //Default values for the new prospect, should change to be based on the defaults file either located in the backend/defaults/ or possibly frontend/defaults/
     var newProspect = {
       "facilityName": facilityName,
       "state": "",
@@ -148,6 +153,7 @@ function NewManifest() {
       "status": "Pending"
     };
     event.preventDefault();
+    //Post request to create a new prospect
     try {
       const response = await axios.post(`http://${BASE_URL}/manifest`, newProspect);
       console.log(response);
@@ -173,7 +179,6 @@ function NewManifest() {
         </Form.Group>
         <Form.Group className="mb-3" controlId="formProduct">
           <Form.Label>Product</Form.Label>
-          {/* Drop down with options for REA, ScrubTrax */}
           <Form.Control
             as="select"
             value={product}
@@ -186,7 +191,6 @@ function NewManifest() {
         </Form.Group>
         <Form.Group className="mb-3" controlId="formProductVersion">
           <Form.Label>Product Version</Form.Label>
-          {/* Dropdown with options for 1.0, 1.5, 2.0 */}
           <Form.Control
             as="select"
             value={productVersion}

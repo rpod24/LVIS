@@ -1558,7 +1558,6 @@
 //                     </tr>
 //                   </tbody>
 //                 </table>
-//                 {/* add shipping check list below: */}
 //                 <label>Shipping Checklist: </label>
 //                 <label>Quantity of Transmitters: </label>
 //                 <input
@@ -2752,7 +2751,6 @@
 //                     </tr>
 //                   </tbody>
 //                 </table>
-//                 {/* add shipping check list below: */}
 //                 <label>Shipping Checklist: </label>
 //                 <label>Quantity of Transmitters: </label>
 //                 <input
@@ -4682,7 +4680,6 @@
 //                     </tr>
 //                   </tbody>
 //                 </table>
-//                 {/* add shipping check list below: */}
 //                 <label>Shipping Checklist: </label>
 //                 <label>Quantity of Transmitters: </label>
 //                 <input
@@ -5876,7 +5873,6 @@
 //                     </tr>
 //                   </tbody>
 //                 </table>
-//                 {/* add shipping check list below: */}
 //                 <label>Shipping Checklist: </label>
 //                 <label>Quantity of Transmitters: </label>
 //                 <input

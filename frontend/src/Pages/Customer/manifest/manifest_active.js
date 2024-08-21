@@ -246,7 +246,6 @@ function ManifestActive() {
     });
   };
 
-  //med ids will start as AA and go to ZZ
   const autoGenerateMedIDs = () => {
     var medID = "AA";
     var data = customerData.MEDAssembly;
@@ -1304,7 +1303,6 @@ function ManifestActive() {
             <div>
               <form onSubmit={handleSubmit}>
                 <div></div>
-                {/* <br></br> */}
                 <h1>Shipping</h1>
                 <table>
                   <tbody>
@@ -1358,7 +1356,6 @@ function ManifestActive() {
                     </tr>
                   </tbody>
                 </table>
-                {/* add shipping check list below: */}
                 <label>Shipping Checklist: </label>
                 <label>Quantity of Transmitters: </label>
                 <input
@@ -1950,7 +1947,6 @@ function ManifestActive() {
             <div>
               <form>
                 <div></div>
-                {/* <br></br> */}
                 <h1>Shipping</h1>
                 <table>
                   <tbody>
@@ -1984,7 +1980,6 @@ function ManifestActive() {
                     </tr>
                   </tbody>
                 </table>
-                {/* add shipping check list below: */}
                 <label>Shipping Checklist: </label>
                 <label>Quantity of Transmitters: </label>
                 <p>{customerData.quantityOfTransmitters}</p>
@@ -2077,9 +2072,6 @@ function ManifestActive() {
         </Sidebar>
       </div>
       <div className="fullPage">
-        {/* <div className='center'>
-                    <h1>Facility</h1>
-                </div> */}
         {pageGen()}
       </div>
     </div>
@@ -2090,7 +2082,7 @@ document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     try {
       console.log("Enter");
-      event.preventDefault(); // Prevent the default behavior of Enter key
+      event.preventDefault(); 
       console.log("Enter");
       let activeElement = document.activeElement;
       console.log(activeElement.tagName);
@@ -2115,7 +2107,6 @@ document.addEventListener("keydown", function (event) {
         console.log(currentRow);
         console.log(nextRow);
         if (nextRow) {
-          // let columnIndex = Array.prototype.indexOf.call(currentRow.children, activeElement);
           nextRow.focus();
         }
       } else if (

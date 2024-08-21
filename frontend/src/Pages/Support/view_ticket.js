@@ -1,7 +1,6 @@
-// src/components/Ticket/Ticket.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../../PageCSS/ViewTicket.css'; // Import your custom CSS file
+import '../../PageCSS/ViewTicket.css';
 import { useParams } from 'react-router-dom';
 
 import { BASE_URL } from "../../defaults";
@@ -11,7 +10,7 @@ function Ticket() {
   const [notes, setNotes] = useState([]);
   const [problem, setProblem] = useState('');
   const [newNote, setNewNote] = useState('');
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+  const [isEditing, setIsEditing] = useState(false);
 
   const [formData, setFormData] = useState({
     status: '',
@@ -85,11 +84,9 @@ function Ticket() {
     }
     try {
       await axios.put(`http://${BASE_URL}/tickets?ticket=${id}`, ticket);
-      // alert('Ticket updated successfully');
       setIsEditing(false);
       setTicket({ ...ticket, ...formData });
     } catch (error) {
-      // console.log()
       if(error.response.status==405){
         alert('You did not edit the ticket');
       }

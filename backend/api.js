@@ -8,7 +8,7 @@ const { TokenManager } = require("./token_manager");
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.json({ limit: '50mb' }));// limit: '50mb' is used to prevent the error: "request entity too large"
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb', parameterLimit: 1000000 }));
 
 const storage = multer.diskStorage({
@@ -19,43 +19,10 @@ const storage = multer.diskStorage({
     callBack(null, `${file.originalname}`)
   }
 })
-let upload = multer({ dest: 'uploads/' }).fields([{ name: 'file', maxCount: 20 }])
+let upload = multer({ dest: 'uploads/' }).fields([{ name: 'file', maxCount: 20 }]) // Max 20 files, abirtrary number
 
-// const multerConfig = {
+const mongoUrl = "mongodb://localhost:27017/"; // TODO: Update this to the actual MongoDB URL
 
-//   storage: multer.diskStorage({
-//     //Setup where the user's file will go
-//     destination: function (req, file, next) {
-//       next(null, './public/photo-storage');
-//     },
-
-//     //Then give the file a unique name
-//     filename: function (req, file, next) {
-//       console.log(file);
-//       const ext = file.mimetype.split('/')[1];
-//       next(null, file.fieldname + '-' + Date.now() + '.' + ext);
-//     }
-//   }),
-
-//   //A means of ensuring only images are uploaded. 
-//   fileFilter: function (req, file, next) {
-//     if (!file) {
-//       next();
-//     }
-//     const image = file.mimetype.startsWith('image/');
-//     if (image) {
-//       console.log('photo uploaded');
-//       next(null, true);
-//     } else {
-//       console.log("file not supported");
-
-//       //TODO:  A better message response to user on failure.
-//       return next();
-//     }
-//   }
-// };
-
-const mongoUrl = "mongodb://localhost:27017/";
 const client = new MongoClient(mongoUrl);
 
 client
@@ -88,8 +55,8 @@ client
     const wiki = client.db("wiki");
     const productWiki = wiki.collection("products");
 
-    const CUSTOMER_LIMIT = 25;
-    const USER_LIMIT = 50;
+    const CUSTOMER_LIMIT = 25; // TODO: implement where needed
+    const USER_LIMIT = 50; // TODO: implement where needed
     const PRODUCT_LIMIT = 50;
 
     const authenticate = (requiredRole) => {
@@ -133,25 +100,17 @@ client
           status.push(`http://localhost:5001/images/${file[i].filename}`);
         }
       }
-      // res.sendStatus(200);
       res.status(200).send(status);
     });
 
     app.get("/images/:image_id", async (req, res) => {
       try {
-        //look in the uploads folder for the image
+        //looks in the uploads folder for the image
         res.sendFile(`${__dirname}/uploads/${req.params.image_id}`);
       } catch (err) {
         res.status(500).json({ error: "Unexpected Error Occured!" });
       }
     });
-
-
-
-
-
-
-
 
     app.get("/products", async (req, res) => {
       try {

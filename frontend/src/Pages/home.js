@@ -7,11 +7,6 @@ function Home() {
 
   return (
     <div className="Home">
-      {/* <header className="Home-header">
-        <p>
-          Signed in Home
-        </p>
-      </header> */}
       <br></br>
       <div>
         <input type="text" placeholder="Search for a Customer" />

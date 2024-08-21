@@ -993,11 +993,9 @@ function Facility() {
           </div>
         );
       case 2:
-        // array for each cms
         return (
           <div>
             <form onSubmit={handleChange}>
-              {/* array for each cms */}
               {CMS.map((cms, index) => (
                 <div key={index} className="array">
                   <label>
@@ -1132,11 +1130,9 @@ function Facility() {
           </div>
         );
       case 3:
-        // array for each group
         return (
           <div>
             <form onSubmit={handleChange}>
-              {/* array for each group */}
               {Group.map((group, index) => (
                 <div key={index} className="array">
                   <label>
@@ -1226,11 +1222,9 @@ function Facility() {
           </div>
         );
       case 4:
-        // array for each location
         return (
           <div>
             <form onSubmit={handleChange}>
-              {/* array for each location */}
               {Location.map((location, index) => (
                 <div key={index} className="array">
                   <label>
@@ -1302,11 +1296,9 @@ function Facility() {
           </div>
         );
       case 5:
-        // array for each room
         return (
           <div>
             <form onSubmit={handleChange}>
-              {/* array for each room */}
               {Room.map((room, index) => (
                 <div key={index} className="array">
                   <label>
@@ -1360,11 +1352,9 @@ function Facility() {
           </div>
         );
       case 6:
-        // array for each monitor
         return (
           <div>
             <form onSubmit={handleChange}>
-              {/* array for each monitor */}
               {Monitor.map((monitor, index) => (
                 <div key={index} className="array">
                   <label>
@@ -1535,11 +1525,9 @@ function Facility() {
           </div>
         );
       case 7:
-        // array for each med
         return (
           <div>
             <form onSubmit={handleChange}>
-              {/* array for each med */}
               {MED.map((med, index) => (
                 <div key={index} className="array">
                   <label>
@@ -2175,379 +2163,6 @@ function Facility() {
                 </div>
               )): null}
             </form>
-
-            {/* <form onSubmit={handleChange}>
-              {ConfigAlert.map((configAlert, index) => (
-                <div key={index} className="array">
-                  <label>
-                    Description:
-                    <input
-                      type="text"
-                      name="Description"
-                      value={configAlert.Description}
-                      onChange={handleChange}
-                    />
-                  </label>
-                  <label>Alert Min:</label>
-                  <div key={index} className="table">
-                    <label>
-                      Shift:
-                      <input
-                        type="text"
-                        name="Shift"
-                        value={configAlert.AlertMin.Shift}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Equipment Type:
-                      <input
-                        type="text"
-                        name="EquipmentType"
-                        value={configAlert.AlertMin.EquipmentType}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      ID:
-                      <input
-                        type="text"
-                        name="ID"
-                        value={configAlert.AlertMin.ID}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Alert Filter:
-                      <input
-                        type="text"
-                        name="AlertFilter"
-                        value={configAlert.AlertMin.AlertFilter}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Dev Filter:
-                      <input
-                        type="text"
-                        name="DevFilter"
-                        value={configAlert.AlertMin.DevFilter}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Enabled:
-                      <input
-                        type="checkbox"
-                        name="Enabled"
-                        checked={configAlert.AlertMin.Enabled}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Seconds From Start:
-                      <input
-                        type="number"
-                        name="SecondsFromStart"
-                        value={configAlert.AlertMin.SecondsFromStart}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Seconds From Clear:
-                      <input
-                        type="number"
-                        name="SecondsFromClear"
-                        value={configAlert.AlertMin.SecondsFromClear}
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </div>
-                  <br></br>
-                  <label>Timeout:</label>
-                  <div key={index} className="table">
-                    <label>
-                      Shift:
-                      <input
-                        type="text"
-                        name="Shift"
-                        value={configAlert.Timeout.Shift}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Equipment Type:
-                      <input
-                        type="text"
-                        name="EquipmentType"
-                        value={configAlert.Timeout.EquipmentType}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      ID:
-                      <input
-                        type="text"
-                        name="ID"
-                        value={configAlert.Timeout.ID}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Alert Filter:
-                      <input
-                        type="text"
-                        name="AlertFilter"
-                        value={configAlert.Timeout.AlertFilter}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Dev Filter:
-                      <input
-                        type="text"
-                        name="DevFilter"
-                        value={configAlert.Timeout.DevFilter}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Enabled:
-                      <input
-                        type="checkbox"
-                        name="Enabled"
-                        checked={configAlert.Timeout.Enabled}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Seconds From Start:
-                      <input
-                        type="number"
-                        name="SecondsFromStart"
-                        value={configAlert.Timeout.SecondsFromStart}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Seconds From Clear:
-                      <input
-                        type="number"
-                        name="SecondsFromClear"
-                        value={configAlert.Timeout.SecondsFromClear}
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </div>
-                  <label>Activity Warning:</label>
-                  <div key={index} className="table">
-                    <label>
-                      Shift:
-                      <input
-                        type="text"
-                        name="Shift"
-                        value={configAlert.Activity.Shift}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Equipment Type:
-                      <input
-                        type="text"
-                        name="EquipmentType"
-                        value={configAlert.Activity.EquipmentType}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      ID:
-                      <input
-                        type="text"
-                        name="ID"
-                        value={configAlert.Activity.ID}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Alert Filter:
-                      <input
-                        type="text"
-                        name="AlertFilter"
-                        value={configAlert.Activity.AlertFilter}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Dev Filter:
-                      <input
-                        type="text"
-                        name="DevFilter"
-                        value={configAlert.Activity.DevFilter}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Enabled:
-                      <input
-                        type="checkbox"
-                        name="Enabled"
-                        checked={configAlert.Activity.Enabled}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Seconds:
-                      <input
-                        type="number"
-                        name="Seconds"
-                        value={configAlert.Activity.Seconds}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Alert Count:
-                      <input
-                        type="number"
-                        name="AlertCount"
-                        value={configAlert.Activity.AlertCount}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label>
-                      Timeout:
-                      <input
-                        type="number"
-                        name="Timeout"
-                        value={configAlert.Activity.Timeout}
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </div>
-                  <label>Elevation:</label>
-                  {configAlert.Elevation.map((elevation, index) => (
-                    <div key={index} className="table">
-                      <label>
-                        Shift:
-                        <input
-                          type="text"
-                          name="Shift"
-                          value={elevation.Shift}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Equipment Type:
-                        <input
-                          type="text"
-                          name="EquipmentType"
-                          value={elevation.EquipmentType}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        ID:
-                        <input
-                          type="text"
-                          name="ID"
-                          value={elevation.ID}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Alert Filter:
-                        <input
-                          type="text"
-                          name="AlertFilter"
-                          value={elevation.AlertFilter}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Dev Filter:
-                        <input
-                          type="text"
-                          name="DevFilter"
-                          value={elevation.DevFilter}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Seconds:
-                        <input
-                          type="number"
-                          name="Seconds"
-                          value={elevation.Seconds}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Color 1:
-                        <input
-                          type="text"
-                          name="Color1"
-                          value={elevation.Color1}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Color 2:
-                        <input
-                          type="text"
-                          name="Color2"
-                          value={elevation.Color2}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Blinks:
-                        <input
-                          type="checkbox"
-                          name="Blinks"
-                          checked={elevation.Blinks}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        SortLast:
-                        <input
-                          type="checkbox"
-                          name="SortLast"
-                          checked={elevation.SortLast}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Tone:
-                        <input
-                          type="text"
-                          name="Tone"
-                          value={elevation.Tone}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Repeats:
-                        <input
-                          type="checkbox"
-                          name="Repeats"
-                          checked={elevation.Repeats}
-                          onChange={handleChange}
-                        />
-                      </label>
-                      <label>
-                        Volume:
-                        <input
-                          type="number"
-                          name="Volume"
-                          value={elevation.Volume}
-                          onChange={handleChange}
-                        />
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </form> */}
           </div>
         );
       case 9:

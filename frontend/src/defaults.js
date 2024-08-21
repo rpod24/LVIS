@@ -88,5 +88,5 @@ export const QAFunct = (_question, _date = "", _verified = false) => {
   };
 };
 
-// export const BASE_URL = "localhost:5000";
+//TODO change to production URL
 export const BASE_URL = "127.0.0.1:5001";
