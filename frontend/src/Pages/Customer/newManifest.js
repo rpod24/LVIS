@@ -133,6 +133,7 @@ function NewManifest() {
         "installGuideIncluded": false
       },
       "trackingNumbers": [
+        ""
       ],
       "shipDate": "",
       "contractInfo": {

@@ -100,7 +100,7 @@
   "securityScrewIncluded": false,
   "documentationIncluded": false,
   "installGuideIncluded": false,
-  "trackingNumbers": [],
+  "trackingNumbers": [""],
   "shipDate": "",
   "contractInfo": {
     "vent": "",

@@ -13,104 +13,105 @@ function ManifestAssembly() {
   const inputRef3 = useRef([]);
   const inputRef4 = useRef([]);
   const [isShiftDown, setIsShiftDown] = useState(false);
-  const [customerData, setCustomerData] = useState({
-    facilityName: "",
-    state: "",
-    city: "",
-    zip: "",
-    address: "",
-    phone: "",
-    facilityID: "",
-    product: "",
-    productVersion: 0,
-    installationDate: "",
-    stagingDeadline: "",
-    assemblyDeadline: "",
-    assemblyDate: "",
-    QADate: "",
-    shippingDate: "",
-    transmitters: 0,
-    sparesTransmitters: 0,
-    CMSs: 0,
-    headlessCMSs: 0,
-    MEDs: 0,
-    displays: {},
-    contacts: [],
-    notes: [],
-    website: "",
-    wifi: [],
-    facilityMapURL: [],
-    mapHasCMS: false,
-    mapLayoutPhoto: [],
-    powerCables: [],
-    roomList: [],
-    transmitterSketch: "",
-    CMSDisplaySoftwareFile: "",
-    radioSoftwareFile: "",
-    radioType: "",
-    MEDModel: "",
-    MEDSoftwareVersion: -1,
-    normallyOpen: false,
-    nextStep: "",
-    CMSAssembly: [],
-    MEDAssembly: [],
-    transmitterAssembly: [],
-    qualityAssurance: {
-      preshipping: [
-        {
-          qa: "",
-          status: false,
-          date: "",
-        },
-      ],
-      followUp: [
-        {
-          qa: "",
-          status: false,
-          date: "",
-        },
-      ],
-    },
-    qualityAssuranceDate: "",
-    qaApprovedStaffMember: "",
-    shippingMethod: "",
-    quantityOfTransmitters: 0,
-    quantityOfiQMounts: 0,
-    quantityOfCMSs: 0,
-    quantityOfHeadlessCMSs: 0,
-    quantityOfMEDs: 0,
-    numberOfChargers: 0,
-    quantityOfDisplays: 0,
-    mountTypesIncluded: {
-      wall: 0,
-      articulating: 0,
-      floor: 0,
-    },
-    cordsIncluded: {},
-    hardwareIncluded: false,
-    batteriesIncluded: false,
-    securityScrewIncluded: false,
-    documentationIncluded: false,
-    installGuideIncluded: false,
-    trackingNumbers: [{ number: "123456" }],
-    shipDate: "",
-    contractInfo: {
-      vent: "",
-      rent: false,
-      installationDates: {
-        start: "",
-        end: "",
-      },
-      warrentyEnd: "",
-      rentalEnd: "",
-      endOfFirmco: "",
-      endOfServiceContract: "",
-      owner: "",
-      contractWith: "",
-      contractSigned: false,
-    },
-    status: "",
-  });
+  // const [customerData, setCustomerData] = useState({
+  //   facilityName: "",
+  //   state: "",
+  //   city: "",
+  //   zip: "",
+  //   address: "",
+  //   phone: "",
+  //   facilityID: "",
+  //   product: "",
+  //   productVersion: 0,
+  //   installationDate: "",
+  //   stagingDeadline: "",
+  //   assemblyDeadline: "",
+  //   assemblyDate: "",
+  //   QADate: "",
+  //   shippingDate: "",
+  //   transmitters: 0,
+  //   sparesTransmitters: 0,
+  //   CMSs: 0,
+  //   headlessCMSs: 0,
+  //   MEDs: 0,
+  //   displays: {},
+  //   contacts: [],
+  //   notes: [],
+  //   website: "",
+  //   wifi: [],
+  //   facilityMapURL: [],
+  //   mapHasCMS: false,
+  //   mapLayoutPhoto: [],
+  //   powerCables: [],
+  //   roomList: [],
+  //   transmitterSketch: "",
+  //   CMSDisplaySoftwareFile: "",
+  //   radioSoftwareFile: "",
+  //   radioType: "",
+  //   MEDModel: "",
+  //   MEDSoftwareVersion: -1,
+  //   normallyOpen: false,
+  //   nextStep: "",
+  //   CMSAssembly: [],
+  //   MEDAssembly: [],
+  //   transmitterAssembly: [],
+  //   qualityAssurance: {
+  //     preshipping: [
+  //       {
+  //         qa: "",
+  //         status: false,
+  //         date: "",
+  //       },
+  //     ],
+  //     followUp: [
+  //       {
+  //         qa: "",
+  //         status: false,
+  //         date: "",
+  //       },
+  //     ],
+  //   },
+  //   qualityAssuranceDate: "",
+  //   qaApprovedStaffMember: "",
+  //   shippingMethod: "",
+  //   quantityOfTransmitters: 0,
+  //   quantityOfiQMounts: 0,
+  //   quantityOfCMSs: 0,
+  //   quantityOfHeadlessCMSs: 0,
+  //   quantityOfMEDs: 0,
+  //   numberOfChargers: 0,
+  //   quantityOfDisplays: 0,
+  //   mountTypesIncluded: {
+  //     wall: 0,
+  //     articulating: 0,
+  //     floor: 0,
+  //   },
+  //   cordsIncluded: {},
+  //   hardwareIncluded: false,
+  //   batteriesIncluded: false,
+  //   securityScrewIncluded: false,
+  //   documentationIncluded: false,
+  //   installGuideIncluded: false,
+  //   trackingNumbers: [{ number: "123456" }],
+  //   shipDate: "",
+  //   contractInfo: {
+  //     vent: "",
+  //     rent: false,
+  //     installationDates: {
+  //       start: "",
+  //       end: "",
+  //     },
+  //     warrentyEnd: "",
+  //     rentalEnd: "",
+  //     endOfFirmco: "",
+  //     endOfServiceContract: "",
+  //     owner: "",
+  //     contractWith: "",
+  //     contractSigned: false,
+  //   },
+  //   status: "",
+  // });
+  const [customerData, setCustomerData] = useState(null);
   const [page, setPage] = useState(
     window.localStorage.getItem("manifestId") === param.id ? Number(window.localStorage.getItem("page")) :
       1
@@ -118,19 +119,6 @@ function ManifestAssembly() {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const fetchFacility = async () => {
-      try {
-        const url = `http://${BASE_URL}/manifest/${param.id}`;
-        const response = await axios.get(url);
-        setCustomerData(response.data);
-      } catch (error) {
-        console.error(
-          "There was an error fetching the facilities data!",
-          error
-        );
-      }
-    };
-    fetchFacility();
     const handleKeyDown = (event) => {
       if (event.key === 'Shift') {
         setIsShiftDown(true);
@@ -142,9 +130,26 @@ function ManifestAssembly() {
         setIsShiftDown(false);
       }
     };
-
+    console.log(customerData);
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    const fetchFacility = async () => {
+      try {
+        const url = `http://${BASE_URL}/manifest/${param.id}`;
+        const response = await axios.get(url);
+        console.log("");
+        console.log(response.data);
+        console.log(customerData);
+        setCustomerData(response.data);
+        console.log(customerData);
+      } catch (error) {
+        console.error(
+          "There was an error fetching the facilities data!",
+          error
+        );
+      }
+    };
+    fetchFacility();
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
@@ -314,6 +319,10 @@ function ManifestAssembly() {
     const arrid = e.target.parentElement.id;
     let tempArr = [...customerData[id]];
     e.target.defaultValue = value;
+    console.log(tempArr);
+    console.log(arrid);
+    console.log(tempArr[arrid]);
+    console.log(name);
     tempArr[arrid][name] = type === "checkbox" ? checked : value;
     if (
       Number(arrid) === Number(tempArr.length - 1) &&
@@ -393,7 +402,9 @@ function ManifestAssembly() {
   };
 
   const pageGen = () => {
-    console.log(customerData);
+    console.log(customerData); 
+    // console.log(customerData.facilityID);
+    // console.log(customerData.transmitters);
     if (customerData === null) {
       return <div>Loading...</div>;
     }
@@ -1041,7 +1052,6 @@ function ManifestAssembly() {
                   <th>OS Version</th>
                   <th>App Version</th>
                   <th>Group ID</th>
-                  <th></th>
                   <th>Completion Due</th>
                   <th>QA</th>
                   <th>QA By</th>
@@ -1091,6 +1101,51 @@ function ManifestAssembly() {
                       </td>
                       <td id={index}>
                         <input
+                          name="model"
+                          id="MEDAssembly"
+                          className="inputText"
+                          type="text"
+                          key={index}
+                          value={MED.model}
+                          onChange={handleArrayChange}
+                        />
+                      </td>
+                      <td id={index}>
+                        <input
+                          name="osVersion"
+                          id="MEDAssembly"
+                          className="inputText"
+                          type="text"
+                          key={index}
+                          value={MED.osVersion}
+                          onChange={handleArrayChange}
+                        />
+                      </td>
+                      <td id={index}>
+                        <input
+                          name="appVersion"
+                          id="MEDAssembly"
+                          className="inputText"
+                          type="text"
+                          key={index}
+                          value={MED.appVersion}
+                          onChange={handleArrayChange}
+                        />
+                      </td>
+                      <td id={index}>
+                        <input
+                          name="groupID"
+                          id="MEDAssembly"
+                          className="inputText"
+                          type="text"
+                          key={index}
+                          value={MED.groupID}
+                          onChange={handleArrayChange}
+                        />
+                      </td>
+
+                      <td id={index}>
+                        <input
                           name="completionDue"
                           id="MEDAssembly"
                           className="inputText"
@@ -1108,6 +1163,17 @@ function ManifestAssembly() {
                           type="checkbox"
                           key={index}
                           checked={MED.qualityAssured}
+                          onChange={handleArrayChange}
+                        />
+                      </td>
+                      <td id={index}>
+                        <input
+                          name="qaBy"
+                          id="MEDAssembly"
+                          className="inputText"
+                          type="text"
+                          key={index}
+                          value={MED.qaBy}
                           onChange={handleArrayChange}
                         />
                       </td>
@@ -1138,6 +1204,7 @@ function ManifestAssembly() {
                   />
                 </div>
               ))}
+              <br></br>
               <label>Transmitter Sketch: </label>
               <input
                 name="transmitterSketch"
@@ -1244,11 +1311,11 @@ function ManifestAssembly() {
                       {customerData.trackingNumbers.map((number, index) => (
                         <div key={`${index}-trackingNumbers`} id={index}>
                           <input
-                            name={index}
+                            name="number"
                             id="trackingNumbers"
                             className="inputText"
                             type="text"
-                            value={number}
+                            value={number.number}
                             onChange={handleIncreasableArrayChange}
                           />
                         </div>
