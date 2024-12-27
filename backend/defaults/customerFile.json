@@ -3,6 +3,8 @@
     "$oid": ""
   },
   "facilityName": "New Facility",
+  "companyName": "Company",
+  "companyID": "INSERT_UUID",
   "state": "",
   "city": "",
   "zip": "",

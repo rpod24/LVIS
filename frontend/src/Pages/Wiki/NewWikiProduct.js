@@ -25,7 +25,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../defaults';
 import { useNavigate } from 'react-router-dom';
-import '../../PageCSS/wiki.css';
+import "./wiki.css";
 
 function NewWikiProduct() {
     const [name, setName] = useState('');

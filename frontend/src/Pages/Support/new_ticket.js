@@ -13,6 +13,7 @@ function NewTicket() {
     created_by: localStorage.getItem("user"),
     modified_by: "Username",
     facility_name: "",
+    facility_id: "",
     facility_type: "",
     ticket: 0,
     problem: "",
@@ -69,14 +70,17 @@ function NewTicket() {
       try {
         var facilityName = document.getElementById("facility_name").value;
         var facilityType = "";
+        var facilityID = "";
         for (var i = 0; i < facilities.length; i++) {
           console.log(facilities[i].Name === facilityName)
           if (facilities[i].Name === facilityName || facilities[i].FacilityID === facilityName) {
             facilityType = facilities[i].Product;
+            facilityID = facilities[i].FacilityID;
             break;
           }
         }
         document.getElementById("facility_type").value = facilityType;
+        document.getElementById("facility_id").value = facilityID;
 
       } catch (error) {
 
@@ -93,6 +97,7 @@ function NewTicket() {
         created_by: formData.created_by,
         modified_by: formData.modified_by,
         facility_name: formData.facility_name,
+        facility_id: formData.facility_id,
         facility_type: formData.facility_type,
         ticket: formData.ticket,
         problem: formData.problem,
@@ -125,6 +130,7 @@ function NewTicket() {
         created_by: localStorage.getItem("user"),
         modified_by: "",
         facility_name: "",
+        facility_id: "",
         facility_type: "",
         ticket: 0,
         problem: "",
@@ -251,6 +257,17 @@ function NewTicket() {
             />
           </label>
           <label>
+            Facility ID:
+            <input
+              type="text"
+              name="facility_id"
+              id="facility_id"
+              value={formData.facility_id}
+              onChange={handleChange}
+              disabled
+            />
+          </label>
+          <label>
             Facility Type:
             <input
               type="text"
@@ -372,6 +389,9 @@ function autocomplete(inp, arr, callback = () => { }) {
         if (x) x[currentFocus].click();
       }
     }
+  });
+  inp.addEventListener("hover", function (e) {
+    //TODO: add on hover event
   });
   function addActive(x) {
     if (!x) return false;
