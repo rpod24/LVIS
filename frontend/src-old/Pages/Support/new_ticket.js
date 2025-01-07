@@ -19,7 +19,7 @@ function NewTicket() {
     contact_method: "email",
     email: "",
     phone_number: "",
-    voicemail: "",
+    voicemail: "", 
     follow_up: false,
     voicemail_time: "",
     caller: "",
