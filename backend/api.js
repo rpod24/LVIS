@@ -4,7 +4,7 @@ const { MongoClient, ObjectId } = require("mongodb");
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const jwt = require("jsonwebtoken");
-const { TokenManager } = require("./token_manager");
+const TokenManager = require("./token_manager");
 
 const app = express();
 app.use(cors());
@@ -836,13 +836,20 @@ client
         const { username, password } = req.body;
         const user = await users.findOne({ username });
 
+        console.log(username);
+        console.log(password);
+
         if (user) {
           return res.status(401).json({ error: "User already exists!" });
         }
 
         const token = TokenManager.generateUser(username, password);
+        console.log(username);
+        console.log(password);
+        console.log(token);
         res.json({ token });
       } catch (err) {
+        console.log(err);
         res
           .status(500)
           .json({ error: `Unexpected Error Occured: ${err.message}` });

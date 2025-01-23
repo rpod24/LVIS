@@ -40,9 +40,10 @@ class TokenManager {
         return hashedPassword;
     }
 
-    static async generateUser(user, password, permissions = TokenManager.ValidationLevel.USER, expires_at = new Date(Date.now() + 86400000)) {
+    static async generateUser(user, password, permissions = TokenManager.ValidationLevel.USER, expires = 86400000) {
+        console.log("running");
         const hashedPassword = await TokenManager.hashPassword(password);
-        const payload = { username: user, permission: permissions, exp: expires_at };
+        const payload = { username: user, permission: permissions, exp: expires };
         const token = jwt.sign(payload, TokenManager.SERVER_SECRET_KEY, { algorithm: 'HS256' });
         const document = {
             username: user,

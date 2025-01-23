@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../PageCSS/Login.css';
 import { BASE_URL } from "../defaults";
 
-function Login() {
+function Admin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,21 +21,24 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://${BASE_URL}/login`, { username, password });
+      const response = await axios.post(`http://${BASE_URL}/register`, { username, password });
       console.log(response)
       const { token } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', username);
-      navigator('/home');
+      // navigator('/home');
+      console.log(username);
+      console.log(password);
+      // throw("testing");
     } catch (error) {
-      setError('Invalid email or password');
-      navigator('/home');
+      setError('Invalid email or password: ' + error);
+      // navigator('/home');
     }
   };
 
   return (
     <div className="Login">
-      <h1>Login</h1>
+      <h1>Create a new login</h1>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -49,10 +52,10 @@ function Login() {
           {/* <input type="password" value={password} onChange={handlePasswordChange} required /> */}
           <input type="password" value={password} onChange={handlePasswordChange} />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Admin;
