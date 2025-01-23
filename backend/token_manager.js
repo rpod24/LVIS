@@ -55,11 +55,11 @@ class TokenManager {
         return token;
     }
 
-    static async generateToken(user, permissions = TokenManager.ValidationLevel.USER, expires_at = null) {
-        if (!expires_at) {
-            expires_at = new Date(Date.now() + 86400000);
+    static async generateToken(user, permissions = TokenManager.ValidationLevel.USER, expires = null) {
+        if (!expires) {
+            expires = 86400000;
         }
-        const payload = { username: user, permission: permissions, exp: expires_at };
+        const payload = { username: user, permission: permissions, exp: expires };
         const token = jwt.sign(payload, TokenManager.SERVER_SECRET_KEY, { algorithm: 'HS256' });
         await TokenManager.users.findOneAndUpdate({ username: user }, { $set: { token: token } });
         return token;
