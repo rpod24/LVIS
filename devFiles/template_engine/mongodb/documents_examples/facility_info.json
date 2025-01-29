@@ -1,0 +1,46 @@
+{
+    "_id": "_id",
+    "facilityName": "Active Facility",
+    "state": "CA",
+    "city": "San Marcos",
+    "zip": "92078",
+    "address": "1234 address",
+    "phone": "000-000-0000",
+    "facilityID": "CAVN001",
+    "product": "REA",
+    "productVersion": "1.5",
+    "installationDate": "2024-07-26T11:00",
+    "stagingDeadline": "2024-07-26T11:00",
+    "assemblyDeadline": "2024-07-26T11:00",
+    "assemblyDate": "2024-07-26T11:00",
+    "QADate": "2024-07-26T11:00",
+    "shippingDate": "2024-07-26T11:00",
+    "transmitters": 15,
+    "sparesTransmitters": 0,
+    "CMSs": 5,
+    "headlessCMSs": 0,
+    "MEDs": 2,
+    "mounts": "0",
+    "displays": 0,
+    "contacts": [
+      {
+        "name": "Ryan O'Donnell",
+        "email": "rpodonnell2012@gmail.com",
+        "phone": "000-000-0000"
+      },
+      {
+        "name": "",
+        "email": "",
+        "phone": ""
+      }
+    ],
+    "notes": [],
+    "website": "https://website.com",
+    "facilityMapURL": [
+      ""
+    ],
+    "mapHasCMS": true,
+    "mapLayoutPhoto": [
+      ""
+    ]
+  }
