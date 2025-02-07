@@ -34,7 +34,7 @@ app.use('/tickets', ticketRoutes);
 app.use('/configuration', configRoutes);
 app.use('/manifest', manifestRoutes);
 app.use('/wiki', wikiRoutes);
-app.use('/auth', authRoutes);
+app.use('/', authRoutes);
 
 // File upload route
 app.post('/upload', upload, (req, res) => {
@@ -51,6 +51,5 @@ app.get('/images/:imageId', (req, res) => {
 // Connect to MongoDB and start server
 }).then(() => {
 
-  app.listen(port, () => console.log(`Server running on port ${port}`))
-  .catch(err => console.error('Failed to connect to MongoDB:', err));
+  app.listen(port, () => console.log(`Server running on port ${port}`));
 });
