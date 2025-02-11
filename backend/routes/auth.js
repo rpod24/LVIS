@@ -18,24 +18,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// app.post("/login", async (req, res) => {
-//   try {
-//     const { username, password } = req.body;
-//     const user = await users.findOne({ username });
-
-//     if (!user || !TokenManager.hashPassword(password) === user.password) {
-//       return res.status(401).json({ error: "Invalid credentials!" });
-//     }
-
-//     const token = TokenManager.generateToken(user.username);
-//     res.json({ token });
-//   } catch (err) {
-//     res
-//       .status(500)
-//       .json({ error: `Unexpected Error Occured: ${err.message}` });
-//   }
-// });
-
 router.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
