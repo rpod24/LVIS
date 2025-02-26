@@ -40,5 +40,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.post('/:manifest_id', async (req, res) => {
+  try {
+    const manifestData = req.body;
+    manifestData._id = new ObjectId(req.params.manifest_id);
+    // console.log(manifestData);
+    const manifestId = req.params.manifest_id;
+    // console.log(manifestId);
+    if (!manifestId) return res.status(400).json({ error: 'No manifest id provided' });
+    // console.log(manifestId);
+    const result = await manifest.findOne(new ObjectId(manifestId));
+    console.log(result);
+    console.log(result._id);
+    console.log(manifestData._id);
+    res.status(201).json(await manifest.replaceOne({ _id: result._id }, manifestData));
+  } catch (err) {
+    res.status(500).json({ error: `Unexpected Error Occurred: ${err.message}` });
+  }
+});
+
+
 module.exports = router;
 
