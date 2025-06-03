@@ -1,0 +1,820 @@
+CMS Config
+
+{
+  "_id": {
+    "$oid": "667071218badf127ae5af48e"
+  },
+  "PartitionKey": "CAVN001",
+  "RowKey": "CAVN001_GR01_A",
+  "FacilityID": "CAVN001",
+  "GroupID": "GR01",
+  "CMS": "A",
+  "ConfigID": "All",
+  "HWVersion": "",
+  "OSVersion": "",
+  "SWVersion": "",
+  "PTVersion": "",
+  "RadioVersion": "",
+  "LastBootDT": "",
+  "LastSyncedDT": "",
+  "LastSignal": "",
+  "TimeOffset": "",
+  "Status": ""
+}
+
+Alerts Config
+{
+  "_id": {
+    "$oid": "66aa73a44d0185c508786d56"
+  },
+  "PartitionKey": "CAVN001",
+  "RowKey": "AL001",
+  "Description": "Alert 1",
+  "AlertMin": {
+    "PartitionKey": "CAVN001",
+    "RowKey": "AM001",
+    "DefinitionType": "AlertMin",
+    "Shift": "All",
+    "EquipmentType": "Facility",
+    "ID": "",
+    "AlertFilter": "All",
+    "DevFilter": "All",
+    "Enabled": true,
+    "Seconds": -1,
+    "SecondsFromStart": 0,
+    "SecondsFromClear": 1,
+    "Color1": "",
+    "Color2": "",
+    "Blinks": false,
+    "SortLast": false,
+    "Tone": "",
+    "Repeats": false,
+    "Volume": -1,
+    "AlertCount": -1,
+    "Timeout": -1
+  },
+  "Timeout": {
+    "PartitionKey": "CAVN001",
+    "RowKey": "TO001",
+    "DefinitionType": "Timeout",
+    "Shift": "All",
+    "EquipmentType": "Facility",
+    "ID": "",
+    "AlertFilter": "All",
+    "DevFilter": "All",
+    "Enabled": true,
+    "Seconds": -1,
+    "SecondsFromStart": -1,
+    "SecondsFromClear": 0,
+    "Color1": "",
+    "Color2": "",
+    "Blinks": false,
+    "SortLast": false,
+    "Tone": "",
+    "Repeats": false,
+    "Volume": -1,
+    "AlertCount": -1,
+    "Timeout": -1
+  },
+  "Activity": {
+    "PartitionKey": "CAVN001",
+    "RowKey": "TO001",
+    "DefinitionType": "ActivityWarning",
+    "Shift": "All",
+    "EquipmentType": "Facility",
+    "ID": "",
+    "AlertFilter": "All",
+    "DevFilter": "All",
+    "Enabled": true,
+    "Seconds": 5,
+    "SecondsFromStart": -1,
+    "SecondsFromClear": -1,
+    "Color1": "",
+    "Color2": "",
+    "Blinks": false,
+    "SortLast": false,
+    "Tone": "",
+    "Repeats": false,
+    "Volume": -1,
+    "AlertCount": -1,
+    "Timeout": -1
+  },
+  "Elevation": [
+    {
+      "PartitionKey": "CAVN001",
+      "RowKey": "EL001",
+      "DefinitionType": "Timeout",
+      "Shift": "All",
+      "EquipmentType": "Facility",
+      "ID": "",
+      "AlertFilter": "All",
+      "DevFilter": "All",
+      "Enabled": true,
+      "Seconds": 5,
+      "SecondsFromStart": -1,
+      "SecondsFromClear": -1,
+      "Color1": "yellow",
+      "Color2": "dark_yellow",
+      "Blinks": true,
+      "SortLast": false,
+      "Tone": "Short",
+      "Repeats": false,
+      "Volume": 64,
+      "AlertCount": 1,
+      "Timeout": 5
+    },
+    {
+      "PartitionKey": "CAVN001",
+      "RowKey": "EL002",
+      "DefinitionType": "Timeout",
+      "Shift": "All",
+      "EquipmentType": "Facility",
+      "ID": "",
+      "AlertFilter": "All",
+      "DevFilter": "All",
+      "Enabled": true,
+      "Seconds": 10,
+      "SecondsFromStart": -1,
+      "SecondsFromClear": -1,
+      "Color1": "yellow",
+      "Color2": "dark_yellow",
+      "Blinks": true,
+      "SortLast": false,
+      "Tone": "Short",
+      "Repeats": false,
+      "Volume": 64,
+      "AlertCount": 1,
+      "Timeout": 15
+    }
+  ]
+}
+
+ConfigCMS Config
+{
+  "_id": {
+    "$oid": "667071218badf127ae5af492"
+  },
+  "PartitionKey": "CAVN001",
+  "RowKey": "CAVN001_CMS_Main",
+  "FacilityID": "CAVN001",
+  "ShowGroupOnly": false,
+  "ShowLocationPane": false,
+  "ShowEmptyRooms": false,
+  "ShowAllStatus": false,
+  "ShowSpares": false,
+  "StatusDirection": "Down",
+  "ColumnLeveling": false,
+  "DefaultVolume": 64,
+  "PlayConnectTones": false,
+  "PlayDCConnectTones": false,
+  "PlayLocConnectTones": false,
+  "UseMobileWarn": false,
+  "RecentAlertPeriod": 10,
+  "ShowResponse": false,
+  "ResponseTarget": 10,
+  "CustomPort": "AUX",
+  "DisableScreen": false,
+  "VendorMessage": "",
+  "SyncTimeout": 30,
+  "SyncInterval": 30,
+  "SyncFailToOffline": 15,
+  "FullSyncInterval": 40,
+  "CheckInPeriod": 30
+}
+
+ConfigMED Config
+{
+  "_id": {
+    "$oid": "667071218badf127ae5af493"
+  },
+  "PartitionKey": "CAVN001",
+  "RowKey": "CAVN001_MED_Main",
+  "FacilityID": "CAVN001",
+  "GroupIDs": "All",
+  "DisableSettings": "[]",
+  "Brightness": "75",
+  "MaxEscalation": false,
+  "Notification": 30,
+  "Vibration": true,
+  "Volume": 100,
+  "Ucode": "0001",
+  "SUCode": "0002",
+  "Acode": "0003"
+}
+
+Facility Config
+{
+  "_id": {
+    "$oid": "664fb89c882e76185fcaa330"
+  },
+  "PartitionKey": "CAVN000",
+  "RowKey": "",
+  "FacilityID": "CAVN000",
+  "Name": "Hansen, Pratt and Ramirez",
+  "ShortName": "Hansen, Pr",
+  "Address1": "0496 Kellie Wells",
+  "Address2": "",
+  "City": "Port Dorothy",
+  "State": "MN",
+  "Zip": "59274",
+  "TimeZone": "PST",
+  "Country": "USA",
+  "Coordinates": "{'lat': 12.34567890, 'lon': 12.34567890}",
+  "Phone": "000-000-0000",
+  "PrimaryContact": "1234567890",
+  "Product": "REA",
+  "CMSVersion": "",
+  "Status": "",
+  "ServiceStatus": "",
+  "ServiceDetail": "",
+  "ServiceHistory": "[[“2024-05-22T21:43:50.874Z”, “null”]]",
+  "LastRecordDT": "",
+  "UpdateFromDT": "",
+  "StartQueue": "",
+  "Dirty": false,
+  "Locked": false
+}
+
+Group Config
+{
+  "_id": {
+    "$oid": "667071218badf127ae5af48b"
+  },
+  "PartitionKey": "CAVN001",
+  "RowKey": "GR01",
+  "FacilityID": "CAVN001",
+  "GroupID": "GR01",
+  "Name": "Full Group Name",
+  "ShortName": "Group",
+  "ServiceHistory": "[['2024-05-22T21:43:50.874Z', 'null']]",
+  "Installation": "Installed",
+  "Spare": false,
+  "LastRecordDT": "",
+  "UpdateFromDT": ""
+}
+
+Location Config
+{
+  "_id": {
+    "$oid": "667071218badf127ae5af48d"
+  },
+  "PartitionKey": "CAVN001",
+  "RowKey": "",
+  "GroupID": "GR01",
+  "RoomID": "001",
+  "HasExtDC": false,
+  "HasNC": false,
+  "LocationID": "101",
+  "LocationSN": "1029",
+  "ServiceHistory": "[['2024-05-22T21:43:50.874Z', 'null']]",
+  "Spare": false,
+  "Portable": false
+}
+
+Med Config
+{
+  "_id": {
+    "$oid": "667071218badf127ae5af48f"
+  },
+  "PartitionKey": "CAVN001",
+  "RowKey": "AA",
+  "FacilityID": "CAVN001",
+  "MedID": "AA",
+  "ConfigID": "All",
+  "HWType": "",
+  "HWVersion": "",
+  "OSVersion": "",
+  "SWVersion": "",
+  "LastBootDT": "",
+  "Status": ""
+}
+
+Monitor Config
+{
+  "_id": {
+    "$oid": "667071218badf127ae5af490"
+  },
+  "PartitionKey": "CAVN001",
+  "RowKey": "142100001",
+  "Timestamp": "Datetime",
+  "LastGroupID": "GR01",
+  "LastLocationID": "",
+  "MonitorID": "0001",
+  "MonitorSN": "142100001",
+  "ServiceHistory": "[['2024-05-22T21:43:50.874Z', 'null']]",
+  "Model": "LinQvue REA",
+  "HWVersion": "",
+  "SWVersion": "",
+  "BatteryState": "",
+  "LastBattery": "",
+  "LastTxID": "",
+  "LastRecordDT": "",
+  "LastSequence": "",
+  "LastSequenceDT": "",
+  "SignalCMS": "",
+  "Status": "",
+  "ServiceDetail": "",
+  "UpdateFromDT": ""
+}
+
+Room Config
+{
+  "_id": {
+    "$oid": "667071218badf127ae5af48c"
+  },
+  "PartitionKey": "CAVN001",
+  "RowKey": "CAVN001_001",
+  "FacilityID": "CAVN001",
+  "GroupID": "GR01",
+  "RoomID": "001",
+  "ServiceHistory": "[['2024-05-22T21:43:50.874Z', 'null']]",
+  "Spare": false
+}
+
+Customer
+{
+  "_id": {
+    "$oid": "66706c7b11cf110367501fc7"
+  },
+  "facilityName": "Full Facility1",
+  "state": "CA",
+  "city": "San Marcos",
+  "zip": "92078",
+  "phone": "000-000-0000",
+  "facilityID": "CAVN001",
+  "product": "REA",
+  "productVersion": 1.5,
+  "installationDate": "2024-05-22T21:43",
+  "stagingDeadline": "2024-06-20T12:42",
+  "assemblyDeadline": "2024-06-20T12:42",
+  "assemblyDate": "2024-06-20T12:42",
+  "QADate": "2024-06-20T12:42",
+  "shippingDate": "2024-06-20T12:42",
+  "transmitters": 4,
+  "sparesTransmitters": 0,
+  "CMSs": 1,
+  "headlessCMSs": 0,
+  "MEDs": 1,
+  "mounts": 0,
+  "displays": [
+    {
+      "display": "TechDisplay",
+      "quantity": 0,
+      "size": 27
+    },
+    {
+      "display": "TechDisplay",
+      "quantity": 1,
+      "size": 29
+    },
+    {
+      "display": "TechDisplay",
+      "quantity": 2,
+      "size": 31
+    }
+  ],
+  "contacts": [
+    {
+      "name": "John Doe",
+      "role": "",
+      "phone": "123-456-7890",
+      "email": "email@example.com",
+      "iqReport": true
+    },
+    {
+      "name": "Jane Doe",
+      "role": "",
+      "phone": "123-456-7890",
+      "email": "test@email.com",
+      "sendReports": false
+    },
+    {
+      "name": "",
+      "email": "test@test",
+      "phone": ""
+    },
+    {
+      "name": "",
+      "email": "",
+      "phone": ""
+    }
+  ],
+  "notes": [],
+  "website": "https://example.com",
+  "wifi": [
+    {
+      "ssid": "SSID",
+      "password": "password"
+    }
+  ],
+  "facilityMapURL": [
+    "https://example.com/facility-map"
+  ],
+  "mapHasCMS": true,
+  "mapLayoutPhoto": [
+    "https://example.com/map-layout-photo"
+  ],
+  "powerCables": [
+    {
+      "length": 6,
+      "quantity": 3
+    }
+  ],
+  "roomList": [
+    {
+      "room": "114 - A"
+    },
+    {
+      "room": "114 - B"
+    },
+    {
+      "room": "115 - A"
+    },
+    {
+      "room": "Test123"
+    },
+    {
+      "room": ""
+    }
+  ],
+  "transmitterSketch": "https://example.com/transmitter-sketch",
+  "CMSDisplaySoftwareFile": "https://example.com/cms-display-software-file",
+  "radioSoftwareFile": "https://example.com/radio-software-file",
+  "radioType": "Single",
+  "MEDModel": "TechMED",
+  "MEDSoftwareVersion": 1,
+  "normallyOpen": false,
+  "nextStep": "N/A",
+  "CMSAssembly": [
+    {
+      "CMSID": "A",
+      "assembled": true,
+      "configured": true,
+      "wifiMacAddress": "00:00:00:00:00:00",
+      "ethernetMacAddress": "00:00:00:00:00:00",
+      "assetID": "00000001",
+      "frequency": "123.456",
+      "qualityAssured": true,
+      "QA": [
+        {
+          "QA": "Quality Assurance 1",
+          "date": "2024-05-22T21:43:50.874",
+          "verified": true
+        }
+      ]
+    }
+  ],
+  "MEDAssembly": [
+    {
+      "MEDID": "AA",
+      "configured": true,
+      "assetID": "00001",
+      "completionDue": "2024-05-22T21:43:50.874",
+      "qualityAssured": true,
+      "QA": [
+        {
+          "QA": "Quality Assurance 1",
+          "date": "2024-05-22T21:43:50.874",
+          "verified": true
+        }
+      ]
+    }
+  ],
+  "transmitterAssembly": [
+    {
+      "serialNumber": "14010000001",
+      "room": "101 - A",
+      "assetTag": "00000001",
+      "bracket": "140100000001",
+      "configured": true,
+      "labeled": true,
+      "tested": true,
+      "qualityAssured": true,
+      "QA": [
+        {
+          "QA": "QA1",
+          "date": "2024-05-22T21:43:50.874",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "serialNumber": "14010000002",
+      "room": "114 - B",
+      "assetTag": "00000002",
+      "bracket": "140100000002",
+      "configured": false,
+      "labeled": false,
+      "tested": true,
+      "qualityAssured": false,
+      "QA": [
+        {
+          "QA": "QA1",
+          "date": "2024-05-22T21:43:50.874",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "serialNumber": "12",
+      "room": "115 - A",
+      "assetTag": "11",
+      "bracket": "123",
+      "configured": false,
+      "labeled": true,
+      "tested": true,
+      "qualityAssured": false,
+      "QA": [
+        {
+          "QA": "Monitor Both",
+          "date": "",
+          "verified": false
+        },
+        {
+          "QA": "Both Alarm",
+          "date": "",
+          "verified": false
+        },
+        {
+          "QA": "Both Disconnect",
+          "date": "",
+          "verified": false
+        },
+        {
+          "QA": "Both Clear",
+          "date": "",
+          "verified": false
+        }
+      ]
+    },
+    {
+      "serialNumber": "123",
+      "room": "Test123",
+      "assetTag": "1111",
+      "bracket": "123",
+      "configured": false,
+      "labeled": true,
+      "tested": false,
+      "qualityAssured": false,
+      "QA": [
+        {
+          "QA": "Monitor Both",
+          "date": "",
+          "verified": false
+        },
+        {
+          "QA": "Both Alarm",
+          "date": "",
+          "verified": false
+        },
+        {
+          "QA": "Both Disconnect",
+          "date": "",
+          "verified": false
+        },
+        {
+          "QA": "Both Clear",
+          "date": "",
+          "verified": false
+        }
+      ]
+    }
+  ],
+  "qualityAssurance": {
+    "preshipping": [
+      {
+        "qa": "QA1",
+        "status": true,
+        "date": "2024-05-22T21:43:50.874"
+      }
+    ],
+    "followUp": [
+      {
+        "qa": "QA1",
+        "status": true,
+        "date": "2024-05-22T21:43:50.874"
+      }
+    ]
+  },
+  "qualityAssuranceDate": "2024-05-22T21:43:50.874",
+  "qaApprovedStaffMember": "John Doe",
+  "shippingMethod": "mail",
+  "quantityOfTransmitters": 0,
+  "quantityOfiQMounts": 0,
+  "quantityOfCMSs": 0,
+  "quantityOfHeadlessCMSs": 0,
+  "quantityOfMEDs": 0,
+  "numberOfChargers": 0,
+  "quantityOfDisplays": 0,
+  "mountTypesIncluded": {
+    "wall": 0,
+    "articulating": 0,
+    "floor": 0
+  },
+  "cordsIncluded": {},
+  "hardwareIncluded": false,
+  "batteriesIncluded": false,
+  "securityScrewIncluded": false,
+  "documentationIncluded": false,
+  "installGuideIncluded": false,
+  "shipDate": "2024-05-22T21:43:50.874",
+  "contractInfo": {
+    "vent": "Ventalator Brand",
+    "rent": false,
+    "installationDates": {
+      "start": "2024-05-22T21:43:50.874",
+      "end": ""
+    },
+    "warrentyEnd": "2025-05-22T21:43:50.874",
+    "rentalEnd": "",
+    "endOfFirmco": "",
+    "endOfServiceContract": "",
+    "owner": "Owner Name",
+    "contractWith": "TechBrand",
+    "contractSigned": false
+  },
+  "status": "Active",
+  "address": "1234 Example St."
+}
+
+Manifest
+{
+  "_id": {
+    "$oid": "66a7e207d96bdb5a06bf64be"
+  },
+  "facilityName": "Test",
+  "state": "",
+  "city": "",
+  "zip": "",
+  "address": "",
+  "phone": "",
+  "facilityID": "",
+  "product": "REA",
+  "productVersion": "1.5",
+  "installationDate": "",
+  "stagingDeadline": "",
+  "assemblyDeadline": "",
+  "assemblyDate": "",
+  "QADate": "",
+  "shippingDate": "",
+  "transmitters": 0,
+  "sparesTransmitters": 0,
+  "CMSs": 0,
+  "headlessCMSs": 0,
+  "MEDs": 0,
+  "mounts": 0,
+  "displays": [
+    {
+      "display": "TechDisplay",
+      "quantity": 0,
+      "size": 27
+    },
+    {
+      "display": "TechDisplay",
+      "quantity": 0,
+      "size": 29
+    },
+    {
+      "display": "TechDisplay",
+      "quantity": 0,
+      "size": 31
+    }
+  ],
+  "contacts": [
+    {
+      "name": "",
+      "email": "",
+      "phone": ""
+    }
+  ],
+  "notes": [],
+  "website": "",
+  "wifi": [
+    {
+      "ssid": "",
+      "password": ""
+    }
+  ],
+  "facilityMapURL": [
+    ""
+  ],
+  "mapHasCMS": true,
+  "mapLayoutPhoto": [
+    ""
+  ],
+  "powerCables": [],
+  "roomList": [
+    {
+      "room": ""
+    }
+  ],
+  "transmitterSketch": "",
+  "CMSDisplaySoftwareFile": "",
+  "radioSoftwareFile": "",
+  "radioType": "",
+  "MEDModel": "",
+  "MEDSoftwareVersion": 0,
+  "normallyOpen": false,
+  "nextStep": "None",
+  "CMSAssembly": [],
+  "MEDAssembly": [],
+  "transmitterAssembly": [],
+  "qualityAssurance": {
+    "preshipping": [],
+    "followUp": []
+  },
+  "qualityAssuranceDate": "",
+  "qaApprovedStaffMember": "",
+  "shippingMethod": "",
+  "shippingChecklistItems": {
+    "quantityOfTransmitters": 0,
+    "quantityOfiQMounts": 0,
+    "quantityOfCMSs": 0,
+    "quantityOfHeadlessCMSs": 0,
+    "quantityOfMEDs": 0,
+    "numberOfChargers": 0,
+    "quantityOfDisplays": {},
+    "mountTypesIncluded": {
+      "wall": 0,
+      "articulating": 0,
+      "floor": 0
+    },
+    "cordsIncluded": {},
+    "hardwareIncluded": false,
+    "batteriesIncluded": false,
+    "securityScrewIncluded": false,
+    "documentationIncluded": false,
+    "installGuideIncluded": false
+  },
+  "trackingNumbers": [],
+  "shipDate": "",
+  "contractInfo": {
+    "vent": "",
+    "rent": false,
+    "installationDates": {
+      "start": "",
+      "end": ""
+    },
+    "warrentyEnd": "",
+    "rentalEnd": "",
+    "endOfFirmco": "",
+    "endOfServiceContract": "",
+    "owner": "",
+    "contractWith": "",
+    "contractSigned": false
+  },
+  "status": "Active"
+}
+
+Support Ticket
+{
+  "_id": {
+    "$oid": "664d196f1a45b7b532a0eb28"
+  },
+  "status": "open",
+  "created_at": "2024-05-21T21:54:59.872Z",
+  "modified_by": "Test",
+  "facility_name": "Test",
+  "facility_type": "Test",
+  "ticket": 1,
+  "problem": "test",
+  "contact_method": "email",
+  "email": "test@test.com",
+  "phone_number": "",
+  "voicemail": "",
+  "follow_up": false,
+  "voicemail_time": "",
+  "caller": "",
+  "problem_sub_category": "test",
+  "notes": []
+}
+
+Wiki
+{
+  "_id": {
+    "$oid": "669fe6fc2efce17286602440"
+  },
+  "name": "Name",
+  "description": "Desc",
+  "price": "10.0",
+  "manufacturer": "none",
+  "website": "https://site.com",
+  "category": "Test",
+  "images": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Solid_red.svg/2048px-Solid_red.svg.png",
+    ""
+  ],
+  "serialNumber": "0001",
+  "size": "1",
+  "monitorSize": "1",
+  "length": "10",
+  "model": "Model",
+  "version": "1.0",
+  "weight": "10",
+  "color": "Color",
+  "specSheet": "https://sheet.com",
+  "manual": "https://manual.com",
+  "notes": "notes",
+  "SKU": "SKU"
+}
+
