@@ -13,7 +13,7 @@ function Prospects() {
   const [facilities, setFacilitys] = useState([]);
   const [page, setPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   // Fetch the facilities when the page loads

@@ -28,11 +28,36 @@ const manifestRoutes = require('./routes/manifest');
 const wikiRoutes = require('./routes/wiki');
 const authRoutes = require('./routes/auth');
 
+const alertConfigRoutes = require('./routes/configuration/alertconfig');
+const cmsRoutes = require('./routes/configuration/cms');
+const cmsConfigRoutes = require('./routes/configuration/cmsconfig');
+const facilityRoutes = require('./routes/configuration/facility');
+const groupRoutes = require('./routes/configuration/group');
+const locationRoutes = require('./routes/configuration/location');
+const medRoutes = require('./routes/configuration/med');
+const medConfigRoutes = require('./routes/configuration/medconfig');
+const monitorRoutes = require('./routes/configuration/monitor');
+const roomRoutes = require('./routes/configuration/room');
+
 app.use('/products', productRoutes);
+
 app.use('/tickets', ticketRoutes);
 app.use('/configuration', configRoutes);
+app.use('/configuration/configalert', alertConfigRoutes);
+app.use('/configuration/cms', cmsRoutes);
+app.use('/configuration/configcms', cmsConfigRoutes);
+app.use('/configuration/facility', facilityRoutes);
+app.use('/configuration/group', groupRoutes);
+app.use('/configuration/location', locationRoutes);
+app.use('/configuration/med', medRoutes);
+app.use('/configuration/configmed', medConfigRoutes);
+app.use('/configuration/monitor', monitorRoutes);
+app.use('/configuration/room', roomRoutes);
+
 app.use('/manifest', manifestRoutes);
+
 app.use('/wiki', wikiRoutes);
+
 app.use('/', authRoutes);
 
 // File upload route
