@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const FacilitySchema = new mongoose.Schema({
   facilityName: String,
-  
+  facilityShortName: String,
   facilityId: { type: String, required: true, unique: true, trim: true },
 
   address: {
@@ -23,7 +23,7 @@ const FacilitySchema = new mongoose.Schema({
 
   status: { type: String, default: "Active" },
 
-  product: { code: String, version: String },
+  system: { code: String, version: String },
 
   productVersions: {
     transmitter: String,
@@ -42,7 +42,7 @@ const FacilitySchema = new mongoose.Schema({
     mounts: { type: Number, default: 0 },
   },
 
-  roomList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room" }],
+  rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room" }],
   transmitters: [{ type: mongoose.Schema.Types.ObjectId, ref: "Transmitter", required: true }],
   CMSs: [{ type: mongoose.Schema.Types.ObjectId, ref: "CMS", required: true }],
   MEDs: [{ type: mongoose.Schema.Types.ObjectId, ref: "MED", required: true }],

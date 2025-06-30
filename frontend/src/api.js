@@ -4,9 +4,16 @@ const api = axios.create({
   baseURL: "http://localhost:5001/api", // adjust if backend on another port
 });
 
+
+export const fetchJson = (route) =>
+  api.get(route).then(r => r.data);
+
 /* ---------- facilities ---------- */
 export const listFacilities = () =>
-  api.get("/facilities").then(r => r.data);
+  api.get("/facilities").then(r => {
+    console.log("Facilities fetched:", r.data);
+    return r.data;
+  });
 
 /* ---------- manifests ---------- */
 export const listManifests = () =>
@@ -63,3 +70,37 @@ export const createLocation = (payload) =>
 
 export const updateLocation = (id, payload) =>
   api.put(`/locations/${id}`, payload).then(r => r.data);
+
+export const getFacility = (id) =>
+  api.get(`/facilities/${id}`).then(r => r.data);
+
+export const listTickets   = () => fetchJson("/api/tickets");
+export const getTicket     = (id) => fetchJson(`/api/tickets/${id}`);
+export const createTicket  = (body) => fetchJson("/api/tickets", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(body)
+});
+
+const exported = {
+  listFacilities,
+  listManifests,
+  getManifest,
+  saveManifest,
+  createManifest,
+  addRoom,
+  updateRoom,
+  deleteRoom,
+  listCms,
+  createCms,
+  updateCms,
+  listMeds,
+  createMed,
+  updateMed,
+  listLocations,
+  createLocation,
+  updateLocation,
+  getFacility
+};
+
+export default exported;

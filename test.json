@@ -1,0 +1,62 @@
+{
+      "id": "support",
+      "type": "page",
+      "title": "All Support Tickets",
+      "dataSource": "supportTickets",
+      "components": [
+        { "type": "text", "content": "Support Ticket List" },
+        {
+          "type": "table",
+           "bind": "supportTickets",
+          "columns": [
+            { "label": "Facility Name", "bind": "supportTickets.facilityName" , "field": "facilityName"  },
+            { "label": "Name",          "bind": "supportTickets.facilityName" , "field": "facilityName"  },
+            { "label": "City",          "bind": "supportTickets.address.city" , "field": "address.city"  },
+          ],
+          "onRowClick": "navigate(`/page/facility-view/${row._id}`)"
+        }
+      ]
+    },
+    {
+      "id": "facility-view",
+      "type": "page",
+      "title": "View Facility",
+      "dataSource": "facilities",
+      "components": [
+        { "type": "text", "content": "Facility Overview" },
+
+        { "type": "input", "label": "Facility ID", "bind": "facilityId", "readonly": true },
+        { "type": "input", "label": "Facility Name", "bind": "facilityName", "readonly": true },
+        { "type": "input", "label": "Phone", "bind": "phone", "readonly": true },
+        { "type": "input", "label": "Status", "bind": "status", "readonly": true },
+
+        { "type": "input", "label": "Address Line 1", "bind": "address.line1", "readonly": true },
+        { "type": "input", "label": "City", "bind": "address.city", "readonly": true },
+        { "type": "input", "label": "State", "bind": "address.state", "readonly": true },
+        { "type": "input", "label": "ZIP", "bind": "address.zip", "readonly": true },
+
+        { "type": "input", "label": "Product Code", "bind": "product.code", "readonly": true },
+        { "type": "input", "label": "Product Version", "bind": "product.version", "readonly": true },
+
+        { "type": "input", "label": "# Transmitters", "bind": "counts.transmitters", "readonly": true },
+        { "type": "input", "label": "# CMSs", "bind": "counts.CMSs", "readonly": true },
+        { "type": "input", "label": "# MEDs", "bind": "counts.MEDs", "readonly": true },
+        { "type": "input", "label": "# Spares", "bind": "counts.sparesTransmitters", "readonly": true },
+        { "type": "input", "label": "# Headless CMSs", "bind": "counts.headlessCMSs", "readonly": true },
+        { "type": "input", "label": "# Mounts", "bind": "counts.mounts", "readonly": true },
+
+        {
+          "type": "repeat",
+          "label": "Contacts",
+          "bind": "contacts",
+          "readonly": true,
+          "hideAddButton": true,
+          "prototype": { "name": "", "role": "", "phone": "" },
+          "fields": [
+            { "type": "input", "label": "Name", "bind": "name", "readonly": true },
+            { "type": "input", "label": "Role", "bind": "role", "readonly": true },
+            { "type": "input", "label": "Phone", "bind": "phone", "readonly": true }
+          ]
+        }
+      ]
+    }

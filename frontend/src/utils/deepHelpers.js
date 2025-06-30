@@ -2,6 +2,7 @@ export const deepGet = (obj, path) =>
   path.split(".").reduce((o, k) => (o ? o[k] : undefined), obj);
 
 export const deepSet = (obj, path, value) => {
+  if (!path || typeof path !== "string") return undefined;
   const keys = Array.isArray(path) ? path : path.split(".");
   const root = Array.isArray(obj) ? [...obj] : { ...obj };
   let cur = root;
@@ -29,5 +30,7 @@ export const deepSet = (obj, path, value) => {
   return root;
 };
 
-export const getNested = (obj, path) =>
-  path.split(".").reduce((o, k) => (o ? o[k] : undefined), obj);
+export const getNested = (obj, path) => {
+  if (!path || typeof path !== "string") return undefined;
+  return path.split(".").reduce((o, k) => (o ? o[k] : undefined), obj);
+}

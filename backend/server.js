@@ -38,6 +38,7 @@ app.use("/api/transmitters",  transmitterRoutes);
 app.use("/api/cms",           cmsRoutes);
 app.use("/api/meds",          medRoutes);
 app.use("/api/locations",     locationRoutes);
+app.use("/api/tickets", require("./routes/ticketRoutes"));
 
 /* ---------- health-check ---------- */
 app.get("/api/health", (_req, res) => res.json({ status: "ok" }));

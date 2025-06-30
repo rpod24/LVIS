@@ -7,10 +7,11 @@
 // • Includes Data-JSON & Layout-JSON editors + pane toggles
 // ----------------------------------------
 
-import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import ReactJson from "react18-json-view";
-import { saveManifest, addRoom, updateRoom, deleteRoom, listManifests, createManifest, getManifest } from "./api";
+import { saveManifest, addRoom, updateRoom, deleteRoom, createManifest, getManifest, getFacility } from "./api";
+import api from "./api";
 import ComponentRenderer from "./components/ComponentRenderer";
 
 const deepGet = (obj, path) => path.split(".").reduce((o, k) => (o ? o[k] : undefined), obj);
@@ -37,34 +38,68 @@ const deepSet = (obj, path, value) => {
   return root;
 };
 
-const PageBuilder = ({ layout, id }) => {
+const PageBuilder = ({ layout, id, formData, setFormData }) => {
   const [rows, setRows] = useState([]);
-  const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    if (layout.dataSource === "manifests") {
-      listManifests().then(setRows);
-    } else {
-      setRows([]);
-    }
+    const loadData = async () => {
+      if (!layout.dataSource) {
+        setRows([]);
+        return;
+      }
+
+      const fnName = "list" + layout.dataSource[0].toUpperCase() + layout.dataSource.slice(1);
+
+      if (typeof api[fnName] === "function") {
+        try {
+          const data = await api[fnName]();
+          setRows(data);
+          console.log("DataSetPoint1");
+          // setFormData({[layout.dataSource]: data});
+          setFormData((prev) => ({ ...prev, [layout.dataSource]: data }));
+        } catch (err) {
+          console.error(`Failed to load data from ${fnName}:`, err);
+          setRows([]);
+        }
+      } else {
+        console.warn(`No function found for ${fnName} in api.js`);
+        setRows([]);
+      }
+    };
+
+    loadData();
   }, [layout]);
 
   useEffect(() => {
-  if (id && id.length === 24) {
-    getManifest(id).then((data) => setFormData(data));
-  }
-}, [id]);
+    if (id && id.length === 24) {
+      console.log(`🔎 Fetching ${layout.dataSource} with ID:`, id);
+
+      const fetchById = {
+        manifests: getManifest,
+        facilities: getFacility,
+      }[layout.dataSource];
+
+      if (fetchById) {
+        fetchById(id).then((data) => {
+          console.log(`✅ Loaded ${layout.dataSource} data:`, data);
+          console.log("DataSetPoint2");
+          setFormData(data);
+        });
+      } else {
+        console.warn("⚠️ No fetch function for dataSource:", layout.dataSource);
+      }
+    }
+  }, [id, layout.dataSource]);
+
+  useEffect(() => {
+    console.log("🧾 Current formData:", formData);
+  }, [formData]);
 
   return (
     <div className="container py-3">
       <h1>{layout.title}</h1>
       {layout.components?.map((c, i) => (
-        <ComponentRenderer
-          key={i}
-          component={{ ...c, rows }}
-          formData={formData}
-          setFormData={setFormData}
-        />
+        <ComponentRenderer key={i} component={{ ...c, rows }} formData={formData} setFormData={setFormData} />
       ))}
     </div>
   );
@@ -73,13 +108,21 @@ const PageBuilder = ({ layout, id }) => {
 const TemplateEngine = ({ schema }) => {
   const [layout, setLayout] = useState(schema);
   const [formData, setFormData] = useState({});
+  const formDataRef = useRef({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    //Update formDataRef whenever formData changes
+    // if (formDataRef.current === formData) return; // Avoid unnecessary updates
+    formDataRef.current = formData;
+  }, [formData]);
 
   useEffect(() => {
     if (layout.components) {
       const repeats = layout.components.filter((c) => c.type === "repeat");
+      console.log("DataSetPoint3");
       setFormData((prev) => {
-        let next = prev;
+        let next = structuredClone(prev); // or use JSON.parse(JSON.stringify(prev)) for older compatibility
         repeats.forEach((r) => {
           const val = deepGet(next, r.bind);
           if (!Array.isArray(val)) {
@@ -99,32 +142,56 @@ const TemplateEngine = ({ schema }) => {
       updateRoom,
       deleteRoom,
       saveAndGetId: async () => {
+        const current = formDataRef.current;
+        if (!current) alert("Catastrophic error: formData is undefined. Please contact support.");
         const payload = {
           facility: {
-            facilityId: formData.facility?.facilityId?.trim() || "",
-            facilityName: formData.facility?.facilityName?.trim() || "",
-            address: formData.facility?.address?.trim() || "",
-            city: formData.facility?.city?.trim() || "",
-            state: formData.facility?.state?.trim() || "",
-            zip: formData.facility?.zip?.trim() || "",
-            phone: formData.facility?.phone?.trim() || "",
-            product: formData.facility?.product?.trim() || "",
-            productVersion: formData.facility?.productVersion?.trim() || "",
+            facilityId: current?.facility?.facilityId?.trim() || "",
+            facilityName: current?.facility?.facilityName?.trim() || "",
+            facilityShortName: current?.facility?.facilityName?.trim() || "",
+            // address: current?.facility?.address?.trim() || "",
+            address: current?.facility?.address || {},
+            city: current?.facility?.city?.trim() || "",
+            state: current?.facility?.state?.trim() || "",
+            zip: current?.facility?.zip?.trim() || "",
+            phone: current?.facility?.phone?.trim() || "",
           },
           manifest: {
-            installationDate: formData.manifest?.installationDate || "",
-            stagingDeadline: formData.manifest?.stagingDeadline || "",
+            installationDate: current?.manifest?.installationDate || "",
+            stagingDeadline: current?.manifest?.stagingDeadline || "",
+            product: current?.manifestProduct || "",
+            version: current?.manifestVersion || "",
           },
           counts: {
-            transmitters: formData.counts?.transmitters || "0",
-            CMSs: formData.counts?.CMSs || "0",
-            MEDs: formData.counts?.MEDs || "0",
+            transmitters: current?.counts?.transmitters || "0",
+            CMSs: current?.counts?.CMSs || "0",
+            MEDs: current?.counts?.MEDs || "0",
           },
         };
 
+        console.log("📦 Current:", current);
+        console.log("📦 Formdata:", formData);
+        console.log("📦 Payload being sent:", payload);
         const saved = await createManifest(payload);
+
+        console.log("DataSetPoint4");
         setFormData(saved);
         return saved._id;
+      },
+      save: async () => {
+        try {
+          console.log("📦 Current:", formDataRef.current);
+          const saved = await saveManifest(formDataRef.current);
+          const saved2 = await getManifest(formDataRef.current._id);
+          console.log("📦 saved:", saved);
+          console.log("📦 saved2:", saved2);
+          console.log(formDataRef.current._id);
+          console.log("DataSetPoint5");
+          setFormData(saved);
+          // alert("Saved!");
+        } catch (err) {
+          alert(err.response?.data?.error || "Save failed");
+        }
       },
     });
     return () => {
@@ -159,9 +226,15 @@ const TemplateEngine = ({ schema }) => {
           className="btn btn-success btn-sm ms-auto"
           onClick={async () => {
             try {
-              const saved = await saveManifest(formData);
+              console.log("📦 Current:", formDataRef.current);
+              const saved = await saveManifest(formDataRef.current);
+              const saved2 = await getManifest(formDataRef.current._id);
+              console.log("📦 saved:", saved);
+              console.log("📦 saved2:", saved2);
+              console.log(formDataRef.current._id);
+              console.log("DataSetPoint6");
               setFormData(saved);
-              alert("Saved!");
+              // alert("Saved!");
             } catch (err) {
               alert(err.response?.data?.error || "Save failed");
             }

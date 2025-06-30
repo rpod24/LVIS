@@ -3,16 +3,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
-import PageShell from "./Templates/page";
 import pages from "./page.json";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import PageShell from "./Templates/page";
 
 /* ----- tiny helper component: finds the page by ID ----- */
 const RoutedPage = () => {
-  const { id } = useParams();
-  const schema = pages.pages.find((p) => p.id === id);
-  return schema ? <PageShell schema={schema} /> : <h1>Not found</h1>;
+  const { pageId, id } = useParams();
+  const schema = pages.pages.find((p) => p.id === pageId);
+  return schema ? <PageShell key={`${pageId}-${id ?? ""}`} schema={schema} pageId={pageId} id={id} /> : <h1>Not found</h1>;
 };
 
 /* ----- first page to land on when visiting "/" ----- */
@@ -24,13 +24,16 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        {/* matches /page/manifest   AND   /page/manifest/ */}
-        <Route path="/page/:id/*" element={<RoutedPage />} />
+        {/* Route for pages with BOTH a page ID and a record ID */}
+        <Route path="/page/:pageId/:id" element={<RoutedPage />} />
 
-        {/* root → first page in nav (or first in pages[]) */}
+        {/* Route for pages with only a page ID (e.g., manifest-list) */}
+        <Route path="/page/:pageId" element={<RoutedPage />} />
+
+        {/* Redirect root to first nav page */}
         <Route path="/" element={<Navigate to={`/page/${firstPageId}`} replace />} />
 
-        {/* fallback 404 */}
+        {/* Catch-all */}
         <Route path="*" element={<h1>Not found</h1>} />
       </Routes>
     </BrowserRouter>

@@ -2,7 +2,7 @@
   "nav": [
     { "label": "Manifests", "id": "manifest-list" },
     { "label": "Facilities", "id": "facility" },
-    { "label": "Support", "id": "support" },
+    { "label": "Support", "id": "support-list" },
     { "label": "Wiki", "id": "wiki" },
     { "label": "Inventory", "id": "inventory" }
   ],
@@ -20,7 +20,7 @@
           "columns": [
             { "header": "Facility", "field": "facility.facilityName" },
             { "header": "Stage", "field": "stage" },
-            { "header": "Ship Date", "field": "shippingDate" }
+            { "header": "Installation Date", "field": "installationDate" }
           ],
           "onRowClick": "navigate(`/page/manifest-view/${row._id}`)"
         },
@@ -41,30 +41,30 @@
 
         { "type": "input", "label": "Facility Name", "bind": "facility.facilityName", "readonly": true },
         { "type": "input", "label": "Facility ID", "bind": "facility.facilityId", "readonly": true },
-        { "type": "input", "label": "City", "bind": "facility.city", "readonly": true },
-        { "type": "input", "label": "State", "bind": "facility.state", "readonly": true },
-        { "type": "input", "label": "ZIP", "bind": "facility.zip", "readonly": true },
-        { "type": "input", "label": "Address", "bind": "facility.address", "readonly": true },
+        { "type": "input", "label": "City", "bind": "facility.address.city", "readonly": true },
+        { "type": "input", "label": "State", "bind": "facility.address.state", "readonly": true },
+        { "type": "input", "label": "ZIP", "bind": "facility.address.zip", "readonly": true },
+        { "type": "input", "label": "Address", "bind": "facility.address.line1", "readonly": true },
         { "type": "input", "label": "Phone", "bind": "facility.phone", "readonly": true },
 
-        { "type": "input", "label": "Product", "bind": "facility.product", "readonly": true },
-        { "type": "input", "label": "Product Version", "bind": "facility.productVersion", "readonly": true },
+        { "type": "input", "label": "System", "bind": "facility.product.code", "readonly": true },
+        { "type": "input", "label": "System Version", "bind": "facility.product.version", "readonly": true },
 
-        { "type": "input", "label": "Installation Date", "bind": "manifest.installationDate", "readonly": true },
-        { "type": "input", "label": "Staging Deadline", "bind": "manifest.stagingDeadline", "readonly": true },
+        { "type": "input", "label": "Installation Date", "bind": "installationDate", "readonly": true },
+        { "type": "input", "label": "Staging Deadline", "bind": "stagingDeadline", "readonly": true },
 
-        { "type": "input", "label": "Transmitters", "bind": "counts.transmitters", "readonly": true },
-        { "type": "input", "label": "CMSs", "bind": "counts.CMSs", "readonly": true },
-        { "type": "input", "label": "MEDs", "bind": "counts.MEDs", "readonly": true },
+        { "type": "input", "label": "Transmitters", "bind": "facility.counts.transmitters", "readonly": true },
+        { "type": "input", "label": "CMSs", "bind": "facility.counts.CMSs", "readonly": true },
+        { "type": "input", "label": "MEDs", "bind": "facility.counts.MEDs", "readonly": true },
 
         { "type": "input", "label": "QA Date", "bind": "qualityAssuranceDate", "readonly": true },
         { "type": "input", "label": "QA Approved By", "bind": "qaApprovedStaffMember", "readonly": true },
         { "type": "input", "label": "Shipping Method", "bind": "shippingMethod", "readonly": true },
         { "type": "input", "label": "Ship Date", "bind": "shipDate", "readonly": true },
 
-        { "type": "input", "label": "# Transmitters", "bind": "shippingChecklistItems.quantityOfTransmitters", "readonly": true },
-        { "type": "input", "label": "# CMSs", "bind": "shippingChecklistItems.quantityOfCMSs", "readonly": true },
-        { "type": "input", "label": "# MEDs", "bind": "shippingChecklistItems.quantityOfMEDs", "readonly": true },
+        { "type": "input", "label": "# Transmitters Shipped", "bind": "shippingChecklistItems.quantityOfTransmitters", "readonly": true },
+        { "type": "input", "label": "# CMSs Shipped", "bind": "shippingChecklistItems.quantityOfCMSs", "readonly": true },
+        { "type": "input", "label": "# MEDs Shipped", "bind": "shippingChecklistItems.quantityOfMEDs", "readonly": true },
 
         {
           "type": "repeat",
@@ -73,20 +73,16 @@
           "readonly": true,
           "hideAddButton": true,
           "prototype": "",
-          "fields": [
-            { "type": "input", "label": "Tracking #", "bind": "", "readonly": true }
-          ]
+          "fields": [{ "type": "input", "label": "Tracking #", "bind": "", "readonly": true }]
         },
         {
           "type": "repeat",
           "label": "Room List",
-          "bind": "roomList",
+          "bind": "rooms",
           "readonly": true,
           "hideAddButton": true,
           "prototype": { "room": "" },
-          "fields": [
-            { "type": "input", "label": "Room #", "bind": "room", "readonly": true }
-          ]
+          "fields": [{ "type": "input", "label": "Room #", "bind": "room", "readonly": true }]
         },
         {
           "type": "repeat",
@@ -111,64 +107,12 @@
             { "type": "input", "label": "Tested", "bind": "tested", "readonly": true }
           ]
         },
-
-        {
-          "type": "button",
-          "text": "Edit Manifest",
-          "onClick": "navigate(`/page/manifest-${formData.stage}/${formData._id}`)"
-        }
-      ]
-    },
-    {
-      "id": "manifest-new",
-      "type": "page",
-      "title": "Create Manifest – Basic Info",
-      "components": [
-        { "type": "input", "label": "Facility Name", "bind": "facility.facilityName" },
-        { "type": "input", "label": "Facility ID", "bind": "facility.facilityId" },
-        { "type": "input", "label": "City", "bind": "facility.city" },
-        { "type": "input", "label": "State", "bind": "facility.state" },
-        { "type": "input", "label": "ZIP", "bind": "facility.zip" },
-        { "type": "input", "label": "Address", "bind": "facility.address" },
-        { "type": "input", "label": "Phone", "bind": "facility.phone" },
-
-        { "type": "input", "label": "Product", "bind": "facility.product" },
-        { "type": "input", "label": "Product Version", "bind": "facility.productVersion" },
-
-        { "type": "input", "label": "Installation Date", "bind": "manifest.installationDate" },
-        { "type": "input", "label": "Staging Deadline", "bind": "manifest.stagingDeadline" },
-
-        { "type": "input", "label": "Transmitters", "bind": "counts.transmitters" },
-        { "type": "input", "label": "CMSs", "bind": "counts.CMSs" },
-        { "type": "input", "label": "MEDs", "bind": "counts.MEDs" },
-
-        {
-          "type": "button",
-          "text": "Save & Continue → Assembly",
-          "onClick": "saveAndGetId().then(id => navigate(`/page/manifest-assembly/${id}`))"
-        }
-      ]
-    },
-
-    {
-      "id": "manifest-assembly",
-      "type": "page",
-      "title": "Manifest Assembly",
-      "components": [
-        { "type": "text", "content": "Room list & device details" },
-
         {
           "type": "repeat",
-          "label": "Room List",
-          "bind": "roomList",
-          "prototype": { "room": "" },
-          "fields": [{ "type": "input", "label": "Room #", "bind": "room" }]
-        },
-
-        {
-          "type": "repeat",
-          "label": "CMS Assembly",
-          "bind": "CMSAssembly",
+          "label": "transmitters",
+          "bind": "transmitters",
+          "readonly": true,
+          "hideAddButton": true,
           "prototype": {
             "serialNumber": "",
             "room": "",
@@ -178,9 +122,223 @@
             "tested": false
           },
           "fields": [
+            { "type": "input", "label": "Serial #", "bind": "serialNumber", "readonly": true },
+            { "type": "input", "label": "Room", "bind": "room", "readonly": true },
+            { "type": "input", "label": "Headless?", "bind": "headless", "readonly": true },
+            { "type": "input", "label": "Configured", "bind": "configured", "readonly": true },
+            { "type": "input", "label": "Labeled", "bind": "labeled", "readonly": true },
+            { "type": "input", "label": "Tested", "bind": "tested", "readonly": true }
+          ]
+        },
+        {
+          "type": "button",
+          "text": "Edit Manifest",
+          "onClick": "navigate(`/page/manifest-${formData.stage}/${formData._id}`)"
+        },
+        {
+          "type": "group",
+          "label": "Edit Navigation",
+          "components": [
+            {
+              "type": "button",
+              "text": "✏️ Edit Basic Info",
+              "onClick": "navigate(`/page/manifest-new/${formData._id}`)"
+            },
+            {
+              "type": "button",
+              "text": "✏️ Edit Assembly",
+              "onClick": "navigate(`/page/manifest-assembly/${formData._id}`)"
+            },
+            {
+              "type": "button",
+              "text": "✏️ Edit Shipping",
+              "onClick": "navigate(`/page/manifest-shipping/${formData._id}`)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "manifest-new",
+      "type": "page",
+
+      "dataSource": "manifests",
+      "title": "Create Manifest – Basic Info",
+      "components": [
+        {
+          "type": "input",
+          "label": "Facility Name",
+          "bind": "facility.facilityName",
+          "validation": { "required": true }
+        },
+        {
+          "type": "input",
+          "label": "Facility Short Name",
+          "bind": "facility.facilityShortName",
+          "validation": { "required": true }
+        },
+        {
+          "type": "input",
+          "label": "Facility ID",
+          "bind": "facility.facilityId",
+          "validation": { "required": true }
+        },
+        {
+          "type": "input",
+          "label": "City",
+          "bind": "facility.address.city",
+          "validation": { "required": true }
+        },
+        {
+          "type": "input",
+          "label": "State",
+          "bind": "facility.address.state",
+          "validation": { "required": true, "pattern": "^[A-Z]{2}$" }
+        },
+        {
+          "type": "input",
+          "label": "ZIP",
+          "bind": "facility.address.zip",
+          "validation": { "required": true, "pattern": "^\\d{5}(-\\d{4})?$" }
+        },
+        {
+          "type": "input",
+          "label": "Address",
+          "bind": "facility.address.line1",
+          "validation": { "required": true }
+        },
+        {
+          "type": "input",
+          "label": "Phone",
+          "bind": "facility.phone",
+          "validation": { "required": true, "type": "tel" }
+        },
+
+        {
+          "type": "input",
+          "label": "System",
+          "bind": "facility.product",
+          "validation": { "required": true, "oneOf": ["REA", "LinQvue"] }
+        },
+        {
+          "type": "input",
+          "label": "System Version",
+          "bind": "facility.productVersion",
+          "validation": { "required": true, "pattern": "^(1(\\.5)?|2)([A-Za-z])?$" }
+        },
+
+        {
+          "type": "input",
+          "label": "Installation Date",
+          "bind": "manifest.installationDate",
+          "validation": { "required": true, "type": "date" }
+        },
+        {
+          "type": "input",
+          "label": "Staging Deadline",
+          "bind": "manifest.stagingDeadline",
+          "validation": { "type": "date" }
+        },
+
+        {
+          "type": "input",
+          "label": "Transmitters",
+          "bind": "counts.transmitters",
+          "validation": { "required": true, "type": "number" }
+        },
+        {
+          "type": "input",
+          "label": "CMSs",
+          "bind": "counts.CMSs",
+          "validation": { "required": true, "type": "number" }
+        },
+        {
+          "type": "input",
+          "label": "MEDs",
+          "bind": "counts.MEDs",
+          "validation": { "required": true, "type": "number" }
+        },
+
+        {
+          "type": "button",
+          "text": "Save & Continue → Assembly",
+          "onClick": "saveAndGetId().then(id => navigate(`/page/manifest-assembly/${id}`))"
+        },
+        {
+          "type": "group",
+          "label": "Navigation",
+          "components": [
+            {
+              "type": "button",
+              "text": "Continue → Assembly",
+              "onClick": "saveAndGetId(formData).then(id => navigate(`/page/manifest-assembly/${id}`))"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "manifest-assembly",
+      "type": "page",
+      "title": "Manifest Assembly",
+      "dataSource": "manifests",
+      "components": [
+        { "type": "text", "content": "Room list & device details" },
+
+        {
+          "type": "repeat",
+          "label": "Room List",
+          "bind": "facility.rooms",
+          "prototype": { "roomNumber": "", "group": "", "notes": "" },
+          "fields": [
+            { "type": "input", "label": "Room #", "bind": "roomNumber" },
+            { "type": "input", "label": "Group", "bind": "group" },
+            { "type": "input", "label": "Notes", "bind": "notes" }
+          ]
+        },
+        {
+          "type": "repeat",
+          "label": "CMS Assembly",
+          "bind": "facility.CMSs",
+          "prototype": {
+            "serialNumber": "",
+            "room": "",
+            "configured": false,
+            "assembled": false,
+            "tested": false,
+            "labeled": false
+          },
+          "fields": [
             { "type": "input", "label": "Serial #", "bind": "serialNumber" },
-            { "type": "input", "label": "Room", "bind": "room" },
-            { "type": "input", "label": "Headless?", "bind": "headless" },
+            { "type": "input", "label": "Room #", "bind": "room" },
+            { "type": "input", "label": "Configured", "bind": "configured" },
+            { "type": "input", "label": "Assembled", "bind": "assembled" },
+            { "type": "input", "label": "Labeled", "bind": "labeled" },
+            { "type": "input", "label": "Tested", "bind": "tested" }
+          ]
+        },
+        {
+          "type": "repeat",
+          "label": "Transmitters",
+          "bind": "facility.transmitters",
+          "prototype": {
+            "serialNumber": "",
+            "room": "",
+            "configured": false,
+            "labeled": false,
+            "tested": false
+          },
+          "fields": [
+            { "type": "input", "label": "Serial #", "bind": "serialNumber" },
+            {
+              "type": "select",
+              "label": "Room",
+              "bind": "room",
+              "optionsFrom": "facility.rooms",
+              "optionLabelField": "roomNumber",
+              "optionValueField": "_id"
+            },
             { "type": "input", "label": "Configured", "bind": "configured" },
             { "type": "input", "label": "Labeled", "bind": "labeled" },
             { "type": "input", "label": "Tested", "bind": "tested" }
@@ -190,13 +348,32 @@
         {
           "type": "button",
           "text": "Save & Continue → Shipping",
-          "onClick": "navigate(`/page/manifest-shipping/${location.pathname.split('/').pop()}`)"
+          "onClick": "save().then(id => navigate(`/page/manifest-shipping/${location.pathname.split('/').pop()}`))"
+        },
+        { "type": "button", "text": "Save Shipping Info", "onClick": "save()" },
+        {
+          "type": "group",
+          "label": "Navigation",
+          "components": [
+            {
+              "type": "button",
+              "text": "← Back to Basic Info",
+              "onClick": "navigate(`/page/manifest-new/${formData._id}`)"
+            },
+            {
+              "type": "button",
+              "text": "View Shipping Info",
+              "onClick": "navigate(`/page/manifest-view/${formData._id}`)"
+            }
+          ]
         }
       ]
     },
+
     {
       "id": "manifest-shipping",
       "type": "page",
+      "dataSource": "manifests",
       "title": "Manifest Shipping & QA",
       "components": [
         { "type": "input", "label": "QA Date", "bind": "qualityAssuranceDate" },
@@ -236,43 +413,23 @@
           "fields": [{ "type": "input", "label": "Tracking #", "bind": "" }]
         },
 
-        { "type": "button", "text": "Save Shipping Info", "onClick": "save()" }
-      ]
-    },
-    {
-      "id": "facility",
-      "type": "page",
-      "title": "Facility Details",
-      "dataSource": "facilities",
-      "components": [
-        { "type": "text", "content": "Facility Information" },
-
-        { "type": "input", "label": "Facility ID", "bind": "facilityId" },
-        { "type": "input", "label": "Name", "bind": "name" },
-        { "type": "input", "label": "Short Name", "bind": "shortName" },
-        { "type": "input", "label": "Product Code", "bind": "product.code" },
-        { "type": "input", "label": "Product Ver.", "bind": "product.version" },
-
-        { "type": "text", "content": "Address" },
-        { "type": "input", "label": "Line 1", "bind": "address.line1" },
-        { "type": "input", "label": "Line 2", "bind": "address.line2" },
-        { "type": "input", "label": "City", "bind": "address.city" },
-        { "type": "input", "label": "State", "bind": "address.state" },
-        { "type": "input", "label": "ZIP", "bind": "address.zip" },
-        { "type": "input", "label": "Country", "bind": "address.country" },
-
-        { "type": "text", "content": "Coordinates" },
-        { "type": "input", "label": "Latitude", "bind": "coordinates.lat" },
-        { "type": "input", "label": "Longitude", "bind": "coordinates.lon" },
-
-        { "type": "input", "label": "Phone", "bind": "phone" },
-        { "type": "input", "label": "Time-Zone", "bind": "timeZone" },
-
-        { "type": "text", "content": "Meta" },
-        { "type": "input", "label": "Created At", "bind": "meta.createdAt" },
-        { "type": "input", "label": "Updated At", "bind": "meta.updatedAt" },
-
-        { "type": "button", "text": "Save Facility", "onClick": "save()" }
+        { "type": "button", "text": "Save Shipping Info", "onClick": "save()" },
+        {
+          "type": "group",
+          "label": "Navigation",
+          "components": [
+            {
+              "type": "button",
+              "text": "← Back to Assembly",
+              "onClick": "navigate(`/page/manifest-assembly/${formData._id}`)"
+            },
+            {
+              "type": "button",
+              "text": "View Manifest",
+              "onClick": "navigate(`/page/manifest-view/${formData._id}`)"
+            }
+          ]
+        }
       ]
     },
 
@@ -493,6 +650,206 @@
         { "type": "input", "label": "Last Counted", "bind": "lastCounted" },
 
         { "type": "button", "text": "Save Stock", "onClick": "save()" }
+      ]
+    },
+    {
+      "id": "facility",
+      "type": "page",
+      "title": "All Facilities",
+      "dataSource": "facilities",
+      "components": [
+        { "type": "text", "content": "Facility List" },
+        {
+          "type": "table",
+          "bind": "facilities",
+          "columns": [
+            { "label": "Facility Name", "bind": "facilities.facilityName", "field": "facilityName" },
+            { "label": "Name", "bind": "facilities.facilityName", "field": "facilityName" },
+            { "label": "City", "bind": "facilities.address.city", "field": "address.city" },
+            { "label": "State", "bind": "facilities.address.state", "field": "address.state" },
+            { "label": "Status", "bind": "facilities.status", "field": "status" }
+          ],
+          "onRowClick": "navigate(`/page/facility-view/${row._id}`)"
+        }
+      ]
+    },
+    {
+      "id": "facility-view",
+      "type": "page",
+      "title": "View Facility",
+      "dataSource": "facilities",
+      "components": [
+        { "type": "text", "content": "Facility Overview" },
+
+        { "type": "input", "label": "Facility ID", "bind": "facilityId", "readonly": true },
+        { "type": "input", "label": "Facility Name", "bind": "facilityName", "readonly": true },
+        { "type": "input", "label": "Phone", "bind": "phone", "readonly": true },
+        { "type": "input", "label": "Status", "bind": "status", "readonly": true },
+
+        { "type": "input", "label": "Address Line 1", "bind": "address.line1", "readonly": true },
+        { "type": "input", "label": "City", "bind": "address.city", "readonly": true },
+        { "type": "input", "label": "State", "bind": "address.state", "readonly": true },
+        { "type": "input", "label": "ZIP", "bind": "address.zip", "readonly": true },
+
+        { "type": "input", "label": "System Code", "bind": "product.code", "readonly": true },
+        { "type": "input", "label": "System Version", "bind": "product.version", "readonly": true },
+
+        { "type": "input", "label": "# Transmitters", "bind": "counts.transmitters", "readonly": true },
+        { "type": "input", "label": "# CMSs", "bind": "counts.CMSs", "readonly": true },
+        { "type": "input", "label": "# MEDs", "bind": "counts.MEDs", "readonly": true },
+        { "type": "input", "label": "# Spares", "bind": "counts.sparesTransmitters", "readonly": true },
+        { "type": "input", "label": "# Headless CMSs", "bind": "counts.headlessCMSs", "readonly": true },
+        { "type": "input", "label": "# Mounts", "bind": "counts.mounts", "readonly": true },
+
+        {
+          "type": "repeat",
+          "label": "Contacts",
+          "bind": "contacts",
+          "readonly": true,
+          "hideAddButton": true,
+          "prototype": { "name": "", "role": "", "phone": "" },
+          "fields": [
+            { "type": "input", "label": "Name", "bind": "name", "readonly": true },
+            { "type": "input", "label": "Role", "bind": "role", "readonly": true },
+            { "type": "input", "label": "Phone", "bind": "phone", "readonly": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "support-list",
+      "type": "page",
+      "title": "All Support Tickets",
+      "dataSource": "tickets",
+      "components": [
+        { "type": "text", "content": "Ticket List" },
+        {
+          "type": "table",
+          "bind": "tickets",
+          "columns": [
+            { "label": "Facility", "field": "facility.facilityName" },
+            { "label": "Product", "field": "product" },
+            { "label": "Version", "field": "productVersion" },
+            { "label": "Title", "field": "title" },
+            { "label": "Priority", "field": "priority" },
+            { "label": "Status", "field": "status" },
+            { "label": "Created", "field": "createdAt", "format": "date" }
+          ],
+          "onRowClick": "navigate(`/page/support-view/${row._id}`)"
+        },
+        { "type": "button", "text": "➕ New Ticket", "onClick": "navigate('/page/support-new')" }
+      ]
+    },
+    {
+      "id": "support-view",
+      "type": "page",
+      "title": "View Ticket",
+      "dataSource": "tickets",
+      "components": [
+        { "type": "text", "content": "Ticket Details" },
+        { "type": "input", "label": "Facility", "bind": "facility.facilityName", "readonly": true },
+        { "type": "input", "label": "Title", "bind": "title", "readonly": true },
+        { "type": "input", "label": "Product", "bind": "product", "readonly": true },
+        { "type": "input", "label": "Version", "bind": "productVersion", "readonly": true },
+        { "type": "input", "label": "Priority", "bind": "priority", "readonly": true },
+        { "type": "input", "label": "Status", "bind": "status", "readonly": true },
+        { "type": "input", "label": "Phone", "bind": "contactPhone", "readonly": true },
+        { "type": "input", "label": "Created", "bind": "createdAt", "readonly": true, "format": "datetime" },
+        { "type": "input", "label": "Last Updated", "bind": "updatedAt", "readonly": true, "format": "datetime" },
+        { "type": "textarea", "label": "Description", "bind": "description", "readonly": true }
+      ]
+    },
+    {
+      "id": "support-new",
+      "type": "page",
+      "title": "New Ticket",
+      "dataSource": "tickets",
+      "components": [
+        { "type": "text", "content": "Create Support Ticket" },
+        {
+          "type": "input",
+          "label": "Facility ID (Mongo ID)",
+          "bind": "facility",
+          "validate": { "regex": "^[a-fA-F0-9]{24}$", "message": "Invalid ID" }
+        },
+        { "type": "select", "label": "Product", "bind": "product", "options": ["REA", "LinQvue"], "validate": { "required": true } },
+        {
+          "type": "input",
+          "label": "Product Version",
+          "bind": "productVersion",
+          "validate": { "regex": "^[0-9]+(.[0-9]+)?[A-Za-z]?$", "message": "e.g. 1, 1.5, 2a" }
+        },
+        { "type": "input", "label": "Title", "bind": "title", "validate": { "minLength": 3 } },
+        { "type": "textarea", "label": "Description", "bind": "description", "validate": { "required": true } },
+        {
+          "type": "input",
+          "label": "Contact Phone",
+          "bind": "contactPhone",
+          "validate": { "regex": "^((d{3})|d{3})[-.s]?d{3}[-.s]?d{4}$", "message": "US phone format" }
+        },
+        { "type": "select", "label": "Priority", "bind": "priority", "options": ["low", "normal", "high"], "default": "normal" },
+        {
+          "type": "button",
+          "text": "Save Ticket",
+          "onClick": "save()",
+          "className": "btn-primary"
+        }
+      ]
+    },
+    {
+      "title": "CMS Configuration",
+      "bindRoot": "cmsConfig",
+      "components": [
+        { "type": "input", "label": "MAC Address", "bind": "macAddress", "validation": { "required": true } },
+        { "type": "input", "label": "IP Address", "bind": "IP", "validation": { "required": true, "pattern": "^(\\d{1,3}\\.){3}\\d{1,3}$" } },
+        { "type": "input", "label": "WiFi SSID", "bind": "wifiSSID" },
+        { "type": "input", "label": "WiFi Password", "bind": "wifiPassword" },
+        { "type": "input", "label": "MQTT Broker", "bind": "mqttBroker" },
+        { "type": "input", "label": "MQTT Port", "bind": "mqttPort", "validation": { "type": "number" } },
+        { "type": "input", "label": "MQTT Username", "bind": "mqttUsername" },
+        { "type": "input", "label": "MQTT Password", "bind": "mqttPassword" },
+        { "type": "input", "label": "FTP Server", "bind": "ftpServer" },
+        { "type": "input", "label": "FTP Username", "bind": "ftpUsername" },
+        { "type": "input", "label": "FTP Password", "bind": "ftpPassword" },
+        { "type": "input", "label": "Time Zone", "bind": "timeZone" },
+        { "type": "input", "label": "Admin Password", "bind": "adminPassword" },
+        { "type": "input", "label": "Firmware Version", "bind": "firmwareVersion" },
+        { "type": "input", "label": "Hardware Version", "bind": "hardwareVersion" }
+      ]
+    },
+    {
+      "title": "MED Configuration",
+      "bindRoot": "medConfig",
+      "components": [
+        { "type": "input", "label": "Serial Number", "bind": "serialNumber", "validation": { "required": true } },
+        { "type": "input", "label": "IP Address", "bind": "IP", "validation": { "required": true, "pattern": "^(d{1,3}.){3}d{1,3}$" } },
+        { "type": "input", "label": "Device Name", "bind": "deviceName" },
+        { "type": "input", "label": "MQTT Broker", "bind": "mqttBroker" },
+        { "type": "input", "label": "MQTT Port", "bind": "mqttPort", "validation": { "type": "number" } },
+        { "type": "input", "label": "MQTT Username", "bind": "mqttUsername" },
+        { "type": "input", "label": "MQTT Password", "bind": "mqttPassword" },
+        { "type": "input", "label": "FTP Server", "bind": "ftpServer" },
+        { "type": "input", "label": "FTP Username", "bind": "ftpUsername" },
+        { "type": "input", "label": "FTP Password", "bind": "ftpPassword" },
+        { "type": "input", "label": "Firmware Version", "bind": "firmwareVersion" },
+        { "type": "input", "label": "Hardware Version", "bind": "hardwareVersion" },
+        { "type": "input", "label": "Location", "bind": "location" }
+      ]
+    },
+    {
+      "title": "Transmitter Configuration",
+      "bindRoot": "transmitterConfig",
+      "components": [
+        { "type": "input", "label": "Serial Number", "bind": "serialNumber", "validation": { "required": true } },
+        { "type": "input", "label": "IP Address", "bind": "IP", "validation": { "required": true, "pattern": "^(d{1,3}.){3}d{1,3}$" } },
+        { "type": "input", "label": "Channel", "bind": "channel" },
+        { "type": "input", "label": "MQTT Broker", "bind": "mqttBroker" },
+        { "type": "input", "label": "MQTT Port", "bind": "mqttPort", "validation": { "type": "number" } },
+        { "type": "input", "label": "MQTT Username", "bind": "mqttUsername" },
+        { "type": "input", "label": "MQTT Password", "bind": "mqttPassword" },
+        { "type": "input", "label": "Firmware Version", "bind": "firmwareVersion" },
+        { "type": "input", "label": "Hardware Version", "bind": "hardwareVersion" },
+        { "type": "input", "label": "Location", "bind": "location" }
       ]
     }
   ]

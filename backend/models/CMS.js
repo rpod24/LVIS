@@ -4,7 +4,7 @@ const QaSchema = require("./QA");
 const CmsSchema = new mongoose.Schema(
   {
     facility:        { type: mongoose.Schema.Types.ObjectId, ref: "Facility", required: true },
-    room:            { type: mongoose.Schema.Types.ObjectId, required: true },
+    room: { type: String },
     CMSID:           String,
     assetID:         String,
     wifiMacAddress:  String,
