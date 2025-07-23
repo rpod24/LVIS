@@ -1,5 +1,6 @@
 const QaSchema = require("./QA");
 const mongoose = require("mongoose");
+const auditLogPlugin = require('./_auditLogPlugin');
 
 const TransmitterSchema = new mongoose.Schema(
   {
@@ -19,3 +20,4 @@ const TransmitterSchema = new mongoose.Schema(
 TransmitterSchema.index({ manifest: 1, room: 1 });
 
 module.exports = mongoose.model("Transmitter", TransmitterSchema);
+TransmitterSchema.plugin(auditLogPlugin);

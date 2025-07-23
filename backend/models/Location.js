@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditLogPlugin = require('./_auditLogPlugin');
 
 const LocationSchema = new mongoose.Schema(
   {
@@ -21,3 +22,4 @@ const LocationSchema = new mongoose.Schema(
 LocationSchema.index({ manifest: 1, roomID: 1 });
 
 module.exports = mongoose.model("Location", LocationSchema);
+LocationSchema.plugin(auditLogPlugin);

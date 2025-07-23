@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const QaSchema = require("./QA");
+const auditLogPlugin = require('./_auditLogPlugin');
 
 const MedSchema = new mongoose.Schema(
   {
@@ -30,3 +31,4 @@ const MedSchema = new mongoose.Schema(
 MedSchema.index({ manifest: 1, room: 1 });
 
 module.exports = mongoose.model("MED", MedSchema);
+MedSchema.plugin(auditLogPlugin);

@@ -3,6 +3,7 @@ const Facility = require("./Facility"); // Make sure this path is correct
 const Room = require("./Room");
 const CMS = require("./CMS");
 const Transmitter = require("./Transmitter");
+const auditLogPlugin = require("./_auditLogPlugin");
 
 const ManifestSchema = new mongoose.Schema(
   {
@@ -25,6 +26,9 @@ const ManifestSchema = new mongoose.Schema(
 
     manifestProduct: String,
     manifestVersion: Number,
+
+    status: { type: String, enum: ["draft", "qa", "prod"], default: "draft" },
+    deploymentDate: { type: Date },
 
     contractInfo: {
       vent: String,
@@ -122,7 +126,7 @@ ManifestSchema.statics.createWithFacility = async function (payload) {
     manifestProduct: payload.facility.product,
     manifestVersion: payload.facility.productVersion,
   });
-  
+
   manifest.rooms = roomDocs.map((r) => r._id);
   // optional populate
   await manifest.populate("facility");
@@ -130,3 +134,4 @@ ManifestSchema.statics.createWithFacility = async function (payload) {
 };
 
 module.exports = mongoose.model("Manifest", ManifestSchema);
+ManifestSchema.plugin(auditLogPlugin);

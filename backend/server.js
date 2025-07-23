@@ -10,6 +10,7 @@
  */
 
 require("dotenv").config();
+const requestLogger = require('./middleware/requestLogger');
 
 const express   = require("express");
 const mongoose  = require("mongoose");
@@ -25,6 +26,7 @@ const facilityRoutes     = require("./routes/facilityRoutes");
 const errorHandler       = require("./middleware/errorHandler");
 
 const app = express();
+app.use(requestLogger);
 
 /* ---------- global middleware ---------- */
 app.use(cors());

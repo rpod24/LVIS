@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditLogPlugin = require('./_auditLogPlugin');
 
 const FacilitySchema = new mongoose.Schema({
   facilityName: String,
@@ -51,3 +52,4 @@ const FacilitySchema = new mongoose.Schema({
   manifest: { type: mongoose.Schema.Types.ObjectId, ref: "Manifest"},
 });
 module.exports = mongoose.model("Facility", FacilitySchema);
+FacilitySchema.plugin(auditLogPlugin);

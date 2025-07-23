@@ -769,7 +769,7 @@
         {
           "type": "input",
           "label": "Facility ID (Mongo ID)",
-          "bind": "facility",
+          "bind": "facilityId",
           "validate": { "regex": "^[a-fA-F0-9]{24}$", "message": "Invalid ID" }
         },
         { "type": "select", "label": "Product", "bind": "product", "options": ["REA", "LinQvue"], "validate": { "required": true } },

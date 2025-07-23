@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const QaSchema = require("./QA");
+const auditLogPlugin = require('./_auditLogPlugin');
 
 const CmsSchema = new mongoose.Schema(
   {
@@ -23,3 +24,4 @@ const CmsSchema = new mongoose.Schema(
 CmsSchema.index({ manifest: 1, room: 1 });
 
 module.exports = mongoose.model("CMS", CmsSchema);
+CmsSchema.plugin(auditLogPlugin);

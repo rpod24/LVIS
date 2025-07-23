@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditLogPlugin = require('./_auditLogPlugin');
 
 
 const RoomSchema = new mongoose.Schema(
@@ -10,3 +11,4 @@ const RoomSchema = new mongoose.Schema(
   },
 );
 module.exports = mongoose.model("Room", RoomSchema);
+RoomSchema.plugin(auditLogPlugin);

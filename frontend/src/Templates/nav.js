@@ -9,7 +9,7 @@ const navItems =
 const TopNav = () => (
   <nav className="navbar navbar-expand-lg navbar-light bg-light">
     <div className="container-fluid px-3">
-      <span className="navbar-brand fw-bold">LVIS Utility</span>
+      <span className="navbar-brand fw-bold">LVIS Utility 2.1</span>
 
       {/* nav links */}
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">

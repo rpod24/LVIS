@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const auditLogPlugin = require('./_auditLogPlugin');
 
 const TicketSchema = new mongoose.Schema(
   {
@@ -28,3 +29,4 @@ const TicketSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Ticket", TicketSchema);
+TicketSchema.plugin(auditLogPlugin);
