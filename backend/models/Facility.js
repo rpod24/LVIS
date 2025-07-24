@@ -44,10 +44,12 @@ const FacilitySchema = new mongoose.Schema({
   },
 
   rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room" }],
+  locations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Location" }],
+  groups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Group" }],
   transmitters: [{ type: mongoose.Schema.Types.ObjectId, ref: "Transmitter", required: true }],
   CMSs: [{ type: mongoose.Schema.Types.ObjectId, ref: "CMS", required: true }],
   MEDs: [{ type: mongoose.Schema.Types.ObjectId, ref: "MED", required: true }],
-  locations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Location", required: true }],
+  // locations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Location", required: true }],
 
   manifest: { type: mongoose.Schema.Types.ObjectId, ref: "Manifest"},
 });

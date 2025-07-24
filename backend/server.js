@@ -22,6 +22,7 @@ const transmitterRoutes  = require("./routes/transmitterRoutes");
 const cmsRoutes          = require("./routes/cmsRoutes");
 const medRoutes          = require("./routes/medRoutes");
 const locationRoutes     = require("./routes/locationRoutes");
+const groupRoutes     = require("./routes/groupRoutes");
 const facilityRoutes     = require("./routes/facilityRoutes");
 const errorHandler       = require("./middleware/errorHandler");
 
@@ -40,6 +41,7 @@ app.use("/api/transmitters",  transmitterRoutes);
 app.use("/api/cms",           cmsRoutes);
 app.use("/api/meds",          medRoutes);
 app.use("/api/locations",     locationRoutes);
+app.use("/api/groups",     groupRoutes);
 app.use("/api/tickets", require("./routes/ticketRoutes"));
 
 /* ---------- health-check ---------- */

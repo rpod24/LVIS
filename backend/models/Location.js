@@ -8,11 +8,13 @@ const LocationSchema = new mongoose.Schema(
     roomID:     String,
     locationID: String,
     locationSN: String,
+    notes:      String,
 
     hasExtDC:   Boolean,
     hasNC:      Boolean,
     spare:      Boolean,
     portable:   Boolean,
+    notes: String,
 
     serviceHistory: mongoose.Schema.Types.Mixed,
   },

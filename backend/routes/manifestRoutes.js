@@ -16,6 +16,7 @@ router.post("/", async (req, res) => {
     res.status(201).json(newManifest);
   } catch (err) {
     console.error("❌ Manifest creation failed:", err.message);
+    console.error("❌ Manifest creation failed:", err);
     if (err.name === "ValidationError") {
       return res.status(400).json({ error: err.message });
     }
@@ -27,9 +28,9 @@ router.post("/", async (req, res) => {
 router.get("/:id", manifestCtrl.getById);
 router.put("/:id", manifestCtrl.update);
 
-// Room routes
-router.post("/:id/rooms", manifestCtrl.addRoom);
-router.put("/:id/rooms/:roomId", manifestCtrl.updateRoom);
-router.delete("/:id/rooms/:roomId", manifestCtrl.deleteRoom);
+// // Room routes
+// router.post("/:id/rooms", manifestCtrl.addRoom);
+// router.put("/:id/rooms/:roomId", manifestCtrl.updateRoom);
+// router.delete("/:id/rooms/:roomId", manifestCtrl.deleteRoom);
 
 module.exports = router;

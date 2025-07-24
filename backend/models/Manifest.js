@@ -68,19 +68,43 @@ ManifestSchema.statics.createWithFacility = async function (payload) {
     (payload.rooms || []).map((r) => ({
       facility: facility._id,
       roomNumber: r.roomNumber,
-      group: r.group,
+      group: groupIdFor(t.group),
       notes: r.notes,
     }))
   );
 
+  // create Location docs
+  // const locationDocs = await Location.insertMany(
+  //   (payload.locations || []).map((l) => ({
+  //     facility: facility._id,
+  //     name: l.groupID,
+  //     roomID: l.roomID,
+  //     locationID: l.locationID,
+  //     locationSN: l.locationSN,
+  //     groupID: l.groupID,
+  //   }))
+  // );
+
+  //create Group docs
+  // const groupDocs = await Group.insertMany(
+  //   (payload.groups || []).map((g) => ({
+  //     facility: facility._id,
+  //     groupID: g.groupID,
+  //   }))
+  // );
+
   // helper: look up roomId by roomNumber text
   const roomIdFor = (num) => roomDocs.find((r) => r.roomNumber === num)?._id || undefined;
+  // const locationIdFor = (name) => locationDocs.find((l) => l.name === name)?._id || undefined;
+  // const groupIdFor = (groupID) => groupDocs.find((g) => g.groupID === groupID)?._id || undefined;
 
   // 3 ── create CMS docs
   const cmsDocs = await CMS.insertMany(
     (payload.CMSs || []).map((c) => ({
       facility: facility._id,
       room: roomIdFor(c.room),
+      location: locationIdFor(c.location),
+      group: groupIdFor(c.group),
       serialNumber: c.serialNumber,
       assetID: c.assetID,
       wifiMacAddress: c.wifiMacAddress,
@@ -99,6 +123,8 @@ ManifestSchema.statics.createWithFacility = async function (payload) {
     (payload.Transmitters || []).map((t) => ({
       facility: facility._id,
       room: roomIdFor(t.room),
+      location: locationIdFor(t.location),
+      group: groupIdFor(t.group),
       serialNumber: t.serialNumber,
       assetTag: t.assetTag,
       bracket: t.bracket,
@@ -113,6 +139,8 @@ ManifestSchema.statics.createWithFacility = async function (payload) {
   facility.rooms = roomDocs.map((r) => r._id);
   facility.CMSs = cmsDocs.map((c) => c._id);
   facility.Transmitters = txDocs.map((t) => t._id);
+  // facility.locations = locationDocs.map((l) => l._id);
+  // facility.groups = groupDocs.map((g) => g._id);
   await facility.save();
 
   // 6 ── create manifest (room / CMS / Tx arrays stay in facility)
@@ -128,7 +156,9 @@ ManifestSchema.statics.createWithFacility = async function (payload) {
   });
 
   manifest.rooms = roomDocs.map((r) => r._id);
-  // optional populate
+  // manifest.locations = locationDocs.map((l) => l._id);
+  // manifest.groups = groupDocs.map((g) => g._id);
+  //populate
   await manifest.populate("facility");
   return manifest;
 };

@@ -10,7 +10,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ReactJson from "react18-json-view";
-import { saveManifest, addRoom, updateRoom, deleteRoom, createManifest, getManifest, getFacility } from "./api";
+import { saveManifest, createManifest, getManifest, getFacility } from "./api";
 import api from "./api";
 import ComponentRenderer from "./components/ComponentRenderer";
 
@@ -138,9 +138,6 @@ const TemplateEngine = ({ schema }) => {
     Object.assign(window, {
       navigate,
       saveManifest,
-      addRoom,
-      updateRoom,
-      deleteRoom,
       saveAndGetId: async () => {
         const current = formDataRef.current;
         if (!current) alert("Catastrophic error: formData is undefined. Please contact support.");
@@ -197,9 +194,6 @@ const TemplateEngine = ({ schema }) => {
     return () => {
       delete window.navigate;
       delete window.saveManifest;
-      delete window.addRoom;
-      delete window.updateRoom;
-      delete window.deleteRoom;
       delete window.saveAndGetId;
     };
   }, [navigate, formData]);

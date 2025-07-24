@@ -26,7 +26,7 @@
         },
         {
           "type": "button",
-          "text": "➕ New Manifest",
+          "text": "New Manifest",
           "onClick": "navigate('/page/manifest-new')"
         }
       ]
@@ -288,13 +288,41 @@
 
         {
           "type": "repeat",
-          "label": "Room List",
+          "label": "Group",
+          "bind": "facility.groups",
+          "prototype": { "group": ""},
+          "fields": [
+            { "type": "input", "label": "Group Name", "bind": "group" }
+          ]
+        },
+        {
+          "type": "repeat",
+          "label": "Rooms",
           "bind": "facility.rooms",
           "prototype": { "roomNumber": "", "group": "", "notes": "" },
           "fields": [
             { "type": "input", "label": "Room #", "bind": "roomNumber" },
-            { "type": "input", "label": "Group", "bind": "group" },
+            {
+              "type": "select",
+              "label": "Group",
+              "bind": "group",
+              "optionsFrom": "facility.groups",
+              "optionLabelField": "group",
+              "optionValueField": "_id"
+            },
             { "type": "input", "label": "Notes", "bind": "notes" }
+          ]
+        },
+        {
+          "type": "repeat",
+          "label": "Locations",
+          "bind": "facility.locations",
+          "prototype": { "locationID": "", "roomID": "", "groupID": "", "locationSN":"", "notes": ""},
+          "fields": [
+            { "type": "input", "label": "Location ID", "bind": "locationID" },
+            { "type": "input", "label": "Room ID", "bind": "roomID" },
+            { "type": "input", "label": "Location SN", "bind": "locationSN" },
+            { "type": "input", "label": "Group", "bind": "groupID" }
           ]
         },
         {
@@ -311,7 +339,14 @@
           },
           "fields": [
             { "type": "input", "label": "Serial #", "bind": "serialNumber" },
-            { "type": "input", "label": "Room #", "bind": "room" },
+            {
+              "type": "select",
+              "label": "Room",
+              "bind": "room",
+              "optionsFrom": "facility.rooms",
+              "optionLabelField": "roomNumber",
+              "optionValueField": "_id"
+            },
             { "type": "input", "label": "Configured", "bind": "configured" },
             { "type": "input", "label": "Assembled", "bind": "assembled" },
             { "type": "input", "label": "Labeled", "bind": "labeled" },

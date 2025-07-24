@@ -37,6 +37,10 @@ console.log("🔍 resolvedOptions", deepGet(formData, optionsFrom));
     setFormData(updated);
   };
 
+  console.log("value");
+  console.log(value);
+  // console.log(value._id);
+  // { "type": "input", "label": "Room #", "bind": "room" },
   return (
     <div className={`mb-4 ${className}`}>
       {label && (
